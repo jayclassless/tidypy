@@ -1,0 +1,35 @@
+[build-system]
+requires = [
+    'setuptools',
+    'wheel',
+]
+
+[tool.tidypy]
+exclude = [
+    'test/.*',
+]
+vulture = {use = false}
+pydocstyle = {use = false}
+
+[tool.tidypy.pycodestyle]
+disabled = [
+    'W391',
+]
+
+[tool.tidypy.pylint]
+disabled = [
+    'missing-docstring',
+    'trailing-newlines',
+    'no-self-use',
+    'duplicate-code',
+]
+[tool.tidypy.pylint.options]
+min-public-methods = 0
+max-args = 6
+
+[tool.tidypy.pyflakes]
+disabled = [
+    'UnusedImport',
+    'ImportStarUsed',
+]
+

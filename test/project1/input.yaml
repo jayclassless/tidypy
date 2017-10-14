@@ -1,0 +1,5 @@
+title: Test PBBT Script
+tests:
+  - tidypy:
+    fail-on-issue: false
+

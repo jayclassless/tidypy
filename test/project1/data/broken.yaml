@@ -1,0 +1,7 @@
+object :
+  - a
+  - b
+foo:
+  bar: 1
+  bar:   2
+[

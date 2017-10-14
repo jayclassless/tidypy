@@ -1,0 +1,15 @@
+msgid "%(count)s view"
+msgstr "%(count) view"
+
+msgid "{foo} bar baz"
+msgstr "{foo bar baz"
+
+msgid "%s foo"
+msgstr "%a FOO"
+
+msgid "Foo"
+msgstr "  "
+
+msgid "<b>Foo</b>"
+msgstr "<i>Feh</i>"
+
