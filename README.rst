@@ -126,8 +126,8 @@ Included Tools
 Out of the box, TidyPy includes support for a number of tools:
 
 pylint
-    Pylint is a Python source code analyzer which looks for programming errors,
-    helps enforcing a coding standard and sniffs for some code smells.
+    `Pylint`_ is a Python source code analyzer which looks for programming
+    errors, helps enforcing a coding standard and sniffs for some code smells.
 
     .. _Pylint: https://github.com/PyCQA/pylint
 
@@ -212,7 +212,7 @@ console
     issues by the file they were found in.
 
 pylint
-    Prints a report to the console that is in the same format as `pylint`_'s
+    Prints a report to the console that is in the same format as `Pylint`_'s
     default output.
 
 pycodestyle
