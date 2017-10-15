@@ -2,6 +2,13 @@
 TidyPy
 ******
 
+.. image:: https://travis-ci.org/jayclassless/tidypy.svg?branch=master
+   :target: https://travis-ci.org/jayclassless/tidypy
+.. image:: https://img.shields.io/pypi/v/tidypy.svg
+   :target: https://pypi.python.org/pypi/tidypy
+.. image:: https://img.shields.io/pypi/l/tidypy.svg
+   :target: https://pypi.python.org/pypi/tidypy
+
 .. contents:: Contents
 
 
