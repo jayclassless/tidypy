@@ -1,12 +1,12 @@
 setup::
-	@pipenv install --dev
+	@pipenv install --dev --skip-lock
 	@find test/project1 -name noaccess.* -exec chmod a-rwx {} \;
 
 lint::
-	@tidypy check
+	@pipenv run tidypy check
 
 test::
-	@pytest
+	@pipenv run pytest
 
 build::
 	@rm -rf dist build
