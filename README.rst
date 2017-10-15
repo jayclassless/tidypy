@@ -73,10 +73,10 @@ To have TidyPy analyze your project, use the ``check`` subcommand::
       --no-merge                      Disable the merging of issues from various
                                       tools when TidyPy considers them equivalent.
                                       Overrides the configuration file.
-      --silence-tool-crashes          If the execution of a tool results in an
-                                      unexpected Exception, be quiet about it.
-                                      Default behavior is to print an error and
-                                      traceback to stderr.
+      --silence-tools                 If the execution of a tool results in an
+                                      unexpected output or  Exception, be quiet
+                                      about it. The default behavior is to capture
+                                      the information as an issue.
       --threads NUM_THREADS           The number of threads to use to concurrently
                                       execute the tools. Overrides the
                                       configuration file.  [default: 3]

@@ -7,5 +7,6 @@ from .base import (
     UnknownIssue,
     AccessIssue,
     ParseIssue,
+    ToolIssue,
 )
 

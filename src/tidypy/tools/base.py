@@ -1,4 +1,7 @@
 
+import traceback
+
+
 class Tool(object):
     @classmethod
     def can_be_used(cls):
@@ -107,4 +110,20 @@ class ParseIssue(TidyPyIssue):
             line,
             character,
         )
+
+
+class ToolIssue(TidyPyIssue):
+    def __init__(self, message, project_path, details=None, failure=False):
+        if details:
+            if isinstance(details, tuple):
+                details = ''.join(traceback.format_exception(*details))
+            message = '%s:\n%s' % (message, details)
+
+        super(ToolIssue, self).__init__(
+            'tool',
+            message,
+            project_path,
+        )
+
+        self.pylint_type = 'F' if failure else 'E'
 

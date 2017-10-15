@@ -1,3 +1,7 @@
+from __future__ import print_function
+
+import sys
+
 import pytest
 
 from tidypy import util
@@ -29,4 +33,18 @@ def test_output_error(capsys):
     out, err = capsys.readouterr()
     assert out == ''
     assert err == 'hello world\n'
+
+
+def test_sysoutcapture(capsys):
+    captured = None
+    with util.SysOutCapture() as cap:
+        print('this is stdout')
+        print('this is stderr', file=sys.stderr)
+        captured = (cap.get_stdout(), cap.get_stderr())
+
+    assert captured == ('this is stdout\n', 'this is stderr\n')
+
+    out, err = capsys.readouterr()
+    assert out == ''
+    assert err == ''
 

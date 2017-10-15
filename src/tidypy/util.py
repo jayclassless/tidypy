@@ -12,7 +12,7 @@ import click
 import pytoml
 import yaml
 
-from six import iteritems, text_type
+from six import iteritems, text_type, StringIO
 
 
 def merge_dict(dict1, dict2):
@@ -40,6 +40,30 @@ def mod_sys_path(paths):
         yield
     finally:
         sys.path = old_path
+
+
+class SysOutCapture(object):
+    def __init__(self):
+        self._original_streams = None
+        self._stdout = None
+        self._stderr = None
+
+    def __enter__(self):
+        self._stdout = StringIO()
+        self._stderr = StringIO()
+        self._original_streams = (sys.stdout, sys.stderr)
+        sys.stdout, sys.stderr = self._stdout, self._stderr
+        return self
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        sys.stdout, sys.stderr = self._original_streams
+        self._original_streams = None
+
+    def get_stdout(self):
+        return self._stdout.getvalue()
+
+    def get_stderr(self):
+        return self._stderr.getvalue()
 
 
 def compile_masks(masks):

@@ -1,5 +1,5 @@
 
-import traceback
+import sys
 
 from threading import Thread
 
@@ -9,7 +9,8 @@ from six.moves.queue import Queue  # pylint: disable=import-error
 from .collector import Collector
 from .config import get_tools, get_reports
 from .finder import Finder
-from .util import output_error
+from .tools import ToolIssue
+from .util import SysOutCapture
 
 
 def execute_tools(config, path, on_tool_start=None, on_tool_finish=None):
@@ -26,28 +27,46 @@ def execute_tools(config, path, on_tool_start=None, on_tool_finish=None):
             tool_name = tool_queue.get()
             if on_tool_start:
                 on_tool_start(tool_name)
+
             try:
                 tool = get_tools()[tool_name](config[tool_name])
                 collector.add_issues(tool.execute(finder))
             except Exception:  # pylint: disable=broad-except
-                if not config['silence_tool_crashes']:
-                    output_error(
-                        'The "%s" tool failed horribly:' % (
-                            tool_name,
-                        ),
-                    )
-                    output_error(traceback.format_exc())
-            finally:
-                if on_tool_finish:
-                    on_tool_finish(tool_name)
-                tool_queue.task_done()
+                if not config['silence_tools']:
+                    collector.add_issues(ToolIssue(
+                        '%s failed horribly' % (tool_name,),
+                        path,
+                        details=sys.exc_info(),
+                        failure=True,
+                    ))
 
-    for _ in range(config['threads']):
-        thread = Thread(target=worker)
-        thread.daemon = True
-        thread.start()
+            if on_tool_finish:
+                on_tool_finish(tool_name)
+            tool_queue.task_done()
 
-    tool_queue.join()
+    with SysOutCapture() as capture:
+        for _ in range(config['threads']):
+            thread = Thread(target=worker)
+            thread.daemon = True
+            thread.start()
+
+        tool_queue.join()
+
+        if not config['silence_tools']:
+            out = capture.get_stdout()
+            if out:
+                collector.add_issues(ToolIssue(
+                    'Tool(s) wrote to stdout',
+                    path,
+                    details=out,
+                ))
+            err = capture.get_stderr()
+            if err:
+                collector.add_issues(ToolIssue(
+                    'Tool(s) wrote to stderr',
+                    path,
+                    details=err,
+                ))
 
     return collector
 

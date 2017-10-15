@@ -79,11 +79,11 @@ If not specified, defaults to the current working directory.
     ' considers them equivalent. Overrides the configuration file.',
 )
 @click.option(
-    '--silence-tool-crashes',
+    '--silence-tools',
     is_flag=True,
-    help='If the execution of a tool results in an unexpected Exception, be'
-    ' quiet about it. Default behavior is to print an error and traceback to'
-    ' stderr.',
+    help='If the execution of a tool results in an unexpected output or '
+    ' Exception, be quiet about it. The default behavior is to capture the'
+    ' information as an issue.',
 )
 @click.option(
     '--threads',
@@ -109,7 +109,7 @@ def check(
         tools,
         reports,
         no_merge,
-        silence_tool_crashes,
+        silence_tools,
         threads,
         no_progress,
         path):
@@ -127,8 +127,8 @@ def check(
         config['exclude'] = excludes
     if no_merge:
         config['merge_issues'] = False
-    if silence_tool_crashes:
-        config['silence_tool_crashes'] = True
+    if silence_tools:
+        config['silence_tools'] = True
     if threads:
         config['threads'] = threads
     if tools:

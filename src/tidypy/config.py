@@ -55,7 +55,7 @@ def get_default_config():
     config.update({
         'exclude': [],
         'merge_issues': True,
-        'silence_tool_crashes': False,
+        'silence_tools': False,
         'threads': 3,
         'reports': [
             {

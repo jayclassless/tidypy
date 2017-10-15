@@ -59,7 +59,7 @@ def test_get_default_config():
     actual = get_default_config()
     assert actual['exclude'] == []
     assert actual['merge_issues'] == True
-    assert actual['silence_tool_crashes'] == False
+    assert actual['silence_tools'] == False
     assert actual['threads'] == 3
     assert actual['reports'] == [{'type': 'console'}]
     assert actual['disabled'] == []
