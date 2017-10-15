@@ -1,6 +1,10 @@
 
 class Tool(object):
     @classmethod
+    def can_be_used(cls):
+        return True
+
+    @classmethod
     def get_default_config(cls):
         return {
             'use': True,

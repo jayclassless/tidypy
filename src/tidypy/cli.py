@@ -55,7 +55,11 @@ If not specified, defaults to the current working directory.
     '-t',
     'tools',
     multiple=True,
-    type=click.Choice(sorted(get_tools().keys())),
+    type=click.Choice(sorted([
+        name
+        for name, cls in iteritems(get_tools())
+        if cls.can_be_used()
+    ])),
     help='Specifies the name of a tool to use during the examination. Can be'
     ' specified multiple times. Overrides the configuration file.',
 )

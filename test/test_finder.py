@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 
 import os
 
@@ -230,9 +231,9 @@ def test_read_file():
     cfg = get_default_config()
     finder = Finder('test/project1', cfg)
 
-    expected = "# -*- coding: utf-8 -*-\n\ntest = '\xd2\x96\xd5\x84\xda\x87\xe1\x9e\x88'\n\n"
+    expected = "# -*- coding: utf-8 -*-\n\ntest = 'ҖՄڇឈ'\n\n"
     assert expected == finder.read_file('test/project1/project1/utf8.py')
 
-    expected = "# -*- coding: koi8-r -*-\n\ntest = '\xc2\xa9\xc2\xa9\xc2\xa9 \xc2\xa9\xc2\xa9\xc2\xa9\xc2\xa9\xc2\xa9\xc2\xa9 \xc2\xa9\xc2\xa9\xc2\xa9\xc2\xa9\xc2\xa9\xc2\xa9\xc2\xa9\xc2\xa9\xc2\xa9\xc2\xa9\xc2\xa9'\n\n"
+    expected = "# -*- coding: koi8-r -*-\n\ntest = '©©© ©©©©©© ©©©©©©©©©©©'\n\n"
     assert expected == finder.read_file('test/project1/project1/koi8r.py')
 

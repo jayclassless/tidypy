@@ -14,6 +14,7 @@ pydocstyle = {use = false}
 [tool.tidypy.pycodestyle]
 disabled = [
     'W391',
+    'E731',
 ]
 
 [tool.tidypy.pylint]

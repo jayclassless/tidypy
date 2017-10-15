@@ -1,4 +1,5 @@
 
+from collections import OrderedDict
 from threading import Lock
 
 from six import iteritems, itervalues
@@ -45,17 +46,18 @@ class Collector(object):
         if attrs is None:
             attrs = DEFAULT_SORT
 
-        def sorter(first, second):
-            for attr in attrs:
-                result = cmp(getattr(first, attr), getattr(second, attr))
-                if result != 0:
-                    return result
-            return 0
+        for attr in reversed(attrs):
+            if attr in ('line', 'character'):
+                keyfunc = lambda i, attr=attr: getattr(i, attr) or 0
+            else:
+                keyfunc = lambda i, attr=attr: getattr(i, attr) or ''
 
-        return sorted(issues, sorter)
+            issues = sorted(issues, key=keyfunc)
+
+        return issues
 
     def _group_issues(self, issues, keyfunc, sortby):
-        grouped = dict()
+        grouped = OrderedDict()
 
         for issue in issues:
             key = keyfunc(issue)

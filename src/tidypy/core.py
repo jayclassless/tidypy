@@ -3,6 +3,7 @@ import traceback
 
 from threading import Thread
 
+from six import iteritems
 from six.moves.queue import Queue  # pylint: disable=import-error
 
 from .collector import Collector
@@ -16,8 +17,8 @@ def execute_tools(config, path, on_tool_start=None, on_tool_finish=None):
     collector = Collector(config)
     tool_queue = Queue()
 
-    for name in get_tools():
-        if config[name]['use']:
+    for name, cls in iteritems(get_tools()):
+        if config[name]['use'] and cls.can_be_used():
             tool_queue.put(name)
 
     def worker():

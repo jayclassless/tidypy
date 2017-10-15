@@ -1,6 +1,6 @@
 from __future__ import absolute_import
 
-from eradicate import commented_out_code_line_numbers
+import six
 
 from .base import PythonTool, Issue, AccessIssue
 
@@ -12,12 +12,17 @@ class EradicateIssue(Issue):
 
 class EradicateTool(PythonTool):
     @classmethod
+    def can_be_used(cls):
+        return not six.PY3
+
+    @classmethod
     def get_all_codes(cls):
         return [
             ('commented', 'Commented-out code'),
         ]
 
     def execute(self, finder):
+        from eradicate import commented_out_code_line_numbers
         issues = []
 
         for filepath in finder.files(self.config['filters']):

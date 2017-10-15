@@ -84,7 +84,6 @@ setup(
         'pyroma>=2.2,<3',
         'vulture>=0.14,<0.15',
         'bandit>=1.4,<2',
-        'eradicate>=0.2,<0.3',
         'pyflakes>=1.5,<1.6',
         'radon>=2,<3',
         'pylint>=1.7,<1.8',
@@ -96,6 +95,7 @@ setup(
     extras_require={
         ':python_version<"3.4"': [
             'pathlib2',
+            'eradicate>=0.2,<0.3',
         ],
     },
 )

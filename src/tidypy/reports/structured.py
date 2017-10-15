@@ -1,6 +1,8 @@
 import csv
-import pkg_resources
 
+from collections import OrderedDict
+
+import pkg_resources
 
 from six import iteritems
 
@@ -10,23 +12,23 @@ from .base import Report
 
 class StructuredReport(Report):
     def get_structure(self, collector):
-        issues = {}
+        issues = OrderedDict()
         for filename, file_issues in iteritems(collector.get_grouped_issues()):
             issues[self.relative_filename(filename)] = [
-                {
-                    'line': issue.line,
-                    'character': issue.character or 0,
-                    'code': issue.code,
-                    'tool': issue.tool,
-                    'message': issue.message,
-                }
+                OrderedDict((
+                    ('line', issue.line),
+                    ('character', issue.character or 0),
+                    ('code', issue.code),
+                    ('tool', issue.tool),
+                    ('message', issue.message),
+                ))
                 for issue in file_issues
             ]
 
-        return {
-            'tidypy': str(pkg_resources.get_distribution('tidypy').version),
-            'issues': issues,
-        }
+        return OrderedDict((
+            ('tidypy', str(pkg_resources.get_distribution('tidypy').version)),
+            ('issues', issues),
+        ))
 
 
 class CsvReport(StructuredReport):

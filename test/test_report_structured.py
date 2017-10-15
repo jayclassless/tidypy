@@ -42,48 +42,48 @@ def test_json_execute(capsys):
     execute_reports(cfg, 'someproject', collector)
 
     expected = '''{
+  "tidypy": "0.1.0",
   "issues": {
+    "blah/bar.py": [
+      {
+        "line": 28,
+        "character": 0,
+        "code": "code1",
+        "tool": "tidypy",
+        "message": "Message 1"
+      }
+    ],
     "foo.py": [
       {
-        "message": "Message 2",
         "line": 2,
-        "code": "code2",
         "character": 0,
-        "tool": "tidypy"
+        "code": "code2",
+        "tool": "tidypy",
+        "message": "Message 2"
       },
       {
-        "message": "Message 1",
         "line": 5,
-        "code": "code1",
         "character": 23,
-        "tool": "tidypy"
+        "code": "code1",
+        "tool": "tidypy",
+        "message": "Message 1"
       }
     ],
     "subdir/foobar.json": [
       {
-        "message": "Message 3",
         "line": 5,
-        "code": "code3",
         "character": 23,
-        "tool": "tidypy"
-      }
-    ],
-    "blah/bar.py": [
-      {
-        "message": "Message 1",
-        "line": 28,
-        "code": "code1",
-        "character": 0,
-        "tool": "tidypy"
+        "code": "code3",
+        "tool": "tidypy",
+        "message": "Message 3"
       }
     ]
-  },
-  "tidypy": "0.1.0"
+  }
 }
 '''
 
     out, err = capsys.readouterr()
-    assert out == expected
+    assert expected == out
     assert err == ''
 
 
@@ -100,38 +100,38 @@ def test_toml_execute(capsys):
 
 [issues]
 
-[[issues."foo.py"]]
-message = "Message 2"
-line = 2
-code = "code2"
+[[issues."blah/bar.py"]]
+line = 28
 character = 0
+code = "code1"
 tool = "tidypy"
+message = "Message 1"
 
 [[issues."foo.py"]]
-message = "Message 1"
-line = 5
-code = "code1"
-character = 23
+line = 2
+character = 0
+code = "code2"
 tool = "tidypy"
+message = "Message 2"
+
+[[issues."foo.py"]]
+line = 5
+character = 23
+code = "code1"
+tool = "tidypy"
+message = "Message 1"
 
 [[issues."subdir/foobar.json"]]
-message = "Message 3"
 line = 5
-code = "code3"
 character = 23
+code = "code3"
 tool = "tidypy"
-
-[[issues."blah/bar.py"]]
-message = "Message 1"
-line = 28
-code = "code1"
-character = 0
-tool = "tidypy"
+message = "Message 3"
 
 '''
 
     out, err = capsys.readouterr()
-    assert out == expected
+    assert expected == out
     assert err == ''
 
 
@@ -144,35 +144,35 @@ def test_yaml_execute(capsys):
 
     execute_reports(cfg, 'someproject', collector)
 
-    expected = '''issues:
+    expected = '''tidypy: 0.1.0
+issues:
   blah/bar.py:
-  - character: 0
+  - line: 28
+    character: 0
     code: code1
-    line: 28
-    message: Message 1
     tool: tidypy
+    message: Message 1
   foo.py:
-  - character: 0
+  - line: 2
+    character: 0
     code: code2
-    line: 2
+    tool: tidypy
     message: Message 2
-    tool: tidypy
-  - character: 23
+  - line: 5
+    character: 23
     code: code1
-    line: 5
+    tool: tidypy
     message: Message 1
-    tool: tidypy
   subdir/foobar.json:
-  - character: 23
+  - line: 5
+    character: 23
     code: code3
-    line: 5
-    message: Message 3
     tool: tidypy
-tidypy: 0.1.0
+    message: Message 3
 '''
 
     out, err = capsys.readouterr()
-    assert out == expected
+    assert expected == out
     assert err == ''
 
 
@@ -186,13 +186,13 @@ def test_csv_execute(capsys):
     execute_reports(cfg, 'someproject', collector)
 
     expected = '''filename,line,character,tool,code,message
+blah/bar.py,28,0,tidypy,code1,Message 1
 foo.py,2,0,tidypy,code2,Message 2
 foo.py,5,23,tidypy,code1,Message 1
 subdir/foobar.json,5,23,tidypy,code3,Message 3
-blah/bar.py,28,0,tidypy,code1,Message 1
 '''
 
     out, err = capsys.readouterr()
-    assert out == expected
+    assert expected == out
     assert err == ''
 

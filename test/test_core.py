@@ -1,4 +1,6 @@
 
+import six
+
 from tidypy import execute_tools, execute_reports, get_default_config, \
     get_tools, Collector
 
@@ -13,10 +15,14 @@ def test_execute_tools(capsys):
     def on_finish(tool):
         finished.append(tool)
 
+    expected_tools = sorted(get_tools())
+    if six.PY3:
+        expected_tools.remove('eradicate')
+
     collector = execute_tools(cfg, 'test/project1', on_tool_start=on_start, on_tool_finish=on_finish)
     assert isinstance(collector, Collector)
-    assert sorted(get_tools()) == sorted(started)
-    assert sorted(get_tools()) == sorted(finished)
+    assert expected_tools == sorted(started)
+    assert expected_tools == sorted(finished)
 
     out, err = capsys.readouterr()
     assert out == ''
