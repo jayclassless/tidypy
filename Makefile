@@ -1,12 +1,15 @@
 setup::
 	@pipenv install --dev --skip-lock
-	@find test/project1 -name noaccess.* -exec chmod a-rwx {} \;
 
 lint::
 	@pipenv run tidypy check
 
 test::
-	@pipenv run pytest
+	@pipenv run coverage run --rcfile=setup.cfg --module py.test
+	@pipenv run coverage report --rcfile=setup.cfg
+
+ci:: test
+	@pipenv run coveralls --rcfile=setup.cfg
 
 build::
 	@rm -rf dist build

@@ -8,7 +8,7 @@ from tidypy import Finder, get_default_config
 def test_exclude():
     cfg = get_default_config()
     cfg['exclude'] = [
-        r'noaccess',
+        r'invalid',
         r'\.pyc$',
     ]
     finder = Finder('test/project1', cfg)
@@ -19,10 +19,6 @@ def test_exclude():
         'data/broken.pot',
         'data/broken.rst',
         'data/broken.yaml',
-        'data/invalid.json',
-        'data/invalid.po',
-        'data/invalid.pot',
-        'data/invalid.yaml',
         'input.yaml',
         'pyproject.toml',
         'setup.cfg',
@@ -54,7 +50,6 @@ def test_files_filter():
         'project1/koi8r.py',
         'project1/module1.py',
         'project1/utf8.py',
-        'project1/noaccess.py',
         'project1b/__init__.py',
     ])
 
@@ -159,7 +154,6 @@ def test_modules():
         'project1/broken.py',
         'project1/koi8r.py',
         'project1/module1.py',
-        'project1/noaccess.py',
         'project1/utf8.py',
         'project1b/__init__.py',
         'setup.py'

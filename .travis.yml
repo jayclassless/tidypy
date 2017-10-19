@@ -5,11 +5,12 @@ python:
   - "3.4"
   - "3.5"
   - "3.6"
+  - "3.7-dev"
 
 install:
   - pip install pipenv
   - make setup
 
 script:
-  - make test
+  - make ci
 

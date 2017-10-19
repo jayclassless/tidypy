@@ -5,10 +5,10 @@ name = "pypi"
 
 [dev-packages]
 "e1839a8" = {path = ".", editable = true}
+"coveralls" = "*"
 "nose" = "*"
 "pbbt" = "*"
 "pytest" = "*"
-"pytest-cov" = "*"
 "twine" = "*"
 "wheel" = "*"
 
