@@ -15,6 +15,7 @@ TidyPy Change Log
 * All tools that report issues against Python source files can now use the
   ``# noqa`` comment to ignore issues for that specific line.
 * Added support for the ``ignore-nosec`` option in the ``bandit`` tool.
+* Upgraded the ``vulture`` tool.
 
 
 0.1.0 (2017-10-15)

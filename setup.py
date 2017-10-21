@@ -83,7 +83,7 @@ setup(
         'pep8-naming>=0.4,<0.5',
         'pydocstyle>=2,<3',
         'pyroma>=2.2,<3',
-        'vulture>=0.14,<0.15',
+        'vulture>=0.25,<0.27',
         'bandit>=1.4,<2',
         'pyflakes>=1.5,<1.6',
         'radon>=2,<3',

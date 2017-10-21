@@ -2,7 +2,9 @@ from __future__ import absolute_import
 
 import ast
 
-from vulture import Vulture, VultureInputException, ENCODING_REGEX
+from vulture import Vulture
+from vulture.core import ENCODING_REGEX
+from vulture.utils import VultureInputException
 
 from .base import PythonTool, Issue, ParseIssue, AccessIssue
 
@@ -14,6 +16,7 @@ class VultureIssue(Issue):
 
 class TidyPyVulture(Vulture):
     ISSUE_TYPES = (
+        ('unused-class', 'Unused class {entity}', 'unused_classes'),
         ('unused-function', 'Unused function {entity}', 'unused_funcs'),
         ('unused-import', 'Unused import {entity}', 'unused_imports'),
         ('unused-property', 'Unused property {entity}', 'unused_props'),
@@ -50,12 +53,12 @@ class TidyPyVulture(Vulture):
     # Unfortunately instead of raising exceptions, this base implementation of
     # this method writes directly to stdout. This is a copy&paste with that
     # piece replaced by capturing an issue
-    def scan(self, node_string, filename=''):
-        node_string = ENCODING_REGEX.sub("", node_string, count=1)
-        self.code = node_string.splitlines()
+    def scan(self, code, filename=''):
+        code = ENCODING_REGEX.sub("", code, count=1)
+        self.code = code.splitlines()
         self.filename = filename
         try:
-            node = ast.parse(node_string, filename=self.filename)
+            node = ast.parse(code, filename=self.filename)
         except SyntaxError as err:
             self._tidypy_issues.append(ParseIssue(err, filename))
         else:
@@ -78,7 +81,7 @@ class TidyPyVulture(Vulture):
                     code,
                     template.format(entity=str(item)),
                     filename,
-                    item.lineno,
+                    item.first_lineno,
                 ))
 
         return self._tidypy_issues + issues
