@@ -3,7 +3,7 @@ from __future__ import absolute_import
 import inspect
 
 from pyflakes import messages
-from pyflakes.api import checkPath
+from pyflakes.api import check
 from pyflakes.reporter import Reporter
 
 from .base import PythonTool, Issue, AccessIssue, ParseIssue
@@ -68,8 +68,16 @@ class PyFlakesTool(PythonTool):
         return codes
 
     def execute(self, finder):
+        issues = []
         reporter = TidyPyReporter(self.config)
         for filepath in finder.files(self.config['filters']):
-            checkPath(filepath, reporter)
-        return reporter.get_issues()
+            try:
+                source = finder.read_file(filepath)
+            except EnvironmentError as exc:
+                issues.append(
+                    AccessIssue(exc, filepath)
+                )
+            else:
+                check(source, filepath, reporter)
+        return reporter.get_issues() + issues
 

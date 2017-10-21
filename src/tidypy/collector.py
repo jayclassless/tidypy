@@ -1,11 +1,20 @@
 
+import re
+
 from collections import OrderedDict
 from threading import Lock
 
 from six import iteritems, itervalues
 
+from .util import read_file
 
-DEFAULT_SORT = ('filename', 'line', 'character', 'tool', 'code')
+
+RE_PYTHON_FILE = re.compile(r'\.py$')
+
+RE_NOQA = re.compile(
+    r'# noqa(?:: (?P<codes>([a-zA-Z0-9-:]+(?:[,\s]+)?)+))?',
+    re.IGNORECASE,
+)
 
 
 def default_group(issue):  # noqa
@@ -13,10 +22,14 @@ def default_group(issue):  # noqa
 
 
 class Collector(object):
+    NO_SORT = ()
+    DEFAULT_SORT = ('filename', 'line', 'character', 'tool', 'code')
+
     def __init__(self, config):
         self.config = config
         self.all_issues = []
         self._lock = Lock()
+        self._noqa = {}
 
     def add_issues(self, issues):
         if not isinstance(issues, (list, tuple)):
@@ -39,12 +52,12 @@ class Collector(object):
         if not keyfunc:
             keyfunc = default_group
         if not sortby:
-            sortby = DEFAULT_SORT
-        return self._group_issues(self.get_issues(), keyfunc, sortby)
+            sortby = self.DEFAULT_SORT
+        return self.group_issues(self.get_issues(), keyfunc, sortby)
 
     def sort_issues(self, issues, attrs=None):
         if attrs is None:
-            attrs = DEFAULT_SORT
+            attrs = self.DEFAULT_SORT
 
         for attr in reversed(attrs):
             if attr in ('line', 'character'):
@@ -56,7 +69,7 @@ class Collector(object):
 
         return issues
 
-    def _group_issues(self, issues, keyfunc, sortby):
+    def group_issues(self, issues, keyfunc, sortby):
         grouped = OrderedDict()
 
         for issue in issues:
@@ -70,15 +83,60 @@ class Collector(object):
 
         return grouped
 
+    def _parse_noqa(self, filename):
+        lines = {}
+
+        if not RE_PYTHON_FILE.search(filename):
+            return lines
+
+        try:
+            content = read_file(filename)
+        except EnvironmentError:
+            return lines
+
+        for idx, line in enumerate(content.splitlines()):
+            match = RE_NOQA.search(line)
+            if not match:
+                continue
+
+            if match.groupdict()['codes']:
+                lines[idx + 1] = match.groupdict()['codes'].split(',')
+            else:
+                lines[idx + 1] = 'ALL'
+
+        return lines
+
+    def _is_noqa(self, issue):
+        if issue.filename not in self._noqa:
+            self._noqa[issue.filename] = self._parse_noqa(issue.filename)
+
+        if issue.line not in self._noqa[issue.filename]:
+            return False
+
+        codes = self._noqa[issue.filename][issue.line]
+        if codes == 'ALL':
+            return True
+
+        return issue.code in codes \
+            or ('%s:%s' % (issue.tool, issue.code)) in codes
+
     def _merge_issues(self):
         issues = self.all_issues
+
+        # Filter out issues for lines marked with "noqa"
+        if self.config['noqa']:
+            issues = [
+                issue
+                for issue in issues
+                if not self._is_noqa(issue)
+            ]
 
         # If merging is disabled, let's bail out here
         if not self.config['merge_issues']:
             return issues
 
         # Group the issues by file & line
-        grouped = self._group_issues(
+        grouped = self.group_issues(
             issues,
             lambda x: '%s|%s' % (x.filename, x.line),
             ('tool', 'code', 'character'),

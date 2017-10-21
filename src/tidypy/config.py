@@ -63,6 +63,7 @@ def get_default_config():
             },
         ],
         'disabled': [],
+        'noqa': True,
     })
 
     return config

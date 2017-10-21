@@ -73,7 +73,7 @@ To have TidyPy analyze your project, use the ``check`` subcommand::
                                       after the examination. Can be specified
                                       multiple times. Overrides the configuration
                                       file.
-      --no-merge                      Disable the merging of issues from various
+      --disable-merge                 Disable the merging of issues from various
                                       tools when TidyPy considers them equivalent.
                                       Overrides the configuration file.
       --silence-tools                 If the execution of a tool results in an
@@ -83,7 +83,9 @@ To have TidyPy analyze your project, use the ``check`` subcommand::
       --threads NUM_THREADS           The number of threads to use to concurrently
                                       execute the tools. Overrides the
                                       configuration file.  [default: 3]
-      --no-progress                   Disable the display of the progress bar.
+      --disable-progress              Disable the display of the progress bar.
+      --disable-noqa                  Disable the ability to ignore issues using
+                                      the "# noqa" comment in Python files.
       --help                          Show this message and exit.
 
 If you need to generate a skeleton configuration file with the default options,
@@ -125,10 +127,45 @@ shell (or put it in your bash startup scripts)::
     $ eval "$(_TIDYPY_COMPLETE=source tidypy)"
 
 
-
 Configuration
 -------------
 TODO
+
+
+Ignoring Issues
+---------------
+In addition to ignoring entire files, tools, or specific issue types from tools
+via your configuration file, you can also use comments in your Python source
+files to ignore issues on specific lines. Some tools have their own built-in
+support and notation for doing this:
+
+* `pylint will respect <https://pylint.readthedocs.io/en/latest/faq.html
+  #message-control>`_ comments that look like: ``# pylint``
+* `bandit will respect <https://github.com/openstack/bandit#exclusions>`_
+  comments that look like: ``# nosec``
+* `pycodestyle will respect <http://pycodestyle.pycqa.org/en/latest/intro.html
+  #error-codes>`_ comments that look like: ``# noqa``
+* `pydocstyle will also respect <http://www.pydocstyle.org/en/2.1.1/
+  usage.html#in-file-configuration>`_ comments that look like: ``# noqa``
+
+TidyPy goes beyond these tool-specific flags to implement ``# noqa`` on a
+global scale for Python source files. It will ignore issues for lines that have
+the ``# noqa`` comment, regardless of what tools raise the issues. If you only
+want to ignore a particular type of issue on a line, you can use syntax like
+the following::
+
+    # noqa: CODE1,CODE2
+
+Or, if a particular code is used in multiple tools, you can specify the exact
+tool in the comment::
+
+    # noqa: pycodestyle:CODE1,pylint:CODE2
+
+You can disable TidyPy's NOQA behavior by specifying the ``--disable-noqa``
+option on the command line, or by setting the ``noqa`` option to ``false`` in
+your configuration file. A caveat, though: currently pycodestyle and pydocstyle
+do not respect this option and will always honor any ``# noqa`` comments they
+find.
 
 
 Included Tools

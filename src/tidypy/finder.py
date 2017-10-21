@@ -4,8 +4,6 @@ try:
 except ImportError:
     from pathlib2 import Path
 
-from threading import Lock
-
 from six import iteritems, itervalues, text_type
 
 from .util import read_file, compile_masks, matches_masks
@@ -27,9 +25,6 @@ class Finder(object):
     def __init__(self, base_path, config):
         self.base_path = Path(base_path).resolve()
         self.excludes = compile_masks(config['exclude'])
-
-        self._file_cache = {}
-        self._file_cache_lock = Lock()
 
         self._found = dict()
         self._find(self.base_path)
@@ -136,8 +131,5 @@ class Finder(object):
         return topmost
 
     def read_file(self, filepath):
-        with self._file_cache_lock:
-            if filepath not in self._file_cache:
-                self._file_cache[filepath] = read_file(filepath)
-        return self._file_cache[filepath]
+        return read_file(filepath)
 

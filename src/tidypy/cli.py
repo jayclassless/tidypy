@@ -73,7 +73,7 @@ If not specified, defaults to the current working directory.
     ' be specified multiple times. Overrides the configuration file.',
 )
 @click.option(
-    '--no-merge',
+    '--disable-merge',
     is_flag=True,
     help='Disable the merging of issues from various tools when TidyPy'
     ' considers them equivalent. Overrides the configuration file.',
@@ -95,9 +95,15 @@ If not specified, defaults to the current working directory.
     ' Overrides the configuration file.',
 )
 @click.option(
-    '--no-progress',
+    '--disable-progress',
     is_flag=True,
     help='Disable the display of the progress bar.',
+)
+@click.option(
+    '--disable-noqa',
+    is_flag=True,
+    help='Disable the ability to ignore issues using the "# noqa" comment in'
+    ' Python files.',
 )
 @click.argument(
     'path',
@@ -108,10 +114,11 @@ def check(
         excludes,
         tools,
         reports,
-        no_merge,
+        disable_merge,
         silence_tools,
         threads,
-        no_progress,
+        disable_progress,
+        disable_noqa,
         path):
     # Clean up the path
     path = os.path.abspath(path)
@@ -125,8 +132,10 @@ def check(
 
     if excludes:
         config['exclude'] = excludes
-    if no_merge:
+    if disable_merge:
         config['merge_issues'] = False
+    if disable_noqa:
+        config['noqa'] = False
     if silence_tools:
         config['silence_tools'] = True
     if threads:
@@ -140,7 +149,7 @@ def check(
             for report in reports
         ]
 
-    progress = TidyBar(config, quiet=no_progress)
+    progress = TidyBar(config, quiet=disable_progress)
     collector = execute_tools(
         config,
         path,

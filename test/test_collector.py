@@ -100,7 +100,7 @@ def test_sort_issues_empty():
         FooIssue('test2', 'test message', 'test/file.ext', 5),
     ]
 
-    assert collector.sort_issues(expected, ()) == expected
+    assert collector.sort_issues(expected, collector.NO_SORT) == expected
 
 
 def test_get_grouped_issues_default():
@@ -201,4 +201,35 @@ def test_merging_dupes():
     collector.add_issues(issues)
 
     assert collector.get_issues() == [issues[0]] + issues[2:]
+
+
+def test_noqa(tmpdir):
+    project_dir = tmpdir.mkdir('noqa')
+    py_file = project_dir.join('file.py')
+    py_file.write('\nsomething  # noqa: test1\n\n# NoQA\n\n\n\n# NOqa: tidypy:test6,foobar')
+    yaml_file = project_dir.join('file.yaml')
+
+    cfg = get_default_config()
+    cfg['merge_issues'] = False
+
+    collector = Collector(cfg)
+    good_issues = [
+        TidyPyIssue('test', 'test message', str(py_file), 2),
+        TidyPyIssue('test4', 'test message', str(py_file), 6),
+        TidyPyIssue('test5', 'test message', str(yaml_file), 2),
+        TidyPyIssue('test7', 'test message', str(py_file), 8),
+    ]
+    filtered_issues = [
+        TidyPyIssue('test1', 'test message', str(py_file), 2),
+        TidyPyIssue('test2', 'test message', str(py_file), 4),
+        TidyPyIssue('test3', 'test message', str(py_file), 4),
+        TidyPyIssue('test6', 'test message', str(py_file), 8),
+    ]
+    collector.add_issues(good_issues)
+    collector.add_issues(filtered_issues)
+
+    assert good_issues == collector.get_issues(sortby=collector.NO_SORT)
+
+    cfg['noqa'] = False
+    assert good_issues + filtered_issues == collector.get_issues(sortby=collector.NO_SORT)
 

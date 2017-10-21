@@ -63,6 +63,7 @@ def test_get_default_config():
     assert actual['threads'] == 3
     assert actual['reports'] == [{'type': 'console'}]
     assert actual['disabled'] == []
+    assert actual['noqa'] == True
 
     for tool in get_tools().keys():
         assert tool in actual

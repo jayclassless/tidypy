@@ -36,6 +36,7 @@ class TidyPyBanditManager(manager.BanditManager):
         super(TidyPyBanditManager, self).__init__(
             bandit_config.BanditConfig(),
             'file',
+            ignore_nosec=self.config['options']['ignore-nosec'],
             profile={
                 'exclude': self.config['disabled'],
             },
@@ -81,6 +82,7 @@ class BanditTool(PythonTool):
         config = PythonTool.get_default_config()
         config['options']['confidence'] = 'low'
         config['options']['severity'] = 'low'
+        config['options']['ignore-nosec'] = False
         return config
 
     @classmethod

@@ -3,6 +3,7 @@ import codecs
 import json
 import re
 import sys
+import threading
 import tokenize
 
 from collections import OrderedDict
@@ -131,7 +132,7 @@ if sys.version_info < (3,):
         r'^[ \t\v]*#.*?coding[:=][ \t]*([-_.a-zA-Z0-9]+)',
     )
 
-    def read_file(filepath):
+    def _read_file(filepath):
         encoding = DEFAULT_ENCODING
         with open(filepath, 'r') as target:
             i = 0
@@ -147,11 +148,22 @@ if sys.version_info < (3,):
             return target.read().encode('utf-8')
 
 else:
-    def read_file(filepath):
+    def _read_file(filepath):
         try:
             with tokenize.open(filepath) as target:  # pylint: disable=no-member
                 return target.read()
         except (LookupError, SyntaxError, UnicodeError):
             with open(filepath, 'r', encoding=DEFAULT_ENCODING) as target:
                 return target.read()
+
+
+_FILE_CACHE = {}
+_FILE_CACHE_LOCK = threading.Lock()
+
+
+def read_file(filepath):
+    with _FILE_CACHE_LOCK:
+        if filepath not in _FILE_CACHE:
+            _FILE_CACHE[filepath] = _read_file(filepath)
+    return _FILE_CACHE[filepath]
 
