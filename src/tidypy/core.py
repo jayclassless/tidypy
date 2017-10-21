@@ -32,13 +32,12 @@ def execute_tools(config, path, on_tool_start=None, on_tool_finish=None):
                 tool = get_tools()[tool_name](config[tool_name])
                 collector.add_issues(tool.execute(finder))
             except Exception:  # pylint: disable=broad-except
-                if not config['silence_tools']:
-                    collector.add_issues(ToolIssue(
-                        '%s failed horribly' % (tool_name,),
-                        path,
-                        details=sys.exc_info(),
-                        failure=True,
-                    ))
+                collector.add_issues(ToolIssue(
+                    '%s failed horribly' % (tool_name,),
+                    path,
+                    details=sys.exc_info(),
+                    failure=True,
+                ))
 
             if on_tool_finish:
                 on_tool_finish(tool_name)
@@ -52,21 +51,20 @@ def execute_tools(config, path, on_tool_start=None, on_tool_finish=None):
 
         tool_queue.join()
 
-        if not config['silence_tools']:
-            out = capture.get_stdout()
-            if out:
-                collector.add_issues(ToolIssue(
-                    'Tool(s) wrote to stdout',
-                    path,
-                    details=out,
-                ))
-            err = capture.get_stderr()
-            if err:
-                collector.add_issues(ToolIssue(
-                    'Tool(s) wrote to stderr',
-                    path,
-                    details=err,
-                ))
+        out = capture.get_stdout()
+        if out:
+            collector.add_issues(ToolIssue(
+                'Tool(s) wrote to stdout',
+                path,
+                details=out,
+            ))
+        err = capture.get_stderr()
+        if err:
+            collector.add_issues(ToolIssue(
+                'Tool(s) wrote to stderr',
+                path,
+                details=err,
+            ))
 
     return collector
 

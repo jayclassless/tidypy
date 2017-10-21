@@ -55,14 +55,15 @@ def get_default_config():
     config.update({
         'exclude': [],
         'merge_issues': True,
-        'silence_tools': False,
         'threads': 3,
         'reports': [
             {
                 'type': 'console',
             },
         ],
-        'disabled': [],
+        'disabled': [
+            'tool',
+        ],
         'noqa': True,
     })
 

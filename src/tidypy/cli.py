@@ -79,13 +79,6 @@ If not specified, defaults to the current working directory.
     ' considers them equivalent. Overrides the configuration file.',
 )
 @click.option(
-    '--silence-tools',
-    is_flag=True,
-    help='If the execution of a tool results in an unexpected output or '
-    ' Exception, be quiet about it. The default behavior is to capture the'
-    ' information as an issue.',
-)
-@click.option(
     '--threads',
     type=click.IntRange(1),
     default=3,
@@ -117,7 +110,6 @@ def check(
         tools,
         reports,
         disable_merge,
-        silence_tools,
         threads,
         disable_progress,
         disable_noqa,
@@ -138,8 +130,6 @@ def check(
         config['merge_issues'] = False
     if disable_noqa:
         config['noqa'] = False
-    if silence_tools:
-        config['silence_tools'] = True
     if threads:
         config['threads'] = threads
     if tools:
