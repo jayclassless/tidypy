@@ -16,6 +16,8 @@ TidyPy Change Log
   ``# noqa`` comment to ignore issues for that specific line.
 * Added support for the ``ignore-nosec`` option in the ``bandit`` tool.
 * Upgraded the ``vulture`` tool.
+* The ``check`` command will now return ``1`` to the shell if TidyPy finds
+  issues.
 
 
 0.1.0 (2017-10-15)

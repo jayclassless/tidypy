@@ -29,6 +29,7 @@ disabled = [
 [tool.tidypy.pylint.options]
 min-public-methods = 0
 max-args = 6
+max-locals = 20
 
 [tool.tidypy.pyflakes]
 disabled = [

@@ -31,7 +31,7 @@ def main():
     pass
 
 
-@main.command(
+@main.command(  # noqa
     'check',
     short_help='Executes the tools upon the project files.',
     help='''Executes the tools upon the project files.
@@ -110,7 +110,9 @@ If not specified, defaults to the current working directory.
     type=click.Path(exists=True),
     default=os.getcwd(),
 )
+@click.pass_context
 def check(
+        ctx,
         excludes,
         tools,
         reports,
@@ -128,7 +130,7 @@ def check(
         config = get_project_config(path)
     except Exception as exc:  # pylint: disable=broad-except
         output_error('Could not parse config file: %s' % (exc,))
-        return
+        ctx.exit(1)
 
     if excludes:
         config['exclude'] = excludes
@@ -159,6 +161,9 @@ def check(
     progress.finish()
 
     execute_reports(config, path, collector)
+
+    if collector.get_issues():
+        ctx.exit(1)
 
 
 @main.command(
