@@ -28,7 +28,12 @@ class TidyPyReport(BaseReport):
         self._tidypy_issues = []
 
     def error(self, line_number, offset, text, check):
-        code = super(TidyPyReport, self).error(line_number, offset, text, check)
+        code = super(TidyPyReport, self).error(
+            line_number,
+            offset,
+            text,
+            check,
+        )
 
         if code == 'E901':
             message = text[5:].split(':', 1)[1].lstrip()
@@ -73,7 +78,7 @@ class PyCodeStyleTool(PythonTool):
     def get_default_config(cls):
         config = PythonTool.get_default_config()
         config['options'] = {
-            'max-line-length': 80,
+            'max-line-length': 79,
             'hang-closing': False,
         }
         return config

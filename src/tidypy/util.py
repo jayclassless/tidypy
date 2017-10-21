@@ -150,7 +150,8 @@ if sys.version_info < (3,):
 else:
     def _read_file(filepath):
         try:
-            with tokenize.open(filepath) as target:  # pylint: disable=no-member
+            # pylint: disable=no-member
+            with tokenize.open(filepath) as target:
                 return target.read()
         except (LookupError, SyntaxError, UnicodeError):
             with open(filepath, 'r', encoding=DEFAULT_ENCODING) as target:

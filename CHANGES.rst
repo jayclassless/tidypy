@@ -18,6 +18,7 @@ TidyPy Change Log
 * Upgraded the ``vulture`` tool.
 * The ``check`` command will now return ``1`` to the shell if TidyPy finds
   issues.
+* No longer overriding ``pycodestyle``'s default max-line-length.
 
 
 0.1.0 (2017-10-15)
