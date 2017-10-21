@@ -10,6 +10,8 @@ TidyPy
    :target: https://travis-ci.org/jayclassless/tidypy
 .. image:: https://coveralls.io/repos/github/jayclassless/tidypy/badge.svg?branch=master
    :target: https://coveralls.io/github/jayclassless/tidypy?branch=master
+.. image:: https://requires.io/github/jayclassless/tidypy/requirements.svg?branch=master
+   :target: https://requires.io/github/jayclassless/tidypy/requirements/?branch=master
 
 
 .. contents:: Contents
@@ -23,7 +25,31 @@ makes it easy to configure, execute, and review their results.
 
 Features
 --------
-TODO
+* It's a consolidated tool for performing static analysis on an entire Python
+  project -- not just your ``*.py`` source files. In addition to executing a
+  number of different `tools`_ on your code, it can also check your YAML, JSON,
+  PO, POT, and RST files.
+
+* Rather than putting yet another specialized configuration file in your
+  project, TidyPy uses the ``pyproject.toml`` file defined by `PEP 518`_. All
+  options for all the tools TidyPy uses are declared in one place, rather than
+  requiring that you configure each tool in a different way.
+
+  .. _PEP 518: https://www.python.org/dev/peps/pep-0518/
+
+* Honors the pseudo-standard ``# noqa`` comment in your Python source to easily
+  ignore issues reported by any tool.
+
+* Includes a number of `integrations`_ so you can use it with your favorite
+  toolchain.
+
+* Includes a variety out `reporters`_ that allow you to view or use the results
+  of TidyPy's analysis in whatever way works best for you.
+
+* Provides a simple API for you to implement your own tool or reporter and
+  include it in the analysis of your project.
+
+* Supports both Python 2 and 3, as well as PyPy.
 
 
 Usage
@@ -168,6 +194,8 @@ do not respect this option and will always honor any ``# noqa`` comments they
 find.
 
 
+.. _tools:
+
 Included Tools
 --------------
 Out of the box, TidyPy includes support for a number of tools:
@@ -248,6 +276,8 @@ polint
     .. _dennis: https://github.com/willkg/dennis
 
 
+.. _reporters:
+
 Included Reporters
 ------------------
 TidyPy includes a number of different methods to present and/or export the
@@ -281,6 +311,8 @@ toml
 csv
     Generates a set of CSV records that contains the results of the analysis.
 
+
+.. _integrations:
 
 Included Integrations
 ---------------------
@@ -320,6 +352,8 @@ Extending TidyPy
 ----------------
 A simple interface exists for extending TidyPy to include more and different
 tools and reporters. When the API settles down, I'll document it here.
+
+TODO
 
 
 FAQs
