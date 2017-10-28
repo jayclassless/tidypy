@@ -1,18 +1,26 @@
+import base64
 import os.path
 import sys
+
+import requests_mock
+import pytest
 
 from tidypy import (
     get_tools,
     get_reports,
+    get_extenders,
     get_default_config,
     get_user_config,
     get_local_config,
     get_project_config,
+    purge_config_cache,
+    DoesNotExistError,
 )
+from tidypy.config import put_config_cache, get_config_cache
 
 
 def test_get_tools():
-    expected = [
+    expected = sorted([
         'bandit',
         'eradicate',
         'jsonlint',
@@ -26,7 +34,7 @@ def test_get_tools():
         'rstlint',
         'vulture',
         'yamllint',
-    ]
+    ])
 
     actual = get_tools()
     assert expected == sorted(actual.keys())
@@ -37,7 +45,7 @@ def test_get_tools():
 
 
 def test_get_reports():
-    expected = [
+    expected = sorted([
         'console',
         'csv',
         'json',
@@ -46,11 +54,31 @@ def test_get_reports():
         'pylint',
         'toml',
         'yaml',
-    ]
+    ])
+
     actual = get_reports()
     assert expected == sorted(actual.keys())
 
     actual2 = get_reports()
+    assert expected == sorted(actual2.keys())
+    assert id(actual) == id(actual2)
+
+
+def test_get_extenders():
+    expected = sorted([
+        'github',
+        'github-gist',
+        'bitbucket',
+        'bitbucket-snippet',
+        'gitlab',
+        'gitlab-snippet',
+        'pastebin',
+    ])
+
+    actual = get_extenders()
+    assert expected == sorted(actual.keys())
+
+    actual2 = get_extenders()
     assert expected == sorted(actual2.keys())
     assert id(actual) == id(actual2)
 
@@ -63,12 +91,15 @@ def test_get_default_config():
     assert actual['reports'] == [{'type': 'console'}]
     assert actual['disabled'] == ['tool']
     assert actual['noqa'] == True
+    assert actual['extends'] == []
+    assert actual['ignore_missing_extends'] == False
 
     for tool in get_tools().keys():
         assert tool in actual
 
 
 def test_get_user_config_win(tmpdir, monkeypatch):
+    project_dir = tmpdir.mkdir('project')
     user_dir = tmpdir.mkdir('win').join('tidypy')
     user_dir.write('[tidypy]\ntest = 1')
     monkeypatch.setattr(sys, 'platform', 'win32')
@@ -76,11 +107,12 @@ def test_get_user_config_win(tmpdir, monkeypatch):
         return str(user_dir)
     monkeypatch.setattr(os.path, 'expanduser', mockreturn)
 
-    actual = get_user_config()
+    actual = get_user_config(str(project_dir))
     assert actual['test'] == 1
 
 
 def test_get_user_config_other(tmpdir, monkeypatch):
+    project_dir = tmpdir.mkdir('project')
     user_dir = tmpdir.mkdir('nix')
     user_dir.join('tidypy').write('[tidypy]\ntest = 2')
     monkeypatch.setattr(sys, 'platform', 'darwin')
@@ -88,17 +120,18 @@ def test_get_user_config_other(tmpdir, monkeypatch):
         return str(user_dir)
     monkeypatch.setattr(os.path, 'expanduser', mockreturn)
 
-    actual = get_user_config()
+    actual = get_user_config(str(project_dir))
     assert actual['test'] == 2
 
 
 def test_get_user_config_missing(tmpdir, monkeypatch):
+    project_dir = tmpdir.mkdir('project')
     user_dir = tmpdir.mkdir('missing')
     def mockreturn(path):
         return str(user_dir)
     monkeypatch.setattr(os.path, 'expanduser', mockreturn)
 
-    actual = get_user_config()
+    actual = get_user_config(str(project_dir))
     assert actual == None
 
 
@@ -157,4 +190,141 @@ def test_get_project_config_default(tmpdir, monkeypatch):
 
     actual = get_project_config(str(local_dir))
     assert actual == get_default_config()
+
+
+def test_extends_default(tmpdir, monkeypatch):
+    user_dir = tmpdir.mkdir('nix')
+    monkeypatch.setattr(sys, 'platform', 'darwin')
+    def mockreturn(path):
+        return str(user_dir)
+    monkeypatch.setattr(os.path, 'expanduser', mockreturn)
+
+    local_dir = tmpdir.mkdir('local')
+    local_dir.join('pyproject.toml').write("[tool.tidypy]\nextends = ['secondary.conf']\ntest = 'base'\nbase = 'foo'\nalist=['a']")
+    local_dir.join('secondary.conf').write("[tidypy]\ntest = 'extended'\nextension = 'bar'\nextends = ['deepextends']\nalist=['b','c']")
+
+    actual = get_project_config(str(local_dir))
+    assert actual['test'] == 'base'
+    assert actual['base'] == 'foo'
+    assert actual['extension'] == 'bar'
+    assert actual['extends'] == ['secondary.conf']
+    assert actual['alist'] == ['b', 'c', 'a']
+
+
+RESP_FAKE = {
+  "name": "tidypy",
+  "path": "tidypy",
+  "type": "file",
+  "content": base64.b64encode("[tidypy]\ntest = 'extended2'\nextension2 = 'baz'"),
+  "encoding": "base64",
+}
+
+def test_extends_multiple(tmpdir, monkeypatch):
+    with requests_mock.Mocker() as m:
+        m.get('', json=RESP_FAKE)
+        m.get('https://api.github.com/repos/fake/project/contents/tidypy', json=RESP_FAKE)
+
+        user_dir = tmpdir.mkdir('nix')
+        monkeypatch.setattr(sys, 'platform', 'darwin')
+        def mockreturn(path):
+            return str(user_dir)
+        monkeypatch.setattr(os.path, 'expanduser', mockreturn)
+
+        local_dir = tmpdir.mkdir('local')
+        local_dir.join('pyproject.toml').write("[tool.tidypy]\nextends = ['secondary.conf', 'github:fake/project']\ntest = 'base'\nbase = 'foo'")
+        local_dir.join('secondary.conf').write("[tidypy]\ntest = 'extended'\nextension = 'bar'\nextends = ['deepextends']")
+
+        actual = get_project_config(str(local_dir))
+        assert actual['test'] == 'base'
+        assert actual['base'] == 'foo'
+        assert actual['extension'] == 'bar'
+        assert actual['extension2'] == 'baz'
+        assert actual['extends'] == ['secondary.conf', 'github:fake/project']
+
+
+def test_extends_cache(tmpdir, monkeypatch):
+    user_dir = tmpdir.mkdir('nix')
+    monkeypatch.setattr(sys, 'platform', 'darwin')
+    def mockreturn(path):
+        return str(user_dir)
+    monkeypatch.setattr(os.path, 'expanduser', mockreturn)
+
+    local_dir = tmpdir.mkdir('local')
+    local_dir.join('pyproject.toml').write("[tool.tidypy]\nextends = 'secondary.conf'\ntest = 'base'\nbase = 'foo'")
+    local_dir.join('secondary.conf').write("[tidypy]\ntest = 'extended'\nextension = 'bar'")
+    put_config_cache(
+        'secondary.conf',
+        {
+            'tidypy': {
+                'test': 'cached extended',
+                'extension': 'cached bar',
+            },
+        },
+    )
+
+    actual = get_project_config(str(local_dir))
+    assert actual['test'] == 'base'
+    assert actual['base'] == 'foo'
+    assert actual['extension'] == 'cached bar'
+
+
+def test_extends_cache_win(tmpdir, monkeypatch):
+    user_dir = tmpdir.mkdir('win').join('tidypy')
+    monkeypatch.setattr(sys, 'platform', 'win32')
+    def mockreturn(path):
+        return str(user_dir)
+    monkeypatch.setattr(os.path, 'expanduser', mockreturn)
+
+    local_dir = tmpdir.mkdir('local')
+    local_dir.join('pyproject.toml').write("[tool.tidypy]\nextends = 'secondary.conf'\ntest = 'base'\nbase = 'foo'")
+    local_dir.join('secondary.conf').write("[tidypy]\ntest = 'extended'\nextension = 'bar'")
+    put_config_cache(
+        'secondary.conf',
+        {
+            'tidypy': {
+                'test': 'cached extended',
+                'extension': 'cached bar',
+            },
+        },
+    )
+
+    actual = get_project_config(str(local_dir))
+    assert actual['test'] == 'base'
+    assert actual['base'] == 'foo'
+    assert actual['extension'] == 'cached bar'
+
+
+def test_extends_missing(tmpdir, monkeypatch):
+    user_dir = tmpdir.mkdir('nix')
+    monkeypatch.setattr(sys, 'platform', 'darwin')
+    def mockreturn(path):
+        return str(user_dir)
+    monkeypatch.setattr(os.path, 'expanduser', mockreturn)
+
+    local_dir = tmpdir.mkdir('local')
+    local_dir.join('pyproject.toml').write("[tool.tidypy]\nextends = ['doesntexist.conf']")
+
+    with pytest.raises(DoesNotExistError):
+        get_project_config(str(local_dir))
+
+    local_dir.join('pyproject.toml').write("[tool.tidypy]\nextends = ['doesntexist.conf']\nignore_missing_extends = true")
+
+    actual = get_project_config(str(local_dir))
+    assert actual['extends'] == ['doesntexist.conf']
+
+
+def test_purge_config_cache(tmpdir, monkeypatch):
+    user_dir = tmpdir.mkdir('nix')
+    monkeypatch.setattr(sys, 'platform', 'darwin')
+    def mockreturn(path):
+        return str(user_dir)
+    monkeypatch.setattr(os.path, 'expanduser', mockreturn)
+
+    put_config_cache('foo', {'tidypy': {'foo': 1}})
+
+    assert get_config_cache('foo') == {'foo': 1}
+
+    purge_config_cache()
+
+    assert get_config_cache('foo') is None
 

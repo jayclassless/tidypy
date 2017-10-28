@@ -68,11 +68,13 @@ your environment::
       --help     Show this message and exit.
 
     Commands:
-      check           Executes the tools upon the project files.
-      default-config  Outputs a default configuration that can be used to
-                      bootstrap your own configuration file.
-      list-codes      Outputs a listing of all known issue codes that tools may
-                      report.
+      check               Executes the tools upon the project files.
+      default-config      Outputs a default configuration that can be used to
+                          bootstrap your own configuration file.
+      list-codes          Outputs a listing of all known issue codes that tools
+                          may report.
+      purge-config-cache  Deletes the cache of configurations retrieved from
+                          outside the primary configuration.
 
 To have TidyPy analyze your project, use the ``check`` subcommand::
 
@@ -108,6 +110,9 @@ To have TidyPy analyze your project, use the ``check`` subcommand::
       --disable-progress              Disable the display of the progress bar.
       --disable-noqa                  Disable the ability to ignore issues using
                                       the "# noqa" comment in Python files.
+      --disable-config-cache          Disable the use of the cache when retrieving
+                                      configurations referenced by the "extends"
+                                      option.
       --help                          Show this message and exit.
 
 If you need to generate a skeleton configuration file with the default options,

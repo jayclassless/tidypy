@@ -14,6 +14,7 @@ from .config import (
     get_reports,
     get_default_config,
     get_project_config,
+    purge_config_cache,
 )
 from .progress import TidyBar
 from .util import output_error, render_toml, render_json, render_yaml
@@ -98,6 +99,12 @@ If not specified, defaults to the current working directory.
     help='Disable the ability to ignore issues using the "# noqa" comment in'
     ' Python files.',
 )
+@click.option(
+    '--disable-config-cache',
+    is_flag=True,
+    help='Disable the use of the cache when retrieving configurations'
+    ' referenced by the "extends" option.',
+)
 @click.argument(
     'path',
     type=click.Path(exists=True),
@@ -113,13 +120,14 @@ def check(
         threads,
         disable_progress,
         disable_noqa,
+        disable_config_cache,
         path):
     # Clean up the path
     path = os.path.abspath(path)
 
     # Establish the configuration
     try:
-        config = get_project_config(path)
+        config = get_project_config(path, use_cache=not disable_config_cache)
     except Exception as exc:  # pylint: disable=broad-except
         output_error('Could not parse config file: %s' % (exc,))
         ctx.exit(1)
@@ -226,4 +234,15 @@ def default_config(pyproject):
         config = {'tool': {'tidypy': config}}
 
     click.echo(render_toml(config))
+
+
+@main.command(
+    'purge-config-cache',
+    short_help='Deletes the cache of configurations retrieved from outside the'
+    ' primary configuration.',
+    help='Deletes the cache of configurations retrieved from outside the'
+    ' primary configuration.',
+)
+def purge_cache():
+    purge_config_cache()
 

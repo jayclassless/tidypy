@@ -62,6 +62,15 @@ setup(
             'pylint = tidypy.reports.pylint:PyLintReport',
             'null = tidypy.reports.null:NullReport',
         ],
+        'tidypy.extenders': [
+            'github = tidypy.extenders.github:GithubExtender',
+            'github-gist = tidypy.extenders.github_gist:GithubGistExtender',
+            'bitbucket = tidypy.extenders.bitbucket:BitbucketExtender',
+            'bitbucket-snippet = tidypy.extenders.bitbucket_snippet:BitbucketSnippetExtender',  # noqa
+            'gitlab = tidypy.extenders.gitlab:GitlabExtender',
+            'gitlab-snippet = tidypy.extenders.gitlab_snippet:GitlabSnippetExtender',  # noqa
+            'pastebin = tidypy.extenders.pastebin:PastebinExtender',
+        ],
         'pytest11': [
             'tidypy = tidypy.plugin.pytest',
         ],
@@ -78,6 +87,7 @@ setup(
         'progress>=1.3,<2',
         'pytoml>=0.1,<0.2',
         'pyyaml>=3.12,<4',
+        'requests>=2,<3',
 
         'pycodestyle>=2.3,<3',
         'pep8-naming>=0.4,<0.5',

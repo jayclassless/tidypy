@@ -10,19 +10,32 @@ from collections import OrderedDict
 from contextlib import contextmanager
 
 import click
+import pkg_resources
 import pytoml
+import requests
 import yaml
 
 from six import iteritems, text_type, StringIO
 
 
-def merge_dict(dict1, dict2):
-    merged = dict()
-    merged.update(dict1)
+def merge_list(list1, list2):
+    merged = list(list1)
+
+    for value in list2:
+        if value not in merged:
+            merged.append(value)
+
+    return merged
+
+
+def merge_dict(dict1, dict2, merge_lists=False):
+    merged = dict(dict1)
 
     for key, value in iteritems(dict2):
         if isinstance(merged.get(key), dict):
             merged[key] = merge_dict(merged[key], value)
+        elif merge_lists and isinstance(merged.get(key), list):
+            merged[key] = merge_list(merged[key], value)
         else:
             merged[key] = value
 
@@ -167,4 +180,16 @@ def read_file(filepath):
         if filepath not in _FILE_CACHE:
             _FILE_CACHE[filepath] = _read_file(filepath)
     return _FILE_CACHE[filepath]
+
+
+_REQUESTS = requests.Session()
+_REQUESTS.headers.update({
+    'User-Agent': 'TidyPy/%s' % (
+        pkg_resources.get_distribution('tidypy').version,
+    ),
+})
+
+
+def get_requests():
+    return _REQUESTS
 

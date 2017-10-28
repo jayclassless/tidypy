@@ -9,6 +9,7 @@ name = "pypi"
 "nose" = "*"
 "pbbt" = "*"
 "pytest" = "*"
+"requests-mock" = "*"
 "twine" = "*"
 "wheel" = "*"
 
