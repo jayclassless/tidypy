@@ -216,7 +216,7 @@ RESP_FAKE = {
   "name": "tidypy",
   "path": "tidypy",
   "type": "file",
-  "content": base64.b64encode(six.binary_type("[tidypy]\ntest = 'extended2'\nextension2 = 'baz'")),
+  "content": base64.b64encode(six.b("[tidypy]\ntest = 'extended2'\nextension2 = 'baz'")),
   "encoding": "base64",
 }
 
