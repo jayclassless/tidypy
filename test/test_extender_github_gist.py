@@ -96,16 +96,16 @@ RESP_BASIC = {
   "truncated": False
 }
 
-@requests_mock.Mocker()
-def test_retrieve_basic(m):
-    m.get('https://api.github.com/gists/5baf85cea2045be585a065650e3ce6dc', json=RESP_BASIC)
-    extender = get_extenders()['github-gist']
-    cfg = extender.retrieve('github-gist:5baf85cea2045be585a065650e3ce6dc', 'test')
+def test_retrieve_basic():
+    with requests_mock.Mocker() as m:
+        m.get('https://api.github.com/gists/5baf85cea2045be585a065650e3ce6dc', json=RESP_BASIC)
+        extender = get_extenders()['github-gist']
+        cfg = extender.retrieve('github-gist:5baf85cea2045be585a065650e3ce6dc', 'test')
 
-    assert cfg == {
-        'extension': 'github gist',
-        'test': 'extended',
-    }
+        assert cfg == {
+            'extension': 'github gist',
+            'test': 'extended',
+        }
 
 
 RESP_PYPROJECT = {
@@ -190,16 +190,16 @@ RESP_PYPROJECT = {
   "truncated": False
 }
 
-@requests_mock.Mocker()
-def test_retrieve_pyproject(m):
-    m.get('https://api.github.com/gists/b23ead805c233488b659229a24c75268', json=RESP_PYPROJECT)
-    extender = get_extenders()['github-gist']
-    cfg = extender.retrieve('github-gist:jayclassless/b23ead805c233488b659229a24c75268', 'test')
+def test_retrieve_pyproject():
+    with requests_mock.Mocker() as m:
+        m.get('https://api.github.com/gists/b23ead805c233488b659229a24c75268', json=RESP_PYPROJECT)
+        extender = get_extenders()['github-gist']
+        cfg = extender.retrieve('github-gist:jayclassless/b23ead805c233488b659229a24c75268', 'test')
 
-    assert cfg == {
-        'extension': 'github gist pyproject',
-        'test': 'extended',
-    }
+        assert cfg == {
+            'extension': 'github gist pyproject',
+            'test': 'extended',
+        }
 
 
 RESP_NO_GOOD = {
@@ -284,12 +284,12 @@ RESP_NO_GOOD = {
   "truncated": False
 }
 
-@requests_mock.Mocker()
-def test_retrieve_no_good_files(m):
-    m.get('https://api.github.com/gists/f14576eea03b9d3c71018114facec0d4', json=RESP_NO_GOOD)
-    extender = get_extenders()['github-gist']
-    with pytest.raises(DoesNotExistError):
-        cfg = extender.retrieve('github-gist:jayclassless/f14576eea03b9d3c71018114facec0d4', 'test')
+def test_retrieve_no_good_files():
+    with requests_mock.Mocker() as m:
+        m.get('https://api.github.com/gists/f14576eea03b9d3c71018114facec0d4', json=RESP_NO_GOOD)
+        extender = get_extenders()['github-gist']
+        with pytest.raises(DoesNotExistError):
+            cfg = extender.retrieve('github-gist:jayclassless/f14576eea03b9d3c71018114facec0d4', 'test')
 
 
 RESP_MISSING = {
@@ -297,10 +297,10 @@ RESP_MISSING = {
   "documentation_url": "https://developer.github.com/v3/gists/#get-a-single-gist"
 }
 
-@requests_mock.Mocker()
-def test_retrieve_missing(m):
-    m.get('https://api.github.com/gists/doesntexist', json=RESP_MISSING, status_code=404)
-    extender = get_extenders()['github-gist']
-    with pytest.raises(DoesNotExistError):
-        cfg = extender.retrieve('github-gist:jayclassless/doesntexist', 'test')
+def test_retrieve_missing():
+    with requests_mock.Mocker() as m:
+        m.get('https://api.github.com/gists/doesntexist', json=RESP_MISSING, status_code=404)
+        extender = get_extenders()['github-gist']
+        with pytest.raises(DoesNotExistError):
+            cfg = extender.retrieve('github-gist:jayclassless/doesntexist', 'test')
 

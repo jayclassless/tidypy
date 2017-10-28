@@ -216,13 +216,12 @@ RESP_FAKE = {
   "name": "tidypy",
   "path": "tidypy",
   "type": "file",
-  "content": base64.b64encode(six.b("[tidypy]\ntest = 'extended2'\nextension2 = 'baz'")),
+  "content": base64.b64encode(b"[tidypy]\ntest = 'extended2'\nextension2 = 'baz'").decode(),
   "encoding": "base64",
 }
 
 def test_extends_multiple(tmpdir, monkeypatch):
     with requests_mock.Mocker() as m:
-        m.get('', json=RESP_FAKE)
         m.get('https://api.github.com/repos/fake/project/contents/tidypy', json=RESP_FAKE)
 
         user_dir = tmpdir.mkdir('nix')

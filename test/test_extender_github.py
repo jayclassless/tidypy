@@ -33,25 +33,25 @@ RESP_BASIC = {
   }
 }
 
-@requests_mock.Mocker()
-def test_retrieve_basic(m):
-    m.get('https://api.github.com/repos/jayclassless/tidypy_extender_test/contents/tidypy', json=RESP_BASIC)
-    extender = get_extenders()['github']
-    cfg = extender.retrieve('github:jayclassless/tidypy_extender_test', 'test')
+def test_retrieve_basic():
+    with requests_mock.Mocker() as m:
+        m.get('https://api.github.com/repos/jayclassless/tidypy_extender_test/contents/tidypy', json=RESP_BASIC)
+        extender = get_extenders()['github']
+        cfg = extender.retrieve('github:jayclassless/tidypy_extender_test', 'test')
 
-    assert cfg == {
-        'extension': 'github',
-        'test': 'extended',
-    }
+        assert cfg == {
+            'extension': 'github',
+            'test': 'extended',
+        }
 
 
 RESP_MISSING = {}
 
-@requests_mock.Mocker()
-def test_retrieve_missing(m):
-    m.get('https://api.github.com/repos/jayclassless/doesntexist/contents/tidypy', json=RESP_MISSING, status_code=404)
-    m.get('https://api.github.com/repos/jayclassless/doesntexist/contents/pyproject.toml', json=RESP_MISSING, status_code=404)
-    extender = get_extenders()['github']
-    with pytest.raises(DoesNotExistError):
-        cfg = extender.retrieve('github:jayclassless/doesntexist', 'test')
+def test_retrieve_missing():
+    with requests_mock.Mocker() as m:
+        m.get('https://api.github.com/repos/jayclassless/doesntexist/contents/tidypy', json=RESP_MISSING, status_code=404)
+        m.get('https://api.github.com/repos/jayclassless/doesntexist/contents/pyproject.toml', json=RESP_MISSING, status_code=404)
+        extender = get_extenders()['github']
+        with pytest.raises(DoesNotExistError):
+            cfg = extender.retrieve('github:jayclassless/doesntexist', 'test')
 

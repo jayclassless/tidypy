@@ -18,16 +18,16 @@ test = 'extended'
 extension = 'bitbucket snippet'
 '''
 
-@requests_mock.Mocker()
-def test_retrieve_basic(m):
-    m.get('https://bitbucket.org/api/2.0/snippets/jayclassless/74zBE6/files/tidypy', text=RESP_BASIC)
-    extender = get_extenders()['bitbucket-snippet']
-    cfg = extender.retrieve('bitbucket-snippet:jayclassless/74zBE6', 'test')
+def test_retrieve_basic():
+    with requests_mock.Mocker() as m:
+        m.get('https://bitbucket.org/api/2.0/snippets/jayclassless/74zBE6/files/tidypy', text=RESP_BASIC)
+        extender = get_extenders()['bitbucket-snippet']
+        cfg = extender.retrieve('bitbucket-snippet:jayclassless/74zBE6', 'test')
 
-    assert cfg == {
-        'extension': 'bitbucket snippet',
-        'test': 'extended',
-    }
+        assert cfg == {
+            'extension': 'bitbucket snippet',
+            'test': 'extended',
+        }
 
 
 RESP_PYPROJECT = '''
@@ -36,26 +36,26 @@ test = 'extended'
 extension = 'bitbucket snippet pyproject'
 '''
 
-@requests_mock.Mocker()
-def test_retrieve_pyproject(m):
-    m.get('https://bitbucket.org/api/2.0/snippets/jayclassless/q4zzyR/files/tidypy', status_code=302, headers={'Location': 'https://fake.com/missing'})
-    m.get('https://bitbucket.org/api/2.0/snippets/jayclassless/q4zzyR/files/pyproject.toml', text=RESP_PYPROJECT)
-    m.get('https://fake.com/missing', status_code=404)
-    extender = get_extenders()['bitbucket-snippet']
-    cfg = extender.retrieve('bitbucket-snippet:jayclassless/q4zzyR', 'test')
+def test_retrieve_pyproject():
+    with requests_mock.Mocker() as m:
+        m.get('https://bitbucket.org/api/2.0/snippets/jayclassless/q4zzyR/files/tidypy', status_code=302, headers={'Location': 'https://fake.com/missing'})
+        m.get('https://bitbucket.org/api/2.0/snippets/jayclassless/q4zzyR/files/pyproject.toml', text=RESP_PYPROJECT)
+        m.get('https://fake.com/missing', status_code=404)
+        extender = get_extenders()['bitbucket-snippet']
+        cfg = extender.retrieve('bitbucket-snippet:jayclassless/q4zzyR', 'test')
 
-    assert cfg == {
-        'extension': 'bitbucket snippet pyproject',
-        'test': 'extended',
-    }
+        assert cfg == {
+            'extension': 'bitbucket snippet pyproject',
+            'test': 'extended',
+        }
 
 
-@requests_mock.Mocker()
-def test_retrieve_missing(m):
-    m.get('https://bitbucket.org/api/2.0/snippets/jayclassless/doesntexist/files/tidypy', status_code=302, headers={'Location': 'https://fake.com/missing'})
-    m.get('https://bitbucket.org/api/2.0/snippets/jayclassless/doesntexist/files/pyproject.toml', status_code=302, headers={'Location': 'https://fake.com/missing'})
-    m.get('https://fake.com/missing', status_code=404)
-    extender = get_extenders()['bitbucket-snippet']
-    with pytest.raises(DoesNotExistError):
-        cfg = extender.retrieve('bitbucket-snippet:jayclassless/doesntexist', 'test')
+def test_retrieve_missing():
+    with requests_mock.Mocker() as m:
+        m.get('https://bitbucket.org/api/2.0/snippets/jayclassless/doesntexist/files/tidypy', status_code=302, headers={'Location': 'https://fake.com/missing'})
+        m.get('https://bitbucket.org/api/2.0/snippets/jayclassless/doesntexist/files/pyproject.toml', status_code=302, headers={'Location': 'https://fake.com/missing'})
+        m.get('https://fake.com/missing', status_code=404)
+        extender = get_extenders()['bitbucket-snippet']
+        with pytest.raises(DoesNotExistError):
+            cfg = extender.retrieve('bitbucket-snippet:jayclassless/doesntexist', 'test')
 

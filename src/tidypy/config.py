@@ -84,6 +84,7 @@ def get_cache_path(location=None):
         os.makedirs(cache_dir)
 
     if location:
+        location = location.encode('utf-8')
         return os.path.join(cache_dir, sha512(location).hexdigest())
 
     return cache_dir
