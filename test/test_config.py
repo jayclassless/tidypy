@@ -2,8 +2,9 @@ import base64
 import os.path
 import sys
 
-import requests_mock
 import pytest
+import six
+import requests_mock
 
 from tidypy import (
     get_tools,
@@ -215,7 +216,7 @@ RESP_FAKE = {
   "name": "tidypy",
   "path": "tidypy",
   "type": "file",
-  "content": base64.b64encode("[tidypy]\ntest = 'extended2'\nextension2 = 'baz'"),
+  "content": base64.b64encode(six.binary_type("[tidypy]\ntest = 'extended2'\nextension2 = 'baz'")),
   "encoding": "base64",
 }
 
