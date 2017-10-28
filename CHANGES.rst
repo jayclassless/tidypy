@@ -16,6 +16,7 @@ Enhancements
 * Added the ability for TidyPy configurations to extend from other
   configuration files via the ``extends`` property.
 * Upgraded the ``vulture`` tool.
+* Upgraded the ``pyflakes`` tool.
 
 Changes
 -------

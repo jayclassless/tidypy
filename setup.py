@@ -95,7 +95,7 @@ setup(
         'pyroma>=2.2,<3',
         'vulture>=0.25,<0.27',
         'bandit>=1.4,<2',
-        'pyflakes>=1.5,<1.6',
+        'pyflakes>=1.5,<1.7',
         'radon>=2,<3',
         'pylint>=1.7,<1.8',
         'demjson>=2.2.4,<3',
