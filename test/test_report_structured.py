@@ -176,6 +176,14 @@ issues:
     assert err == ''
 
 
+
+EXPECTED_CSV = '''filename,line,character,tool,code,message
+blah/bar.py,28,0,tidypy,code1,Message 1
+foo.py,2,0,tidypy,code2,Message 2
+foo.py,5,23,tidypy,code1,Message 1
+subdir/foobar.json,5,23,tidypy,code3,Message 3
+'''
+
 def test_csv_execute(capsys):
     cfg = get_default_config()
     cfg['reports'] = [{'type': 'csv'}]
@@ -185,14 +193,38 @@ def test_csv_execute(capsys):
 
     execute_reports(cfg, 'someproject', collector)
 
-    expected = '''filename,line,character,tool,code,message
-blah/bar.py,28,0,tidypy,code1,Message 1
-foo.py,2,0,tidypy,code2,Message 2
-foo.py,5,23,tidypy,code1,Message 1
-subdir/foobar.json,5,23,tidypy,code3,Message 3
-'''
+    out, err = capsys.readouterr()
+    assert EXPECTED_CSV == out
+    assert err == ''
+
+
+def test_csv_file_output(capsys, tmpdir):
+    target_dir = tmpdir.mkdir('reports')
+
+    cfg = get_default_config()
+    cfg['reports'] = [{'type': 'csv'}]
+
+    collector = Collector(cfg)
+    collector.add_issues(ISSUES)
+
+    test_file = str(target_dir) + 'test1'
+    with open(test_file, 'w') as fp:
+        execute_reports(cfg, 'someproject', collector, output_file=fp)
 
     out, err = capsys.readouterr()
-    assert expected == out
+    assert out == ''
     assert err == ''
+
+    assert EXPECTED_CSV == open(test_file, 'r').read()
+
+    test_file = str(target_dir) + 'test2'
+    cfg['reports'] = [{'type': 'csv', 'file': test_file}]
+    with open(test_file, 'w') as fp:
+        execute_reports(cfg, 'someproject', collector)
+
+    out, err = capsys.readouterr()
+    assert out == ''
+    assert err == ''
+
+    assert EXPECTED_CSV == open(test_file, 'r').read()
 

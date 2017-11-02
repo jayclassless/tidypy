@@ -321,10 +321,18 @@ def test_purge_config_cache(tmpdir, monkeypatch):
     monkeypatch.setattr(os.path, 'expanduser', mockreturn)
 
     put_config_cache('foo', {'tidypy': {'foo': 1}})
+    put_config_cache('bar', {'tidypy': {'bar': 1}})
 
     assert get_config_cache('foo') == {'foo': 1}
+    assert get_config_cache('bar') == {'bar': 1}
+
+    purge_config_cache('foo')
+
+    assert get_config_cache('foo') is None
+    assert get_config_cache('bar') == {'bar': 1}
 
     purge_config_cache()
 
     assert get_config_cache('foo') is None
+    assert get_config_cache('bar') is None
 

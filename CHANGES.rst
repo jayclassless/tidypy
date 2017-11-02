@@ -30,6 +30,7 @@ Fixes
 -----
 * If any tools output directly to stdout or stderr, TidyPy will now capture it
   and report it as a ``tidypy:tool`` issue.
+* Fixed crash/hang that occurred when using ``--disable-progress``.
 
 
 0.1.0 (2017-10-15)

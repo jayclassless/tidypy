@@ -1,4 +1,7 @@
-import csv
+try:
+    from backports import csv
+except ImportError:
+    import csv
 
 from collections import OrderedDict
 
@@ -34,7 +37,7 @@ class StructuredReport(Report):
 class CsvReport(StructuredReport):
     def execute(self, collector):
         issues = self.get_structure(collector)
-        writer = csv.writer(self.output_file, lineterminator='\n')
+        writer = csv.writer(self.output_file, lineterminator=u'\n')
         writer.writerow([
             'filename',
             'line',

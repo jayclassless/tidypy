@@ -55,9 +55,21 @@ test = 'extended'
 extension = 'gitlab snippet badname'
 '''
 
-def test_retrieve_basic():
+def test_retrieve_badname():
     with requests_mock.Mocker() as m:
         m.get('https://gitlab.com/snippets/1681729/raw', text=RESP_BADNAME, headers={'Content-Disposition': 'inline; filename="something.conf"'})
+        extender = get_extenders()['gitlab-snippet']
+        cfg = extender.retrieve('gitlab-snippet:1681729', 'test')
+
+        assert cfg == {
+            'extension': 'gitlab snippet badname',
+            'test': 'extended',
+        }
+
+
+def test_retrieve_missing_name():
+    with requests_mock.Mocker() as m:
+        m.get('https://gitlab.com/snippets/1681729/raw', text=RESP_BADNAME)
         extender = get_extenders()['gitlab-snippet']
         cfg = extender.retrieve('gitlab-snippet:1681729', 'test')
 

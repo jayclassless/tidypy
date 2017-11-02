@@ -14,10 +14,8 @@ class TidyBar(Bar):
 
     def __init__(self, config, quiet=False):
         self.quiet = quiet
-        if self.quiet:
-            return
-
         self._lock = Lock()
+        self._currently_executing = []
 
         tools = [
             name
@@ -29,8 +27,8 @@ class TidyBar(Bar):
             'Analyzing:',
             max=len(tools),
         )
-        self._currently_executing = []
-        self.update()
+        if not self.quiet:
+            self.update()
 
     @property
     def currently_executing(self):
@@ -41,16 +39,17 @@ class TidyBar(Bar):
         )
 
     def on_tool_start(self, tool):
-        with self._lock:
-            self._currently_executing.append(tool)
-            self.update()
+        if not self.quiet:
+            with self._lock:
+                self._currently_executing.append(tool)
+                self.update()
 
     def on_tool_finish(self, tool):
-        with self._lock:
-            if tool in self._currently_executing:
-                self._currently_executing.remove(tool)
-            if not self.quiet:
-                self.next()
+        if not self.quiet:
+            with self._lock:
+                if tool in self._currently_executing:
+                    self._currently_executing.remove(tool)
+                    self.next()
 
     def finish(self):
         if not self.quiet:

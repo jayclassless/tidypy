@@ -7,6 +7,7 @@ from tidypy import execute_tools, execute_reports, get_default_config, \
 
 def test_execute_tools(capsys):
     cfg = get_default_config()
+    cfg['pycodestyle']['use'] = False
 
     started = []
     def on_start(tool):
@@ -16,6 +17,7 @@ def test_execute_tools(capsys):
         finished.append(tool)
 
     expected_tools = sorted(get_tools())
+    expected_tools.remove('pycodestyle')
     if six.PY3:
         expected_tools.remove('eradicate')
 

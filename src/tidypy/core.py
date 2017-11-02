@@ -69,11 +69,20 @@ def execute_tools(config, path, on_tool_start=None, on_tool_finish=None):
     return collector
 
 
-def execute_reports(config, path, collector, on_report_finish=None):
+def execute_reports(
+        config,
+        path,
+        collector,
+        on_report_finish=None,
+        output_file=None):
     reports = get_reports()
     for report in config['reports']:
         if report.get('type') and report['type'] in reports:
-            reporter = reports[report['type']](report, path)
+            reporter = reports[report['type']](
+                report,
+                path,
+                output_file=output_file,
+            )
             reporter.execute(collector)
             if on_report_finish:
                 on_report_finish(report)
