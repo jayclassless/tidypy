@@ -219,8 +219,7 @@ def test_csv_file_output(capsys, tmpdir):
 
     test_file = str(target_dir) + 'test2'
     cfg['reports'] = [{'type': 'csv', 'file': test_file}]
-    with open(test_file, 'w') as fp:
-        execute_reports(cfg, 'someproject', collector)
+    execute_reports(cfg, 'someproject', collector)
 
     out, err = capsys.readouterr()
     assert out == ''
