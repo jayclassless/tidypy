@@ -22,6 +22,7 @@ from tidypy.config import put_config_cache, get_config_cache
 
 def test_get_tools():
     expected = sorted([
+        '2to3',
         'bandit',
         'eradicate',
         'jsonlint',

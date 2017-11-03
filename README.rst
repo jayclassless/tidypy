@@ -92,7 +92,7 @@ To have TidyPy analyze your project, use the ``check`` subcommand::
                                       the examination. Can be specified multiple
                                       times. Overrides the expressions specified
                                       in the configuration file.
-      -t, --tool [bandit|eradicate|jsonlint|polint|pycodestyle|pydocstyle|pyflakes|pylint|pyroma|radon|rstlint|vulture|yamllint]
+      -t, --tool [2to3|bandit|eradicate|jsonlint|polint|pycodestyle|pydocstyle|pyflakes|pylint|pyroma|radon|rstlint|vulture|yamllint]
                                       Specifies the name of a tool to use during
                                       the examination. Can be specified multiple
                                       times. Overrides the configuration file.
@@ -138,7 +138,7 @@ use the ``list-codes`` subcommand::
       Outputs a listing of all known issue codes that tools may report.
 
     Options:
-      -t, --tool [bandit|eradicate|jsonlint|polint|pycodestyle|pydocstyle|pyflakes|pylint|pyroma|radon|rstlint|vulture|yamllint]
+      -t, --tool [2to3|bandit|eradicate|jsonlint|polint|pycodestyle|pydocstyle|pyflakes|pylint|pyroma|radon|rstlint|vulture|yamllint]
                                       Specifies the name of a tool whose codes
                                       should be output. If not specified, defaults
                                       to all tools.
@@ -275,6 +275,12 @@ polint
     problems.
 
     .. _dennis: https://github.com/willkg/dennis
+
+2to3
+    Uses Python's `lib2to3`_ module to find code that should be changed in
+    order to be compatible with Python 3.
+
+    .. _lib2to3: https://docs.python.org/2/library/2to3.html
 
 
 .. _reporters:
