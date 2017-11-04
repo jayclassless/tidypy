@@ -37,7 +37,7 @@ class StructuredReport(Report):
 class CsvReport(StructuredReport):
     def execute(self, collector):
         issues = self.get_structure(collector)
-        writer = csv.writer(self.output_file, lineterminator=u'\n')  # noqa: 2to3:unicode
+        writer = csv.writer(self.output_file, lineterminator=u'\n')  # noqa: @2to3
         writer.writerow([
             'filename',
             'line',

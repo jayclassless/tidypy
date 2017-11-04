@@ -8,7 +8,7 @@ from lib2to3.pgen2.parse import ParseError
 from lib2to3.pgen2.tokenize import TokenError
 from lib2to3.refactor import RefactoringTool, get_all_fix_names
 
-from six import text_type
+from six import text_type, PY2
 
 from .base import PythonTool, Issue, ParseIssue, AccessIssue, UnknownIssue
 
@@ -21,12 +21,12 @@ FIXER_PKG = 'lib2to3.fixes'
 
 
 class TidyPyRefactoringTool(RefactoringTool):
-    def __init__(self, fixer):
+    def __init__(self, fixers):
         fixers = [
-            '%s.fix_%s' % (FIXER_PKG, fixer),
+            '%s.fix_%s' % (FIXER_PKG, fixer)
+            for fixer in fixers
         ]
         super(TidyPyRefactoringTool, self).__init__(fixers, explicit=fixers)
-        self._fixer_name = fixer
         self._tidypy_issues = []
 
     def get_diff(self, old, new):
@@ -94,9 +94,11 @@ class TidyPyRefactoringTool(RefactoringTool):
         pass
 
     def add_issue(self, filename, line, diff):
-        message = 'Suggested change:\n%s' % ('\n'.join(diff),)
+        message = 'Suggested change for Python 3 compatibility:\n%s' % (
+            '\n'.join(diff),
+        )
         self._tidypy_issues.append(Lib2to3Issue(
-            code=self._fixer_name,
+            code='change',
             message=message,
             filename=filename,
             line=int(line),
@@ -113,6 +115,12 @@ class Lib2to3Issue(Issue):
 
 class Lib2to3Tool(PythonTool):
     @classmethod
+    def get_default_config(cls):
+        cfg = PythonTool.get_default_config()
+        cfg['use'] = PY2
+        return cfg
+
+    @classmethod
     def get_all_codes(cls):
         return [
             (fixer, fixer)
@@ -125,17 +133,10 @@ class Lib2to3Tool(PythonTool):
             if disabled in fixers:
                 fixers.remove(disabled)
 
-        tools = []
-        for fixer in fixers:
-            tools.append(TidyPyRefactoringTool(fixer))
+        tool = TidyPyRefactoringTool(fixers)
 
         for filepath in finder.files(self.config['filters']):
-            for tool in tools:
-                tool.refactor([filepath])
+            tool.refactor([filepath])
 
-        issues = []
-        for tool in tools:
-            issues.extend(tool.get_issues())
-
-        return issues
+        return tool.get_issues()
 
