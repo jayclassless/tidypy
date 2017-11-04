@@ -83,7 +83,7 @@ def execute_reports(
                 path,
                 output_file=output_file,
             )
-            reporter.execute(collector)
+            reporter.produce(collector)
             if on_report_finish:
                 on_report_finish(report)
 
