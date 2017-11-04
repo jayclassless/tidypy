@@ -49,7 +49,7 @@ class TidyBar(Bar):
             with self._lock:
                 if tool in self._currently_executing:
                     self._currently_executing.remove(tool)
-                    self.next()
+                    self.next()  # noqa: @2to3
 
     def finish(self):
         if not self.quiet:

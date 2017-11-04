@@ -44,3 +44,8 @@ disabled = [
     'document-start',
 ]
 
+[tool.tidypy.2to3]
+disabled = [
+    'future',
+]
+

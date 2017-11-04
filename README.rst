@@ -92,7 +92,7 @@ To have TidyPy analyze your project, use the ``check`` subcommand::
                                       the examination. Can be specified multiple
                                       times. Overrides the expressions specified
                                       in the configuration file.
-      -t, --tool [bandit|eradicate|jsonlint|polint|pycodestyle|pydocstyle|pyflakes|pylint|pyroma|radon|rstlint|vulture|yamllint]
+      -t, --tool [2to3|bandit|eradicate|jsonlint|polint|pycodestyle|pydocstyle|pyflakes|pylint|pyroma|radon|rstlint|vulture|yamllint]
                                       Specifies the name of a tool to use during
                                       the examination. Can be specified multiple
                                       times. Overrides the configuration file.
@@ -138,7 +138,7 @@ use the ``list-codes`` subcommand::
       Outputs a listing of all known issue codes that tools may report.
 
     Options:
-      -t, --tool [bandit|eradicate|jsonlint|polint|pycodestyle|pydocstyle|pyflakes|pylint|pyroma|radon|rstlint|vulture|yamllint]
+      -t, --tool [2to3|bandit|eradicate|jsonlint|polint|pycodestyle|pydocstyle|pyflakes|pylint|pyroma|radon|rstlint|vulture|yamllint]
                                       Specifies the name of a tool whose codes
                                       should be output. If not specified, defaults
                                       to all tools.
@@ -187,6 +187,16 @@ Or, if a particular code is used in multiple tools, you can specify the exact
 tool in the comment::
 
     # noqa: pycodestyle:CODE1,pylint:CODE2
+
+Or, if you want to ignore any issue a specific tool raises on a line, you can
+specify the tool::
+
+    # noqa: @pycodestyle,@pylint
+
+You can, of course, mix and match all three notations in a single comment if
+you need to::
+
+    # noqa: CODE1,pylint:CODE2,@pycodestyle
 
 You can disable TidyPy's NOQA behavior by specifying the ``--disable-noqa``
 option on the command line, or by setting the ``noqa`` option to ``false`` in
@@ -275,6 +285,14 @@ polint
     problems.
 
     .. _dennis: https://github.com/willkg/dennis
+
+2to3
+    Uses Python's `lib2to3`_ module to find code that should be changed in
+    order to be compatible with Python 3. This tool is disabled by default when
+    executing on Python 3, but you can forcefully enable it in your
+    configuration if you want.
+
+    .. _lib2to3: https://docs.python.org/2/library/2to3.html
 
 
 .. _reporters:

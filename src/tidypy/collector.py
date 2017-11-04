@@ -12,7 +12,7 @@ from .util import read_file
 RE_PYTHON_FILE = re.compile(r'\.py$')
 
 RE_NOQA = re.compile(
-    r'# noqa(?:: (?P<codes>([a-zA-Z0-9-:]+(?:[,\s]+)?)+))?',
+    r'# noqa(?:: (?P<codes>([a-zA-Z0-9-:@]+(?:[,\s]+)?)+))?',
     re.IGNORECASE,
 )
 
@@ -118,6 +118,7 @@ class Collector(object):
             return True
 
         return issue.code in codes \
+            or ('@%s' % (issue.tool,)) in codes \
             or ('%s:%s' % (issue.tool, issue.code)) in codes
 
     def _merge_issues(self):

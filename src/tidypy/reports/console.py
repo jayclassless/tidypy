@@ -60,7 +60,7 @@ class ConsoleReport(Report):
         if total_issues:
             self.output(
                 click.style(
-                    u'\u2717 {num_issues} issues found.'.format(
+                    u'\u2717 {num_issues} issues found.'.format(  # noqa: @2to3
                         num_issues=total_issues,
                     ),
                     fg='yellow',
@@ -70,7 +70,7 @@ class ConsoleReport(Report):
         else:
             self.output(
                 click.style(
-                    u'\u2714 No issues found!',
+                    u'\u2714 No issues found!',  # noqa: @2to3
                     fg='green',
                     bold=True,
                 )

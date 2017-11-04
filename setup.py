@@ -51,6 +51,7 @@ setup(
             'yamllint = tidypy.tools.yamllint:YamlLintTool',
             'rstlint = tidypy.tools.rstlint:RstLintTool',
             'polint = tidypy.tools.polint:PoLintTool',
+            '2to3 = tidypy.tools.lib2to3:Lib2to3Tool',
         ],
         'tidypy.reports': [
             'console = tidypy.reports.console:ConsoleReport',

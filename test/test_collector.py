@@ -206,7 +206,7 @@ def test_merging_dupes():
 def test_noqa(tmpdir):
     project_dir = tmpdir.mkdir('noqa')
     py_file = project_dir.join('file.py')
-    py_file.write('\nsomething  # noqa: test1\n\n# NoQA\n\n\n\n# NOqa: tidypy:test6,foobar')
+    py_file.write('\nsomething  # noqa: test1\n\n# NoQA\n\n\n\n# NOqa: tidypy:test6,foobar,@bar')
     yaml_file = project_dir.join('file.yaml')
 
     cfg = get_default_config()
@@ -218,12 +218,14 @@ def test_noqa(tmpdir):
         TidyPyIssue('test4', 'test message', str(py_file), 6),
         TidyPyIssue('test5', 'test message', str(yaml_file), 2),
         TidyPyIssue('test7', 'test message', str(py_file), 8),
+        BarIssue('test8', 'test message', str(py_file), 7),
     ]
     filtered_issues = [
         TidyPyIssue('test1', 'test message', str(py_file), 2),
         TidyPyIssue('test2', 'test message', str(py_file), 4),
         TidyPyIssue('test3', 'test message', str(py_file), 4),
         TidyPyIssue('test6', 'test message', str(py_file), 8),
+        BarIssue('test9', 'test message', str(py_file), 8),
     ]
     collector.add_issues(good_issues)
     collector.add_issues(filtered_issues)
