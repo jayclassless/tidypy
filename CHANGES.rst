@@ -5,11 +5,12 @@ TidyPy Change Log
 .. contents:: Releases
 
 
-0.2.0 (TBD)
-===========
+0.2.0 (2017-11-04)
+==================
 
 Enhancements
 ------------
+* Added a ``2to3`` tool.
 * All tools that report issues against Python source files can now use the
   ``# noqa`` comment to ignore issues for that specific line.
 * Added support for the ``ignore-nosec`` option in the ``bandit`` tool.
