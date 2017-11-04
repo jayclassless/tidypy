@@ -20,6 +20,7 @@ def test_execute_tools(capsys):
     expected_tools.remove('pycodestyle')
     if six.PY3:
         expected_tools.remove('eradicate')
+        expected_tools.remove('2to3')
 
     collector = execute_tools(cfg, 'test/project1', on_tool_start=on_start, on_tool_finish=on_finish)
     assert isinstance(collector, Collector)
