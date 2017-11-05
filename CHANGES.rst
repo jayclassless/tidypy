@@ -5,6 +5,15 @@ TidyPy Change Log
 .. contents:: Releases
 
 
+0.3.0 (TBD)
+===========
+
+Enhancments
+-----------
+* Added ``ignore-directives`` and ``load-directives`` options to the
+  ``rstlint`` tool to help deal with non-standard ReST directives.
+
+
 0.2.0 (2017-11-04)
 ==================
 

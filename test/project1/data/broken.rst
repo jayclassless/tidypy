@@ -7,3 +7,8 @@ World
 
 .. _hello: http://github.com/
 
+.. doesntexist:: blah
+   :foo: bar
+
+.. youtube:: dQw4w9WgXcQ
+

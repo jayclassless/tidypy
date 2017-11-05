@@ -34,6 +34,10 @@ class Finder(object):
             if files
         ])
 
+    @property
+    def project_path(self):
+        return text_type(self.base_path)
+
     def _find(self, path):
         for subpath in path.iterdir():
             if subpath.is_dir():

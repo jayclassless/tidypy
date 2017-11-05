@@ -42,7 +42,7 @@ def test_json_execute(capsys):
     execute_reports(cfg, 'someproject', collector)
 
     expected = '''{
-  "tidypy": "0.2.0",
+  "tidypy": "0.3.0",
   "issues": {
     "blah/bar.py": [
       {
@@ -96,7 +96,7 @@ def test_toml_execute(capsys):
 
     execute_reports(cfg, 'someproject', collector)
 
-    expected = '''tidypy = "0.2.0"
+    expected = '''tidypy = "0.3.0"
 
 [issues]
 
@@ -144,7 +144,7 @@ def test_yaml_execute(capsys):
 
     execute_reports(cfg, 'someproject', collector)
 
-    expected = '''tidypy: 0.2.0
+    expected = '''tidypy: 0.3.0
 issues:
   blah/bar.py:
   - line: 28

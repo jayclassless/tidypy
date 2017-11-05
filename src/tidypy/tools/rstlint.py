@@ -1,9 +1,20 @@
 
+from importlib import import_module
+
 from docutils.nodes import system_message
+from docutils.parsers.rst import Directive, directives
 from docutils.utils import Reporter
 from restructuredtext_lint import lint
+from six import iteritems
 
-from .base import Tool, Issue, AccessIssue, UnknownIssue
+from .base import Tool, Issue, AccessIssue, UnknownIssue, ToolIssue
+
+
+class DummyDirective(Directive):
+    has_content = True
+
+    def run(self):
+        return []
 
 
 class RstLintIssue(Issue):
@@ -23,6 +34,8 @@ class RstLintTool(Tool):
         config['filters'] = [
             r'\.rst$',
         ]
+        config['options']['ignore-directives'] = []
+        config['options']['load-directives'] = {}
         return config
 
     @classmethod
@@ -34,6 +47,8 @@ class RstLintTool(Tool):
 
     def execute(self, finder):
         issues = []
+
+        issues.extend(self.load_docutils_directives(finder.project_path))
 
         for filepath in finder.files(self.config['filters']):
             try:
@@ -54,6 +69,25 @@ class RstLintTool(Tool):
             for issue in issues
             if issue.code not in self.config['disabled']
         ]
+
+    def load_docutils_directives(self, project_path):
+        issues = []
+
+        for name in self.config['options']['ignore-directives']:
+            directives.register_directive(name, DummyDirective)
+        for name, cls in iteritems(self.config['options']['load-directives']):
+            try:
+                mod, clazz = cls.rsplit('.', 1)
+                clazz = getattr(import_module(mod), clazz)
+            except:  # noqa
+                issues.append(ToolIssue(
+                    'Could not load docutils directive %s' % (cls,),
+                    project_path,
+                ))
+            else:
+                directives.register_directive(name, clazz)
+
+        return issues
 
     def make_issue(self, error, filename):
         if isinstance(error, system_message):

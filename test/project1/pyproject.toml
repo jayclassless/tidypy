@@ -2,3 +2,9 @@
 disabled = []
 extends = 'github-gist:5baf85cea2045be585a065650e3ce6dc'
 
+[tool.tidypy.rstlint.options]
+ignore-directives = [
+    'doesntexist',
+]
+load-directives = {youtube = 'rstyoutube.YouTubeDirective', crash = 'adsasda.asddsaa.asdas'}
+
