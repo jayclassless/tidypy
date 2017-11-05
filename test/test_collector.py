@@ -105,7 +105,7 @@ def test_sort_issues_empty():
 
 def test_get_grouped_issues_default():
     cfg = get_default_config()
-    cfg['merge_issues'] = False
+    cfg['merge-issues'] = False
     collector = Collector(cfg)
     expected = {
         'test/file.ext': [
@@ -210,7 +210,7 @@ def test_noqa(tmpdir):
     yaml_file = project_dir.join('file.yaml')
 
     cfg = get_default_config()
-    cfg['merge_issues'] = False
+    cfg['merge-issues'] = False
 
     collector = Collector(cfg)
     good_issues = [

@@ -154,7 +154,7 @@ def process_extensions(config, project_path, use_cache=True):
                 use_cache=use_cache,
             )
         except DoesNotExistError:
-            if not config['ignore_missing_extends']:
+            if not config['ignore-missing-extends']:
                 raise
         else:
             base = merge_dict(base, ext_config, merge_lists=True)
@@ -170,7 +170,7 @@ def get_default_config():
 
     config.update({
         'exclude': [],
-        'merge_issues': True,
+        'merge-issues': True,
         'threads': 3,
         'reports': [
             {
@@ -182,7 +182,7 @@ def get_default_config():
         ],
         'noqa': True,
         'extends': [],
-        'ignore_missing_extends': False,
+        'ignore-missing-extends': False,
     })
 
     return config

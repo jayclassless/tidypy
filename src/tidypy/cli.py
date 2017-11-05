@@ -135,7 +135,7 @@ def check(
     if excludes:
         config['exclude'] = excludes
     if disable_merge:
-        config['merge_issues'] = False
+        config['merge-issues'] = False
     if disable_noqa:
         config['noqa'] = False
     if threads:

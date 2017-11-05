@@ -88,13 +88,13 @@ def test_get_extenders():
 def test_get_default_config():
     actual = get_default_config()
     assert actual['exclude'] == []
-    assert actual['merge_issues'] == True
+    assert actual['merge-issues'] == True
     assert actual['threads'] == 3
     assert actual['reports'] == [{'type': 'console'}]
     assert actual['disabled'] == ['tool']
     assert actual['noqa'] == True
     assert actual['extends'] == []
-    assert actual['ignore_missing_extends'] == False
+    assert actual['ignore-missing-extends'] == False
 
     for tool in get_tools().keys():
         assert tool in actual
@@ -308,7 +308,7 @@ def test_extends_missing(tmpdir, monkeypatch):
     with pytest.raises(DoesNotExistError):
         get_project_config(str(local_dir))
 
-    local_dir.join('pyproject.toml').write("[tool.tidypy]\nextends = ['doesntexist.conf']\nignore_missing_extends = true")
+    local_dir.join('pyproject.toml').write("[tool.tidypy]\nextends = ['doesntexist.conf']\nignore-missing-extends = true")
 
     actual = get_project_config(str(local_dir))
     assert actual['extends'] == ['doesntexist.conf']

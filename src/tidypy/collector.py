@@ -133,7 +133,7 @@ class Collector(object):
             ]
 
         # If merging is disabled, let's bail out here
-        if not self.config['merge_issues']:
+        if not self.config['merge-issues']:
             return issues
 
         # Group the issues by file & line
