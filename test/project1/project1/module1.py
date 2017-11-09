@@ -65,3 +65,7 @@ def complex(a, b, c):
             fobj.write(str(k))
         return k - 1
 
+
+import lxml.etree
+lxml.etree.fromstring('<foo />')
+

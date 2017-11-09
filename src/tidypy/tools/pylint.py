@@ -2,6 +2,8 @@ from __future__ import absolute_import
 
 import os.path
 
+import astroid
+
 from pylint.lint import PyLinter
 from pylint.reporters import BaseReporter
 
@@ -78,7 +80,8 @@ class PyLintTool(Tool):
     def get_default_config(cls):
         config = Tool.get_default_config()
         config['filters'] = []
-        config['plugins'] = []
+        config['options']['plugins'] = []
+        config['options']['extension-pkg-whitelist'] = []
         return config
 
     @classmethod
@@ -109,7 +112,10 @@ class PyLintTool(Tool):
         pylint = PyLinter()
 
         pylint.load_default_plugins()
-        pylint.load_plugin_modules(self.config['plugins'])
+        pylint.load_plugin_modules(self.config['options']['plugins'])
+        astroid.MANAGER.extension_package_whitelist.update(
+            self.config['options']['extension-pkg-whitelist'],
+        )
 
         reporter = TidyPyReporter(
             pylint.msgs_store,
