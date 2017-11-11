@@ -20,6 +20,11 @@ TidyPy Change Log
 * Changed the ``merge_issues`` and ``ignore_missing_extends`` options to
   ``merge-issues`` and ``ignore-missing-extends`` for naming consistency.
 
+**Fixes**
+
+* Fixed issue that caused TidyPy to spin out of control if you used CTRL-C to
+  kill it while it was executing tools.
+
 
 0.2.0 (2017-11-04)
 ==================

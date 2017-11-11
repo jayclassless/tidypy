@@ -16,7 +16,7 @@ from .config import (
     get_project_config,
     purge_config_cache,
 )
-from .progress import TidyBar
+from .progress import QuietProgress, ConsoleProgress
 from .util import output_error, render_toml, render_json, render_yaml
 
 
@@ -149,14 +149,19 @@ def check(
             for report in reports
         ]
 
-    progress = TidyBar(config, quiet=disable_progress)
+    if disable_progress:
+        progress = QuietProgress()
+    else:
+        progress = ConsoleProgress(config)
+
     collector = execute_tools(
         config,
         path,
-        on_tool_start=progress.on_tool_start,
-        on_tool_finish=progress.on_tool_finish,
+        progress=progress,
     )
-    progress.finish()
+
+    if collector.failure:
+        ctx.exit(1)
 
     execute_reports(config, path, collector)
 

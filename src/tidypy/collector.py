@@ -28,6 +28,7 @@ class Collector(object):
     def __init__(self, config):
         self.config = config
         self.all_issues = []
+        self.failure = False
         self._lock = Lock()
         self._noqa = {}
 

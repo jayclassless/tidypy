@@ -1,59 +1,74 @@
 
 from tidypy import get_default_config, get_tools
-from tidypy.progress import TidyBar
+from tidypy.progress import QuietProgress, ConsoleProgress
 
 
-def test_progress(capsys):
+def test_console_progress(capsys):
     cfg = get_default_config()
     for tool in get_tools():
         cfg[tool]['use'] = tool in ('pylint', 'pycodestyle')
 
-    bar = TidyBar(cfg)
+    progress = ConsoleProgress(cfg)
+    progress.on_start()
 
-    bar.on_tool_start('pylint')
-    assert bar.progress == 0
-    assert bar.currently_executing == '[pylint]'
+    progress.on_tool_start('pylint')
+    assert progress.progress == 0
+    assert progress.current_tools == ['pylint']
+    assert progress.completed_tools == []
+    assert progress.currently_executing == '[pylint]'
 
-    bar.on_tool_start('pycodestyle')
-    assert bar.progress == 0
-    assert bar.currently_executing == '[pylint, pycodestyle]'
+    progress.on_tool_start('pycodestyle')
+    assert progress.progress == 0
+    assert progress.current_tools == ['pylint', 'pycodestyle']
+    assert progress.completed_tools == []
+    assert progress.currently_executing == '[pylint, pycodestyle]'
 
-    bar.on_tool_finish('pycodestyle')
-    bar.on_tool_finish('pycodestyle')
-    assert bar.progress == 0.5
-    assert bar.currently_executing == '[pylint]'
+    progress.on_tool_finish('pycodestyle')
+    progress.on_tool_finish('pycodestyle')
+    assert progress.progress == 0.5
+    assert progress.current_tools == ['pylint']
+    assert progress.completed_tools == ['pycodestyle']
+    assert progress.currently_executing == '[pylint]'
 
-    bar.on_tool_finish('pylint')
-    assert bar.progress == 1.0
-    assert bar.currently_executing == ''
+    progress.on_tool_finish('pylint')
+    assert progress.progress == 1.0
+    assert progress.current_tools == []
+    assert progress.completed_tools == ['pycodestyle', 'pylint']
+    assert progress.currently_executing == ''
 
-    bar.finish()
+    progress.notify('testnote')
+    assert progress.notification == '[testnote]'
+
+    progress.on_finish()
 
 
-def test_progress_quiet(capsys):
+def test_quiet_progress(capsys):
     cfg = get_default_config()
     for tool in get_tools():
         cfg[tool]['use'] = tool in ('pylint', 'pycodestyle')
 
-    bar = TidyBar(cfg, quiet=True)
+    progress = QuietProgress()
+    progress.on_start()
 
-    bar.on_tool_start('pylint')
-    assert bar.progress == 0
-    assert bar.currently_executing == ''
+    progress.on_tool_start('pylint')
+    assert progress.current_tools == ['pylint']
+    assert progress.completed_tools == []
 
-    bar.on_tool_start('pycodestyle')
-    assert bar.progress == 0
-    assert bar.currently_executing == ''
+    progress.on_tool_start('pycodestyle')
+    assert progress.current_tools == ['pylint', 'pycodestyle']
+    assert progress.completed_tools == []
 
-    bar.on_tool_finish('pycodestyle')
-    assert bar.progress == 0
-    assert bar.currently_executing == ''
+    progress.on_tool_finish('pycodestyle')
+    assert progress.current_tools == ['pylint']
+    assert progress.completed_tools == ['pycodestyle']
 
-    bar.on_tool_finish('pylint')
-    assert bar.progress == 0
-    assert bar.currently_executing == ''
+    progress.on_tool_finish('pylint')
+    assert progress.current_tools == []
+    assert progress.completed_tools == ['pycodestyle', 'pylint']
 
-    bar.finish()
+    progress.notify('testnote')
+
+    progress.on_finish()
     out, err = capsys.readouterr()
     assert out == ''
     assert err == ''

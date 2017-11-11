@@ -2,19 +2,12 @@
 import six
 
 from tidypy import execute_tools, execute_reports, get_default_config, \
-    get_tools, Collector
+    get_tools, Collector, QuietProgress
 
 
 def test_execute_tools(capsys):
     cfg = get_default_config()
     cfg['pycodestyle']['use'] = False
-
-    started = []
-    def on_start(tool):
-        started.append(tool)
-    finished = []
-    def on_finish(tool):
-        finished.append(tool)
 
     expected_tools = sorted(get_tools())
     expected_tools.remove('pycodestyle')
@@ -22,10 +15,26 @@ def test_execute_tools(capsys):
         expected_tools.remove('eradicate')
         expected_tools.remove('2to3')
 
-    collector = execute_tools(cfg, 'test/project1', on_tool_start=on_start, on_tool_finish=on_finish)
+    progress = QuietProgress()
+    collector = execute_tools(cfg, 'test/project1', progress=progress)
     assert isinstance(collector, Collector)
-    assert expected_tools == sorted(started)
-    assert expected_tools == sorted(finished)
+    assert [] == sorted(progress.current_tools)
+    assert expected_tools == sorted(progress.completed_tools)
+
+    out, err = capsys.readouterr()
+    assert out == ''
+    assert err == ''
+
+
+    for tool in get_tools():
+        cfg[tool]['use'] = False
+
+    progress = QuietProgress()
+    collector = execute_tools(cfg, 'test/project1', progress=progress)
+    assert isinstance(collector, Collector)
+    assert [] == sorted(progress.current_tools)
+    assert [] == sorted(progress.completed_tools)
+    assert [] == collector.all_issues
 
     out, err = capsys.readouterr()
     assert out == ''

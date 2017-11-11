@@ -25,6 +25,12 @@ from .extenders import *
 
 from .finder import Finder
 
+from .progress import (
+    Progress,
+    QuietProgress,
+    ConsoleProgress,
+)
+
 from .reports import *
 
 from .tools import *

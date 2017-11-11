@@ -1,55 +1,71 @@
 
 import sys
 
-from threading import Thread
-
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from six import iteritems
-from six.moves.queue import Queue  # pylint: disable=import-error
 
 from .collector import Collector
 from .config import get_tools, get_reports
 from .finder import Finder
+from .progress import QuietProgress
 from .tools import ToolIssue
 from .util import SysOutCapture
 
 
-def execute_tools(config, path, on_tool_start=None, on_tool_finish=None):
-    finder = Finder(path, config)
+def _execute_tool(tool, finder, collector, progress):
+    name, tool = tool
+    progress.on_tool_start(name)
+
+    try:
+        collector.add_issues(tool.execute(finder))
+    except Exception:  # pylint: disable=broad-except
+        collector.add_issues(ToolIssue(
+            '%s failed horribly' % (name,),
+            finder.project_path,
+            details=sys.exc_info(),
+            failure=True,
+        ))
+
+    progress.on_tool_finish(name)
+
+
+def execute_tools(config, path, progress=None):
+    progress = progress or QuietProgress()
+    progress.on_start()
+
     collector = Collector(config)
-    tool_queue = Queue()
 
-    for name, cls in iteritems(get_tools()):
-        if config[name]['use'] and cls.can_be_used():
-            tool_queue.put(name)
+    tools = [
+        (name, cls(config[name]))
+        for name, cls in iteritems(get_tools())
+        if config[name]['use'] and cls.can_be_used()
+    ]
+    if not tools:
+        return collector
 
-    def worker():
-        while True:
-            tool_name = tool_queue.get()
-            if on_tool_start:
-                on_tool_start(tool_name)
-
-            try:
-                tool = get_tools()[tool_name](config[tool_name])
-                collector.add_issues(tool.execute(finder))
-            except Exception:  # pylint: disable=broad-except
-                collector.add_issues(ToolIssue(
-                    '%s failed horribly' % (tool_name,),
-                    path,
-                    details=sys.exc_info(),
-                    failure=True,
-                ))
-
-            if on_tool_finish:
-                on_tool_finish(tool_name)
-            tool_queue.task_done()
+    finder = Finder(path, config)
 
     with SysOutCapture() as capture:
-        for _ in range(config['threads']):
-            thread = Thread(target=worker)
-            thread.daemon = True
-            thread.start()
+        with ThreadPoolExecutor(max_workers=config['threads']) as executor:
+            jobs = [
+                executor.submit(
+                    _execute_tool,
+                    tool,
+                    finder,
+                    collector,
+                    progress,
+                )
+                for tool in tools
+            ]
 
-        tool_queue.join()
+            try:
+                for future in as_completed(jobs):
+                    future.result()
+            except KeyboardInterrupt:  # pragma: no cover
+                progress.notify('Stopping... please wait')
+                collector.failure = True
+                for job in jobs:
+                    job.cancel()
 
         out = capture.get_stdout()
         if out:
@@ -65,6 +81,8 @@ def execute_tools(config, path, on_tool_start=None, on_tool_finish=None):
                 path,
                 details=err,
             ))
+
+    progress.on_finish()
 
     return collector
 
