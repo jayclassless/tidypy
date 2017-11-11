@@ -25,6 +25,9 @@ TidyPy Change Log
 
 * Fixed issue that caused TidyPy to spin out of control if you used CTRL-C to
   kill it while it was executing tools.
+* Fixed issue where ``pylint``'s ``duplicate-code`` issue was reported only
+  against one file, and it was usually the wrong file. TidyPy will now report
+  an issue against each file identified with the duplicate code.
 
 
 0.2.0 (2017-11-04)

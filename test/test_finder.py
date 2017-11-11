@@ -27,6 +27,7 @@ def test_exclude():
         'project1/broken.py',
         'project1/koi8r.py',
         'project1/module1.py',
+        'project1/module2.py',
         'project1/utf8.py',
         'project1b/__init__.py',
     ])
@@ -49,6 +50,7 @@ def test_files_filter():
         'project1/broken.py',
         'project1/koi8r.py',
         'project1/module1.py',
+        'project1/module2.py',
         'project1/utf8.py',
         'project1b/__init__.py',
     ])
@@ -154,6 +156,7 @@ def test_modules():
         'project1/broken.py',
         'project1/koi8r.py',
         'project1/module1.py',
+        'project1/module2.py',
         'project1/utf8.py',
         'project1b/__init__.py',
         'setup.py'

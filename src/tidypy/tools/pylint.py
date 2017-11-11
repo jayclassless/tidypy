@@ -1,11 +1,17 @@
 from __future__ import absolute_import
 
+try:
+    from pathlib import Path
+except ImportError:
+    from pathlib2 import Path
+
 import os.path
 
 import astroid
 
 from pylint.lint import PyLinter
 from pylint.reporters import BaseReporter
+from six import text_type
 
 from ..util import mod_sys_path, compile_masks, matches_masks
 from .base import Tool, Issue, AccessIssue, ParseIssue
@@ -18,49 +24,110 @@ class PyLintIssue(Issue):
 class TidyPyReporter(BaseReporter):
     name = 'tidypy'
 
-    def __init__(self, message_store, filters):
+    def __init__(self, message_store, filters, finder, targets):
         BaseReporter.__init__(self, output=None)
         self._message_store = message_store
         self._filters = compile_masks(filters)
+        self._targets = targets
+        self._finder = finder
+        self._all_files = finder.files(filters=filters)
         self._tidypy_issues = []
 
-    def handle_message(self, msg):
-        if self._filters and not matches_masks(msg.abspath, self._filters):
-            return
+    def _resolve_filename(self, modname):
+        name = modname.replace('.', os.sep) + '.py'
 
-        if msg.symbol == 'syntax-error':
-            issue = ParseIssue(
+        for target in self._targets:
+            resolved = text_type(Path(target).parent / name)
+            if resolved in self._all_files:
+                return resolved
+
+        return name
+
+    def _is_filtered(self, path):
+        return self._filters and not matches_masks(path, self._filters)
+
+    def _handle_duplicate_code(self, msg):
+        issues = []
+
+        pylint_msg = msg.msg.splitlines()
+
+        dupe_files = []
+        for line in pylint_msg[1:]:
+            if line.startswith('=='):
+                name, line = line[2:].rsplit(':', 1)
+                name = self._resolve_filename(name)
+                if not self._is_filtered(name):
+                    dupe_files.append((
+                        name,
+                        int(line) + 1,
+                    ))
+            else:
+                break
+
+        num_lines = len(pylint_msg) - len(dupe_files)
+
+        if len(dupe_files) > 1:
+            for dupe_file in dupe_files:
+                other_files = [
+                    '%s:%s' % (
+                        self._finder.relative_to_project(dfile[0]),
+                        dfile[1],
+                    )
+                    for dfile in dupe_files
+                    if dfile[0] != dupe_file[0]
+                ]
+                issues.append(PyLintIssue(
+                    code=msg.symbol,
+                    message='Found %s similar lines other files:\n%s' % (
+                        num_lines,
+                        '\n'.join(other_files),
+                    ),
+                    filename=dupe_file[0],
+                    line=dupe_file[1],
+                ))
+
+        return issues
+
+    def handle_message(self, msg):
+        issues = []
+        is_filtered = self._is_filtered(msg.abspath)
+
+        if not is_filtered and msg.symbol == 'syntax-error':
+            issues.append(ParseIssue(
                 msg.msg,
                 msg.abspath,
                 line=msg.line,
                 character=msg.column,
-            )
+            ))
 
-        elif msg.symbol == 'parse-error':
+        elif not is_filtered and msg.symbol == 'parse-error':
             if 'Unable to load file' in msg.msg:
-                issue = AccessIssue(
+                issues.append(AccessIssue(
                     msg.msg.split('\n', 1)[1],
                     msg.abspath,
-                )
+                ))
 
             else:
-                issue = ParseIssue(
+                issues.append(ParseIssue(
                     msg.msg,
                     msg.abspath,
                     line=msg.line,
                     character=msg.column,
-                )
+                ))
 
-        else:
-            issue = PyLintIssue(
+        elif msg.symbol == 'duplicate-code':
+            issues.extend(self._handle_duplicate_code(msg))
+
+        elif not is_filtered:
+            issues.append(PyLintIssue(
                 code=msg.symbol or msg.msg_id,
                 message=msg.msg,
                 filename=msg.abspath,
                 line=msg.line,
                 character=msg.column,
-            )
+            ))
 
-        self._tidypy_issues.append(issue)
+        self._tidypy_issues.extend(issues)
 
     def _display(self, layout):
         pass
@@ -120,6 +187,8 @@ class PyLintTool(Tool):
         reporter = TidyPyReporter(
             pylint.msgs_store,
             filters=self.config['filters'],
+            finder=finder,
+            targets=targets,
         )
         pylint.set_reporter(reporter)
 

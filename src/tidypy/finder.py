@@ -38,6 +38,9 @@ class Finder(object):
     def project_path(self):
         return text_type(self.base_path)
 
+    def relative_to_project(self, filepath):
+        return text_type(Path(filepath).relative_to(self.base_path))
+
     def _find(self, path):
         for subpath in path.iterdir():
             if subpath.is_dir():
