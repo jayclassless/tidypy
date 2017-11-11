@@ -32,7 +32,7 @@ def test_get_tools():
         'pyflakes',
         'pylint',
         'pyroma',
-        'radon',
+        'mccabe',
         'rstlint',
         'vulture',
         'yamllint',

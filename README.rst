@@ -92,7 +92,7 @@ To have TidyPy analyze your project, use the ``check`` subcommand::
                                       the examination. Can be specified multiple
                                       times. Overrides the expressions specified
                                       in the configuration file.
-      -t, --tool [2to3|bandit|eradicate|jsonlint|polint|pycodestyle|pydocstyle|pyflakes|pylint|pyroma|radon|rstlint|vulture|yamllint]
+      -t, --tool [2to3|bandit|eradicate|jsonlint|mccabe|polint|pycodestyle|pydocstyle|pyflakes|pylint|pyroma|rstlint|vulture|yamllint]
                                       Specifies the name of a tool to use during
                                       the examination. Can be specified multiple
                                       times. Overrides the configuration file.
@@ -138,7 +138,7 @@ use the ``list-codes`` subcommand::
       Outputs a listing of all known issue codes that tools may report.
 
     Options:
-      -t, --tool [2to3|bandit|eradicate|jsonlint|polint|pycodestyle|pydocstyle|pyflakes|pylint|pyroma|radon|rstlint|vulture|yamllint]
+      -t, --tool [2to3|bandit|eradicate|jsonlint|mccabe|polint|pycodestyle|pydocstyle|pyflakes|pylint|pyroma|rstlint|vulture|yamllint]
                                       Specifies the name of a tool whose codes
                                       should be output. If not specified, defaults
                                       to all tools.
@@ -257,10 +257,11 @@ pyflakes
 
     .. _Pyflakes: https://github.com/PyCQA/pyflakes
 
-radon
-    `Radon`_ is a Python tool that computes various metrics from the source code.
+mccabe
+    Ned Batchelder's script to check `McCabe`_ the cyclomatic complexity of
+    Python code.
 
-    .. _Radon: https://github.com/rubik/radon
+    .. _McCabe: https://github.com/pycqa/mccabe
 
 jsonlint
     A part of the `demjson`_ package, this tool validates your JSON documents

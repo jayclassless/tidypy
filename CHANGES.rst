@@ -19,6 +19,7 @@ TidyPy Change Log
 
 * Changed the ``merge_issues`` and ``ignore_missing_extends`` options to
   ``merge-issues`` and ``ignore-missing-extends`` for naming consistency.
+* Replaced the ``radon`` tool with the traditional ``mccabe`` tool.
 
 **Fixes**
 
