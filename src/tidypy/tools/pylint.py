@@ -1,10 +1,5 @@
 from __future__ import absolute_import
 
-try:
-    from pathlib import Path
-except ImportError:
-    from pathlib2 import Path
-
 import os.path
 
 import astroid
@@ -13,7 +8,7 @@ from pylint.lint import PyLinter
 from pylint.reporters import BaseReporter
 from six import text_type
 
-from ..util import mod_sys_path, compile_masks, matches_masks
+from ..util import mod_sys_path, compile_masks, matches_masks, Path
 from .base import Tool, Issue, AccessIssue, ParseIssue
 
 

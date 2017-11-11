@@ -18,7 +18,7 @@ def _execute_tool(tool, finder, collector, progress):
 
     try:
         collector.add_issues(tool.execute(finder))
-    except Exception:  # pylint: disable=broad-except
+    except Exception:  # pragma: no cover  # pylint: disable=broad-except
         collector.add_issues(ToolIssue(
             '%s failed horribly' % (name,),
             finder.project_path,
@@ -68,14 +68,14 @@ def execute_tools(config, path, progress=None):
                     job.cancel()
 
         out = capture.get_stdout()
-        if out:
+        if out:  # pragma: no cover
             collector.add_issues(ToolIssue(
                 'Tool(s) wrote to stdout',
                 path,
                 details=out,
             ))
         err = capture.get_stderr()
-        if err:
+        if err:  # pragma: no cover
             collector.add_issues(ToolIssue(
                 'Tool(s) wrote to stderr',
                 path,

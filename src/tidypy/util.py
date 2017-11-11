@@ -9,6 +9,11 @@ import tokenize
 from collections import OrderedDict
 from contextlib import contextmanager
 
+try:
+    from pathlib import Path  # pylint: disable=unused-import
+except ImportError:
+    from pathlib2 import Path
+
 import click
 import pkg_resources
 import pytoml

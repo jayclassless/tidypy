@@ -1,12 +1,7 @@
 
-try:
-    from pathlib import Path
-except ImportError:
-    from pathlib2 import Path
-
 from six import iteritems, itervalues, text_type
 
-from .util import read_file, compile_masks, matches_masks
+from .util import read_file, compile_masks, matches_masks, Path
 
 
 ALWAYS_EXCLUDED_DIRS = compile_masks([

@@ -268,6 +268,11 @@ def test_extends_cache(tmpdir, monkeypatch):
     assert actual['base'] == 'foo'
     assert actual['extension'] == 'cached bar'
 
+    actual = get_project_config(str(local_dir), use_cache=False)
+    assert actual['test'] == 'base'
+    assert actual['base'] == 'foo'
+    assert actual['extension'] == 'bar'
+
 
 def test_extends_cache_win(tmpdir, monkeypatch):
     user_dir = tmpdir.mkdir('win').join('tidypy')

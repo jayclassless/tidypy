@@ -1,9 +1,5 @@
 
-try:
-    from pathlib import Path
-except ImportError:
-    from pathlib2 import Path
-
+from ..util import Path
 from .base import Extender, DoesNotExistError
 
 
