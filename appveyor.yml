@@ -13,5 +13,5 @@ install:
   - "pipenv install --dev --skip-lock"
 
 test_script:
-  - "py.test"
+  - "pipenv run py.test"
 
