@@ -167,7 +167,7 @@ def check(
 
     execute_reports(config, path, collector)
 
-    if collector.get_issues():
+    if collector.issue_count() > 0:
         ctx.exit(1)
 
 

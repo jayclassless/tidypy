@@ -18,7 +18,7 @@ def hook(ui, repo, **kwargs):  # pylint: disable=unused-argument,invalid-name
 
     strict = ui.configbool('tidypy', 'strict', default=False)
 
-    if strict and collector.all_issues:
+    if strict and collector.issue_count() > 0:
         return 1
 
     return 0

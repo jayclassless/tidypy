@@ -49,7 +49,7 @@ def hook(project_path, strict):
     report = ConsoleReport(cfg, project_path)
     report.execute(collector)
 
-    if strict and collector.all_issues:
+    if strict and collector.issue_count() > 0:
         return 1
 
     return 0

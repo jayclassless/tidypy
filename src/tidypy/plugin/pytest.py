@@ -81,7 +81,7 @@ class TidyPyPlugin(object):
                 self.project_path,
             )
 
-            if self.fail_on_issue and self._session_results.all_issues:
+            if self.fail_on_issue and self._session_results.issue_count() > 0:
                 session.testsfailed += 1
 
     def pytest_terminal_summary(self, terminalreporter):

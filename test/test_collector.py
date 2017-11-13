@@ -13,7 +13,8 @@ class BarIssue(Issue):
 def test_basics():
     collector = Collector(get_default_config())
     assert collector.get_issues() == []
-    assert len(collector.all_issues) == 0
+    assert collector.issue_count() == 0
+    assert collector.issue_count(include_unclean=True) == 0
 
     collector.add_issues(
         FooIssue('test', 'test message', 'test/file.ext', 1),
@@ -22,7 +23,8 @@ def test_basics():
         FooIssue('test2', 'test message 2', 'test/file.ext', 2),
         BarIssue('test3', 'test message 3', 'test/file.ext', 3),
     ])
-    assert len(collector.all_issues) == 3
+    assert collector.issue_count() == 3
+    assert collector.issue_count(include_unclean=True) == 3
 
 
 def test_disabled():
@@ -35,8 +37,9 @@ def test_disabled():
         TidyPyIssue('foo', 'message 2', 'test2.py', 3),
     ])
 
-    assert len(collector.all_issues) == 1
-    assert collector.all_issues[0].code == 'code1'
+    assert collector.issue_count() == 1
+    assert collector.issue_count(include_unclean=True) == 2
+    assert collector.get_issues()[0].code == 'code1'
 
 
 def test_sort_issues_default():
@@ -146,6 +149,8 @@ def test_get_grouped_issues_default():
     collector.add_issues(shuffled)
 
     assert collector.get_grouped_issues() == expected
+    assert collector.issue_count() == len(shuffled)
+    assert collector.issue_count(include_unclean=True) == len(shuffled)
 
 
 def test_get_grouped_issues_custom():
@@ -171,6 +176,8 @@ def test_get_grouped_issues_custom():
     collector.add_issues(shuffled)
 
     assert collector.get_grouped_issues(lambda x: x.code, ('tool', 'line')) == expected
+    assert collector.issue_count() == len(shuffled)
+    assert collector.issue_count(include_unclean=True) == len(shuffled)
 
 
 def test_disabled():
@@ -186,6 +193,8 @@ def test_disabled():
     collector.add_issues(issues)
 
     assert collector.get_issues() == issues[1:]
+    assert collector.issue_count() == 2
+    assert collector.issue_count(include_unclean=True) == 3
 
 
 def test_merging_dupes():
@@ -201,6 +210,8 @@ def test_merging_dupes():
     collector.add_issues(issues)
 
     assert collector.get_issues() == [issues[0]] + issues[2:]
+    assert collector.issue_count() == 4
+    assert collector.issue_count(include_unclean=True) == 5
 
 
 def test_noqa(tmpdir):
@@ -231,7 +242,39 @@ def test_noqa(tmpdir):
     collector.add_issues(filtered_issues)
 
     assert good_issues == collector.get_issues(sortby=collector.NO_SORT)
+    assert collector.issue_count() == len(good_issues)
+    assert collector.issue_count(include_unclean=True) == len(good_issues + filtered_issues)
 
+
+def test_noqa_disabled(tmpdir):
+    project_dir = tmpdir.mkdir('noqa')
+    py_file = project_dir.join('file.py')
+    py_file.write('\nsomething  # noqa: test1\n\n# NoQA\n\n\n\n# NOqa: tidypy:test6,foobar,@bar')
+    yaml_file = project_dir.join('file.yaml')
+
+    cfg = get_default_config()
+    cfg['merge-issues'] = False
     cfg['noqa'] = False
+
+    collector = Collector(cfg)
+    good_issues = [
+        TidyPyIssue('test', 'test message', str(py_file), 2),
+        TidyPyIssue('test4', 'test message', str(py_file), 6),
+        TidyPyIssue('test5', 'test message', str(yaml_file), 2),
+        TidyPyIssue('test7', 'test message', str(py_file), 8),
+        BarIssue('test8', 'test message', str(py_file), 7),
+    ]
+    filtered_issues = [
+        TidyPyIssue('test1', 'test message', str(py_file), 2),
+        TidyPyIssue('test2', 'test message', str(py_file), 4),
+        TidyPyIssue('test3', 'test message', str(py_file), 4),
+        TidyPyIssue('test6', 'test message', str(py_file), 8),
+        BarIssue('test9', 'test message', str(py_file), 8),
+    ]
+    collector.add_issues(good_issues)
+    collector.add_issues(filtered_issues)
+
     assert good_issues + filtered_issues == collector.get_issues(sortby=collector.NO_SORT)
+    assert collector.issue_count() == len(good_issues + filtered_issues)
+    assert collector.issue_count(include_unclean=True) == len(good_issues + filtered_issues)
 

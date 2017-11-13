@@ -34,7 +34,8 @@ def test_execute_tools(capsys):
     assert isinstance(collector, Collector)
     assert [] == sorted(progress.current_tools)
     assert [] == sorted(progress.completed_tools)
-    assert [] == collector.all_issues
+    assert collector.issue_count() == 0
+    assert collector.issue_count(include_unclean=True) == 0
 
     out, err = capsys.readouterr()
     assert out == ''

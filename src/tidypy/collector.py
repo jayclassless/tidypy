@@ -1,10 +1,10 @@
 
 import re
 
-from collections import OrderedDict
+from collections import OrderedDict, defaultdict
 from threading import Lock
 
-from six import iteritems, itervalues
+from six import itervalues
 
 from .util import read_file
 
@@ -26,9 +26,10 @@ class Collector(object):
     DEFAULT_SORT = ('filename', 'line', 'character', 'tool', 'code')
 
     def __init__(self, config):
-        self.config = config
-        self.all_issues = []
         self.failure = False
+        self._config = config
+        self._all_issues = []
+        self._cleaned_issues = None
         self._lock = Lock()
         self._noqa = {}
 
@@ -36,25 +37,26 @@ class Collector(object):
         if not isinstance(issues, (list, tuple)):
             issues = [issues]
         with self._lock:
-            self.all_issues.extend([
-                issue
-                for issue in issues
-                if issue.tool != 'tidypy' or (
-                    issue.tool == 'tidypy' and
-                    issue.code not in self.config['disabled']
-                )
-            ])
+            self._all_issues.extend(issues)
+            self._cleaned_issues = None
+
+    def issue_count(self, include_unclean=False):
+        if include_unclean:
+            return len(self._all_issues)
+        self._ensure_cleaned_issues()
+        return len(self._cleaned_issues)
 
     def get_issues(self, sortby=None):
-        issues = self._merge_issues()
-        return self.sort_issues(issues, sortby)
+        self._ensure_cleaned_issues()
+        return self.sort_issues(self._cleaned_issues, sortby)
 
     def get_grouped_issues(self, keyfunc=None, sortby=None):
         if not keyfunc:
             keyfunc = default_group
         if not sortby:
             sortby = self.DEFAULT_SORT
-        return self.group_issues(self.get_issues(), keyfunc, sortby)
+        self._ensure_cleaned_issues()
+        return self.group_issues(self._cleaned_issues, keyfunc, sortby)
 
     def sort_issues(self, issues, attrs=None):
         if attrs is None:
@@ -71,18 +73,14 @@ class Collector(object):
         return issues
 
     def group_issues(self, issues, keyfunc, sortby):
-        grouped = OrderedDict()
-
+        grouped = defaultdict(list)
         for issue in issues:
-            key = keyfunc(issue)
-            if key not in grouped:
-                grouped[key] = []
-            grouped[key].append(issue)
+            grouped[keyfunc(issue)].append(issue)
 
-        for group, group_issues in iteritems(grouped):
-            grouped[group] = self.sort_issues(group_issues, sortby)
-
-        return grouped
+        return OrderedDict([
+            (key, self.sort_issues(grouped[key], sortby))
+            for key in sorted(grouped)
+        ])
 
     def _parse_noqa(self, filename):
         lines = {}
@@ -122,11 +120,23 @@ class Collector(object):
             or ('@%s' % (issue.tool,)) in codes \
             or ('%s:%s' % (issue.tool, issue.code)) in codes
 
-    def _merge_issues(self):
-        issues = self.all_issues
+    def _ensure_cleaned_issues(self):
+        if self._cleaned_issues is None:
+            self._cleaned_issues = self._clean_issues(self._all_issues)
+
+    def _clean_issues(self, issues):
+        # Filter out disabled tidypy issues
+        issues = [
+            issue
+            for issue in issues
+            if issue.tool != 'tidypy' or (
+                issue.tool == 'tidypy' and
+                issue.code not in self._config['disabled']
+            )
+        ]
 
         # Filter out issues for lines marked with "noqa"
-        if self.config['noqa']:
+        if self._config['noqa']:
             issues = [
                 issue
                 for issue in issues
@@ -134,7 +144,7 @@ class Collector(object):
             ]
 
         # If merging is disabled, let's bail out here
-        if not self.config['merge-issues']:
+        if not self._config['merge-issues']:
             return issues
 
         # Group the issues by file & line

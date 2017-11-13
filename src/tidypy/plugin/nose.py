@@ -54,6 +54,6 @@ class TidyPy(Plugin):
         report = ConsoleReport(cfg, self.project_path, output_file=stream)
         report.execute(collector)
 
-        if self.fail_on_issue and collector.all_issues:
+        if self.fail_on_issue and collector.issue_count() > 0:
             sys.exit(1)
 

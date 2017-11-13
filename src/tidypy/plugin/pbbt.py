@@ -41,6 +41,6 @@ class TidyPyCase(BaseCase):
         report = PbbtReport(cfg, project_path, self.ui)
         report.execute(collector)
 
-        if self.input.fail_on_issue and collector.all_issues:
+        if self.input.fail_on_issue and collector.issue_count() > 0:
             self.ctl.failed('Issues found.')
 

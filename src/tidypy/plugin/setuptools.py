@@ -42,6 +42,6 @@ class TidyPyCommand(Command):
         collector = execute_tools(cfg, self.project_path)
         execute_reports(cfg, self.project_path, collector)
 
-        if self.fail_on_issue and collector.all_issues:
+        if self.fail_on_issue and collector.issue_count() > 0:
             sys.exit(1)
 
