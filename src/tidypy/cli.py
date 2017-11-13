@@ -16,6 +16,8 @@ from .config import (
     get_project_config,
     purge_config_cache,
 )
+from .plugin.git import GitHook
+from .plugin.mercurial import MercurialHook
 from .progress import QuietProgress, ConsoleProgress
 from .util import output_error, render_toml, render_json, render_yaml
 
@@ -250,4 +252,84 @@ def default_config(pyproject):
 )
 def purge_cache():
     purge_config_cache()
+
+
+@main.command(
+    'install-vcs',
+    short_help='Installs TidyPy as a pre-commit hook into the specified VCS.',
+    help='''Installs TidyPy as a pre-commit hook into the specified VCS.
+
+Accepts two arguments:
+
+  VCS: The version control system to install the hook into. Choose from: git,
+hg
+
+  PATH: The path to the base of the repository to install the hook into. If not
+specified, defaults to the current working directory.
+''',
+)
+@click.option(
+    '--strict',
+    is_flag=True,
+    help='Whether or not the hook should prevent the commit if TidyPy finds'
+    ' issues.',
+)
+@click.argument(
+    'vcs',
+    type=click.Choice(['git', 'hg']),
+)
+@click.argument(
+    'path',
+    type=click.Path(exists=True),
+    default=os.getcwd(),
+)
+@click.pass_context
+def install_vcs(ctx, vcs, path, strict):
+    if vcs == 'hg':
+        hook = MercurialHook()
+    elif vcs == 'git':
+        hook = GitHook()
+
+    try:
+        hook.install(path, strict)
+    except Exception as exc:  # pylint: disable=broad-except
+        output_error('VCS hook installation failed: %s' % (exc,))
+        ctx.exit(1)
+
+
+@main.command(
+    'remove-vcs',
+    short_help='Removes the TidyPy pre-commit hook from the specified VCS.',
+    help='''Removes the TidyPy pre-commit hook from the specified VCS.
+
+Accepts two arguments:
+
+  VCS: The version control system to remove the hook from. Choose from: git,
+hg
+
+  PATH: The path to the base of the repository to remove the hook from. If not
+specified, defaults to the current working directory.
+''',
+)
+@click.argument(
+    'vcs',
+    type=click.Choice(['git', 'hg']),
+)
+@click.argument(
+    'path',
+    type=click.Path(exists=True),
+    default=os.getcwd(),
+)
+@click.pass_context
+def remove_vcs(ctx, vcs, path):
+    if vcs == 'hg':
+        hook = MercurialHook()
+    elif vcs == 'git':
+        hook = GitHook()
+
+    try:
+        hook.remove(path)
+    except Exception as exc:  # pylint: disable=broad-except
+        output_error('VCS hook removal failed: %s' % (exc,))
+        ctx.exit(1)
 

@@ -14,6 +14,9 @@ TidyPy Change Log
   ``rstlint`` tool to help deal with non-standard ReST directives.
 * Added support for the ``extension-pkg-whitelist`` option to the ``pylint``
   tool.
+* Added ``install-vcs`` and ``remove-vcs`` commands to install/remove
+  pre-commit hooks into the VCS of a project that will execute TidyPy.
+  Currently supports both Git and Mercurial.
 
 **Changes**
 

@@ -1,5 +1,8 @@
 
+import subprocess
+
 from click.testing import CliRunner
+from six import text_type
 
 from tidypy.cli import main
 
@@ -76,4 +79,58 @@ def test_purge_config_cache():
 
     result = runner.invoke(main, ['purge-config-cache'])
     assert result.exit_code == 0
+
+
+def test_vcs_git(tmpdir):
+    git_dir = text_type(tmpdir.mkdir('git'))
+    subprocess.call(['git', 'init', git_dir])
+
+    runner = CliRunner()
+
+    result = runner.invoke(main, ['install-vcs', 'git', git_dir])
+    assert result.exit_code == 0
+
+    result = runner.invoke(main, ['install-vcs', 'git', git_dir])
+    assert result.exit_code == 0
+
+    result = runner.invoke(main, ['remove-vcs', 'git', git_dir])
+    assert result.exit_code == 0
+
+    result = runner.invoke(main, ['remove-vcs', 'git', git_dir])
+    assert result.exit_code == 0
+
+    other_dir = text_type(tmpdir.mkdir('other'))
+
+    result = runner.invoke(main, ['install-vcs', 'git', other_dir])
+    assert result.exit_code == 1
+
+    result = runner.invoke(main, ['remove-vcs', 'git', other_dir])
+    assert result.exit_code == 0
+
+
+def test_vcs_mercurial(tmpdir):
+    hg_dir = text_type(tmpdir.mkdir('mercurial'))
+    subprocess.call(['hg', 'init', hg_dir])
+
+    runner = CliRunner()
+
+    result = runner.invoke(main, ['install-vcs', 'hg', hg_dir])
+    assert result.exit_code == 0
+
+    result = runner.invoke(main, ['install-vcs', 'hg', hg_dir])
+    assert result.exit_code == 0
+
+    result = runner.invoke(main, ['remove-vcs', 'hg', hg_dir])
+    assert result.exit_code == 0
+
+    result = runner.invoke(main, ['remove-vcs', 'hg', hg_dir])
+    assert result.exit_code == 0
+
+    other_dir = text_type(tmpdir.mkdir('other'))
+
+    result = runner.invoke(main, ['install-vcs', 'hg', other_dir])
+    assert result.exit_code == 1
+
+    result = runner.invoke(main, ['remove-vcs', 'hg', other_dir])
+    assert result.exit_code == 1
 

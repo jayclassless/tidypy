@@ -71,10 +71,14 @@ your environment::
       check               Executes the tools upon the project files.
       default-config      Outputs a default configuration that can be used to
                           bootstrap your own configuration file.
+      install-vcs         Installs TidyPy as a pre-commit hook into the specified
+                          VCS.
       list-codes          Outputs a listing of all known issue codes that tools
                           may report.
       purge-config-cache  Deletes the cache of configurations retrieved from
                           outside the primary configuration.
+      remove-vcs          Removes the TidyPy pre-commit hook from the specified
+                          VCS.
 
 To have TidyPy analyze your project, use the ``check`` subcommand::
 
@@ -147,6 +151,43 @@ use the ``list-codes`` subcommand::
                                       should be output. If not specified, defaults
                                       to TOML.
       --help                          Show this message and exit.
+
+If you want to install or remove TidyPy as a pre-commit hook in your project's
+VCS, use the ``install-vcs``/``remove-vcs`` subcommands::
+
+    $ tidypy install-vcs --help
+    Usage: tidypy install-vcs [OPTIONS] VCS [PATH]
+
+      Installs TidyPy as a pre-commit hook into the specified VCS.
+
+      Accepts two arguments:
+
+        VCS: The version control system to install the hook into. Choose from:
+        git, hg
+
+        PATH: The path to the base of the repository to install the hook into.
+        If not specified, defaults to the current working directory.
+
+    Options:
+      --strict  Whether or not the hook should prevent the commit if TidyPy finds
+                issues.
+      --help    Show this message and exit.
+
+    $ tidypy remove-vcs --help
+    Usage: tidypy remove-vcs [OPTIONS] VCS [PATH]
+
+      Removes the TidyPy pre-commit hook from the specified VCS.
+
+      Accepts two arguments:
+
+        VCS: The version control system to remove the hook from. Choose from:
+        git, hg
+
+        PATH: The path to the base of the repository to remove the hook from. If
+        not specified, defaults to the current working directory.
+
+    Options:
+      --help  Show this message and exit.
 
 If you'd like to enable bash completion for TidyPy, run the following in your
 shell (or put it in your bash startup scripts)::
