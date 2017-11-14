@@ -1,9 +1,18 @@
 # -*- coding: utf-8 -*-
 
 import os
+import sys
 
 from tidypy import Finder, get_default_config
 
+
+def fix_paths(paths):
+    if sys.platform == 'win32':
+        paths = [
+            path.replace('/', '\\')
+            for path in paths
+        ]
+    return paths
 
 def test_exclude():
     cfg = get_default_config()
@@ -13,7 +22,7 @@ def test_exclude():
     ]
     finder = Finder('test/project1', cfg)
 
-    expected = sorted([
+    expected = sorted(fix_paths([
         'data/broken.json',
         'data/broken.po',
         'data/broken.pot',
@@ -30,7 +39,7 @@ def test_exclude():
         'project1/module2.py',
         'project1/utf8.py',
         'project1b/__init__.py',
-    ])
+    ]))
 
     actual = sorted([
         os.path.relpath(f, 'test/project1')
@@ -44,7 +53,7 @@ def test_files_filter():
     cfg = get_default_config()
     finder = Finder('test/project1', cfg)
 
-    expected = sorted([
+    expected = sorted(fix_paths([
         'setup.py',
         'project1/__init__.py',
         'project1/broken.py',
@@ -53,7 +62,7 @@ def test_files_filter():
         'project1/module2.py',
         'project1/utf8.py',
         'project1b/__init__.py',
-    ])
+    ]))
 
     actual = sorted([
         os.path.relpath(f, 'test/project1')
@@ -68,11 +77,11 @@ def test_directories():
     cfg['exclude'] = ['project1b']
     finder = Finder('test/project1', cfg)
 
-    expected = sorted([
+    expected = sorted(fix_paths([
         '.',
         'data',
         'project1',
-    ])
+    ]))
 
     actual = sorted([
         os.path.relpath(f, 'test/project1')
@@ -86,9 +95,9 @@ def test_directories_filters():
     cfg = get_default_config()
     finder = Finder('test/project1', cfg)
 
-    expected = sorted([
+    expected = sorted(fix_paths([
         'data',
-    ])
+    ]))
 
     actual = sorted([
         os.path.relpath(f, 'test/project1')
@@ -102,9 +111,9 @@ def test_directories_containing():
     cfg = get_default_config()
     finder = Finder('test/project1', cfg)
 
-    expected = sorted([
+    expected = sorted(fix_paths([
         'project1',
-    ])
+    ]))
 
     actual = sorted([
         os.path.relpath(f, 'test/project1')
@@ -118,10 +127,10 @@ def test_packages():
     cfg = get_default_config()
     finder = Finder('test/project1', cfg)
 
-    expected = sorted([
+    expected = sorted(fix_paths([
         'project1',
         'project1b',
-    ])
+    ]))
 
     actual = sorted([
         os.path.relpath(f, 'test/project1')
@@ -135,9 +144,9 @@ def test_packages_filters():
     cfg = get_default_config()
     finder = Finder('test/project1', cfg)
 
-    expected = sorted([
+    expected = sorted(fix_paths([
         'project1',
-    ])
+    ]))
 
     actual = sorted([
         os.path.relpath(f, 'test/project1')
@@ -151,7 +160,7 @@ def test_modules():
     cfg = get_default_config()
     finder = Finder('test/project1', cfg)
 
-    expected = sorted([
+    expected = sorted(fix_paths([
         'project1/__init__.py',
         'project1/broken.py',
         'project1/koi8r.py',
@@ -160,7 +169,7 @@ def test_modules():
         'project1/utf8.py',
         'project1b/__init__.py',
         'setup.py'
-    ])
+    ]))
 
     actual = sorted([
         os.path.relpath(f, 'test/project1')
@@ -174,9 +183,9 @@ def test_modules_filters():
     cfg = get_default_config()
     finder = Finder('test/project1', cfg)
 
-    expected = sorted([
+    expected = sorted(fix_paths([
         'project1/module1.py',
-    ])
+    ]))
 
     actual = sorted([
         os.path.relpath(f, 'test/project1')

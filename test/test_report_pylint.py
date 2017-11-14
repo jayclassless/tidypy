@@ -1,4 +1,6 @@
 
+import sys
+
 from tidypy import execute_reports, get_default_config, Collector, TidyPyIssue
 
 
@@ -32,6 +34,26 @@ ISSUES = [
 ]
 
 
+if sys.platform == 'win32':
+    EXPECTED_PYLINT = '''************* Module blah.bar
+F: 28, 0: Message 1 (code1@tidypy)
+************* Module foo
+F:  2, 0: Message 2 (code2@tidypy)
+F:  5,22: Message 1 (code1@tidypy)
+************* Module subdir\\foobar.json
+F:  5,22: Message 3 (code3@tidypy)
+'''.replace('\n', '\r\n')
+else:
+    EXPECTED_PYLINT = '''************* Module blah.bar
+F: 28, 0: Message 1 (code1@tidypy)
+************* Module foo
+F:  2, 0: Message 2 (code2@tidypy)
+F:  5,22: Message 1 (code1@tidypy)
+************* Module subdir/foobar.json
+F:  5,22: Message 3 (code3@tidypy)
+'''
+
+
 def test_execute(capsys):
     cfg = get_default_config()
     cfg['reports'] = [{'type': 'pylint'}]
@@ -41,17 +63,8 @@ def test_execute(capsys):
 
     execute_reports(cfg, 'someproject', collector)
 
-    expected = '''************* Module blah.bar
-F: 28, 0: Message 1 (code1@tidypy)
-************* Module foo
-F:  2, 0: Message 2 (code2@tidypy)
-F:  5,22: Message 1 (code1@tidypy)
-************* Module subdir/foobar.json
-F:  5,22: Message 3 (code3@tidypy)
-'''
-
     out, err = capsys.readouterr()
-    assert out == expected
+    assert out == EXPECTED_PYLINT
     assert err == ''
 
 

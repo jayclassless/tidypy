@@ -1,4 +1,6 @@
 
+import sys
+
 from tidypy import execute_reports, get_default_config, Collector, TidyPyIssue
 
 
@@ -38,25 +40,27 @@ ISSUES = [
 ]
 
 
-def test_json_execute(capsys):
-    cfg = get_default_config()
-    cfg['reports'] = [{'type': 'console'}]
+if sys.platform == 'win32':
+    EXPECTED_CONSOLE = u'''baz.py (1)
+   33     Message 5
+          Has some newlines
+          Like these
+          (tidypy:code5)
 
-    collector = Collector(cfg)
+blah\\bar.py (1)
+   28     Message 1 (tidypy:code1)
 
-    execute_reports(cfg, 'someproject', collector)
+foo.py (2)
+    2     Message 2 (tidypy:code2)
+    5:23  Message 1 (tidypy:code1)
 
-    expected = u'\u2714 No issues found!\n'
+subdir\\foobar.json (1)
+    5:23  Message 3 (tidypy:code3)
 
-    out, err = capsys.readouterr()
-    assert out == expected
-    assert err == ''
-
-
-    collector.add_issues(ISSUES)
-    execute_reports(cfg, 'someproject', collector)
-
-    expected = u'''baz.py (1)
+\u2717 5 issues found.
+'''.replace('\n', '\r\n')
+else:
+    EXPECTED_CONSOLE = u'''baz.py (1)
    33     Message 5
           Has some newlines
           Like these
@@ -75,7 +79,28 @@ subdir/foobar.json (1)
 \u2717 5 issues found.
 '''
 
+
+def test_console_execute(capsys):
+    cfg = get_default_config()
+    cfg['reports'] = [{'type': 'console'}]
+
+    collector = Collector(cfg)
+
+    execute_reports(cfg, 'someproject', collector)
+
+    expected = u'\u2714 No issues found!\n'
+    if sys.platform == 'win32':
+        expected = expected.replace('\n', '\r\n')
+
     out, err = capsys.readouterr()
     assert out == expected
+    assert err == ''
+
+
+    collector.add_issues(ISSUES)
+    execute_reports(cfg, 'someproject', collector)
+
+    out, err = capsys.readouterr()
+    assert out == EXPECTED_CONSOLE
     assert err == ''
 
