@@ -39,7 +39,7 @@ ISSUES = [
 
 
 if sys.platform == 'win32':
-    EXPECTED_JSON = windows_newlines('''{
+    EXPECTED_JSON = '''{
   "tidypy": "0.3.0",
   "issues": {
     "blah\\bar.py": [
@@ -78,7 +78,7 @@ if sys.platform == 'win32':
     ]
   }
 }
-''')
+'''
 else:
     EXPECTED_JSON = '''{
   "tidypy": "0.3.0",
@@ -137,7 +137,7 @@ def test_json_execute(capsys):
 
 
 if sys.platform == 'win32':
-    EXPECTED_TOML = windows_newlines('''tidypy = "0.3.0"
+    EXPECTED_TOML = '''tidypy = "0.3.0"
 
 [issues]
 
@@ -169,7 +169,7 @@ code = "code3"
 tool = "tidypy"
 message = "Message 3"
 
-''')
+'''
 else:
     EXPECTED_TOML = '''tidypy = "0.3.0"
 
@@ -291,12 +291,12 @@ def test_yaml_execute(capsys):
 
 
 if sys.platform == 'win32':
-    EXPECTED_CSV = windows_newlines('''filename,line,character,tool,code,message
+    EXPECTED_CSV = '''filename,line,character,tool,code,message
 blah\\bar.py,28,0,tidypy,code1,Message 1
 foo.py,2,0,tidypy,code2,Message 2
 foo.py,5,23,tidypy,code1,Message 1
 subdir\\foobar.json,5,23,tidypy,code3,Message 3
-''')
+'''
 else:
     EXPECTED_CSV = '''filename,line,character,tool,code,message
 blah/bar.py,28,0,tidypy,code1,Message 1
@@ -346,5 +346,5 @@ def test_csv_file_output(capsys, tmpdir):
     assert out == ''
     assert err == ''
 
-    assert EXPECTED_CSV == open(test_file, 'r').read()
+    assert EXPECTED_CSV.replace('\r\n', '\n') == open(test_file, 'r').read()
 

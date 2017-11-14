@@ -199,18 +199,30 @@ def test_topmost_directories():
     cfg = get_default_config()
     finder = Finder('test/project1', cfg)
 
-    expected = sorted([
-        '/foo/bar',
-        '/else/where',
-    ])
-
-    actual = sorted(finder.topmost_directories([
-        '/foo/bar',
-        '/foo/bar/baz',
-        '/foo/bar/blah',
-        '/foo/bar/blah/a/b',
-        '/else/where'
-    ]))
+    if sys.platform == 'win32':
+        expected = sorted([
+            'c:\\\\foo\\bar',
+            'c:\\\\else\\where',
+        ])
+        actual = sorted(finder.topmost_directories([
+            'c:\\\\foo\\bar',
+            'c:\\\\foo\\bar\\baz',
+            'c:\\\\foo\\bar\\blah',
+            'c:\\\\foo\\bar\\blah\\a\\b',
+            'c:\\\\else\\where'
+        ]))
+    else:
+        expected = sorted([
+            '/foo/bar',
+            '/else/where',
+        ])
+        actual = sorted(finder.topmost_directories([
+            '/foo/bar',
+            '/foo/bar/baz',
+            '/foo/bar/blah',
+            '/foo/bar/blah/a/b',
+            '/else/where'
+        ]))
 
     assert expected == actual
     assert finder.topmost_directories([]) == []
