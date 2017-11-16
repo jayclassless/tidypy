@@ -190,7 +190,7 @@ def get_default_config():
 
 def get_user_config(project_path, use_cache=True):
     if sys.platform == 'win32':
-        user_config = os.path.expanduser(r'~\tidypy')
+        user_config = os.path.expanduser(r'~\\tidypy')
     else:
         user_config = os.path.join(
             os.getenv('XDG_CONFIG_HOME') or os.path.expanduser('~/.config'),

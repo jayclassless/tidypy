@@ -1,6 +1,8 @@
 
 import subprocess
 
+import pytest
+
 from click.testing import CliRunner
 from six import text_type
 
@@ -81,6 +83,16 @@ def test_purge_config_cache():
     assert result.exit_code == 0
 
 
+def executable_exists(executable):
+    try:
+        subprocess.call([executable])
+    except OSError:
+        return False
+    else:
+        return True
+
+
+@pytest.mark.skipif(not executable_exists('git'), reason='git not available')
 def test_vcs_git(tmpdir):
     git_dir = text_type(tmpdir.mkdir('git'))
     subprocess.call(['git', 'init', git_dir])
@@ -108,6 +120,7 @@ def test_vcs_git(tmpdir):
     assert result.exit_code == 0
 
 
+@pytest.mark.skipif(not executable_exists('hg'), reason='hg not available')
 def test_vcs_mercurial(tmpdir):
     hg_dir = text_type(tmpdir.mkdir('mercurial'))
     subprocess.call(['hg', 'init', hg_dir])

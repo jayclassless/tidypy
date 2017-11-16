@@ -40,27 +40,7 @@ ISSUES = [
 ]
 
 
-if sys.platform == 'win32':
-    EXPECTED_CONSOLE = u'''baz.py (1)
-   33     Message 5
-          Has some newlines
-          Like these
-          (tidypy:code5)
-
-blah\\bar.py (1)
-   28     Message 1 (tidypy:code1)
-
-foo.py (2)
-    2     Message 2 (tidypy:code2)
-    5:23  Message 1 (tidypy:code1)
-
-subdir\\foobar.json (1)
-    5:23  Message 3 (tidypy:code3)
-
-\u2717 5 issues found.
-'''.replace('\n', '\r\n')
-else:
-    EXPECTED_CONSOLE = u'''baz.py (1)
+EXPECTED_CONSOLE = u'''baz.py (1)
    33     Message 5
           Has some newlines
           Like these
@@ -101,6 +81,6 @@ def test_console_execute(capsys):
     execute_reports(cfg, 'someproject', collector)
 
     out, err = capsys.readouterr()
-    assert out == EXPECTED_CONSOLE
+    assert out.replace('\r\n', '\n') == EXPECTED_CONSOLE
     assert err == ''
 

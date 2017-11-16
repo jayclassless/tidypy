@@ -201,15 +201,15 @@ def test_topmost_directories():
 
     if sys.platform == 'win32':
         expected = sorted([
-            'c:\\\\foo\\bar',
-            'c:\\\\else\\where',
+            'c:\\foo\\bar',
+            'c:\\else\\where',
         ])
         actual = sorted(finder.topmost_directories([
-            'c:\\\\foo\\bar',
-            'c:\\\\foo\\bar\\baz',
-            'c:\\\\foo\\bar\\blah',
-            'c:\\\\foo\\bar\\blah\\a\\b',
-            'c:\\\\else\\where'
+            'c:\\foo\\bar',
+            'c:\\foo\\bar\\baz',
+            'c:\\foo\\bar\\blah',
+            'c:\\foo\\bar\\blah\\a\\b',
+            'c:\\else\\where',
         ]))
     else:
         expected = sorted([
@@ -250,8 +250,8 @@ def test_read_file():
     finder = Finder('test/project1', cfg)
 
     expected = "# -*- coding: utf-8 -*-\n\ntest = 'ҖՄڇឈ'\n\n"
-    assert expected == finder.read_file('test/project1/project1/utf8.py')
+    assert expected == finder.read_file('test/project1/project1/utf8.py').replace('\r\n', '\n')
 
     expected = "# -*- coding: koi8-r -*-\n\ntest = '©©© ©©©©©© ©©©©©©©©©©©'\n\n"
-    assert expected == finder.read_file('test/project1/project1/koi8r.py')
+    assert expected == finder.read_file('test/project1/project1/koi8r.py').replace('\r\n', '\n')
 

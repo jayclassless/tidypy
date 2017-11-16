@@ -31,6 +31,6 @@ class PyLintReport(Report):
         filename = self.relative_filename(filename)
         root, ext = os.path.splitext(filename)
         if ext == '.py':
-            return root.replace(os.sep, '.')
+            return root.replace('/', '.')
         return filename
 

@@ -102,11 +102,11 @@ def test_get_default_config():
 
 def test_get_user_config_win(tmpdir, monkeypatch):
     project_dir = tmpdir.mkdir('project')
-    user_dir = tmpdir.mkdir('win').join('tidypy')
-    user_dir.write('[tidypy]\ntest = 1')
+    user_dir = tmpdir.mkdir('win')
+    user_dir.join('tidypy').write('[tidypy]\ntest = 1')
     monkeypatch.setattr(sys, 'platform', 'win32')
     def mockreturn(path):
-        return str(user_dir)
+        return path.replace('~', str(user_dir))
     monkeypatch.setattr(os.path, 'expanduser', mockreturn)
 
     actual = get_user_config(str(project_dir))
@@ -118,9 +118,7 @@ def test_get_user_config_other(tmpdir, monkeypatch):
     user_dir = tmpdir.mkdir('nix')
     user_dir.join('tidypy').write('[tidypy]\ntest = 2')
     monkeypatch.setattr(sys, 'platform', 'darwin')
-    def mockreturn(path):
-        return str(user_dir)
-    monkeypatch.setattr(os.path, 'expanduser', mockreturn)
+    monkeypatch.setenv('XDG_CONFIG_HOME', str(user_dir))
 
     actual = get_user_config(str(project_dir))
     assert actual['test'] == 2
@@ -130,7 +128,7 @@ def test_get_user_config_missing(tmpdir, monkeypatch):
     project_dir = tmpdir.mkdir('project')
     user_dir = tmpdir.mkdir('missing')
     def mockreturn(path):
-        return str(user_dir)
+        return path.replace('~', str(user_dir))
     monkeypatch.setattr(os.path, 'expanduser', mockreturn)
 
     actual = get_user_config(str(project_dir))
@@ -157,7 +155,7 @@ def test_get_project_config_local(tmpdir, monkeypatch):
     user_dir.join('tidypy').write('[tidypy]\ntest = 4')
     monkeypatch.setattr(sys, 'platform', 'darwin')
     def mockreturn(path):
-        return str(user_dir)
+        return path.replace('~', str(user_dir))
     monkeypatch.setattr(os.path, 'expanduser', mockreturn)
 
     local_dir = tmpdir.mkdir('local')
@@ -171,9 +169,7 @@ def test_get_project_config_user(tmpdir, monkeypatch):
     user_dir = tmpdir.mkdir('nix')
     user_dir.join('tidypy').write('[tidypy]\ntest = 4')
     monkeypatch.setattr(sys, 'platform', 'darwin')
-    def mockreturn(path):
-        return str(user_dir)
-    monkeypatch.setattr(os.path, 'expanduser', mockreturn)
+    monkeypatch.setenv('XDG_CONFIG_HOME', str(user_dir))
 
     local_dir = tmpdir.mkdir('local')
 
@@ -185,7 +181,7 @@ def test_get_project_config_default(tmpdir, monkeypatch):
     user_dir = tmpdir.mkdir('nix')
     monkeypatch.setattr(sys, 'platform', 'darwin')
     def mockreturn(path):
-        return str(user_dir)
+        return path.replace('~', str(user_dir))
     monkeypatch.setattr(os.path, 'expanduser', mockreturn)
 
     local_dir = tmpdir.mkdir('local')
@@ -198,7 +194,7 @@ def test_extends_default(tmpdir, monkeypatch):
     user_dir = tmpdir.mkdir('nix')
     monkeypatch.setattr(sys, 'platform', 'darwin')
     def mockreturn(path):
-        return str(user_dir)
+        return path.replace('~', str(user_dir))
     monkeypatch.setattr(os.path, 'expanduser', mockreturn)
 
     local_dir = tmpdir.mkdir('local')
@@ -228,7 +224,7 @@ def test_extends_multiple(tmpdir, monkeypatch):
         user_dir = tmpdir.mkdir('nix')
         monkeypatch.setattr(sys, 'platform', 'darwin')
         def mockreturn(path):
-            return str(user_dir)
+            return path.replace('~', str(user_dir))
         monkeypatch.setattr(os.path, 'expanduser', mockreturn)
 
         local_dir = tmpdir.mkdir('local')
@@ -247,7 +243,7 @@ def test_extends_cache(tmpdir, monkeypatch):
     user_dir = tmpdir.mkdir('nix')
     monkeypatch.setattr(sys, 'platform', 'darwin')
     def mockreturn(path):
-        return str(user_dir)
+        return path.replace('~', str(user_dir))
     monkeypatch.setattr(os.path, 'expanduser', mockreturn)
 
     local_dir = tmpdir.mkdir('local')
@@ -278,7 +274,7 @@ def test_extends_cache_win(tmpdir, monkeypatch):
     user_dir = tmpdir.mkdir('win').join('tidypy')
     monkeypatch.setattr(sys, 'platform', 'win32')
     def mockreturn(path):
-        return str(user_dir)
+        return path.replace('~', str(user_dir))
     monkeypatch.setattr(os.path, 'expanduser', mockreturn)
 
     local_dir = tmpdir.mkdir('local')
@@ -304,7 +300,7 @@ def test_extends_missing(tmpdir, monkeypatch):
     user_dir = tmpdir.mkdir('nix')
     monkeypatch.setattr(sys, 'platform', 'darwin')
     def mockreturn(path):
-        return str(user_dir)
+        return path.replace('~', str(user_dir))
     monkeypatch.setattr(os.path, 'expanduser', mockreturn)
 
     local_dir = tmpdir.mkdir('local')
@@ -323,7 +319,7 @@ def test_purge_config_cache(tmpdir, monkeypatch):
     user_dir = tmpdir.mkdir('nix')
     monkeypatch.setattr(sys, 'platform', 'darwin')
     def mockreturn(path):
-        return str(user_dir)
+        return path.replace('~', str(user_dir))
     monkeypatch.setattr(os.path, 'expanduser', mockreturn)
 
     put_config_cache('foo', {'tidypy': {'foo': 1}})

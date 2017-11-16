@@ -4,6 +4,8 @@ import click
 
 from six import text_type
 
+from ..util import Path
+
 
 class Report(object):
     def __init__(self, config, base_path, output_file=None):
@@ -31,7 +33,7 @@ class Report(object):
             self.output_file.close()
 
     def relative_filename(self, filename):
-        return os.path.relpath(filename, self.base_path)
+        return Path(filename).relative_to(self.base_path).as_posix()
 
     def output(self, msg, newline=True):
         click.echo(text_type(msg), nl=newline, file=self.output_file)

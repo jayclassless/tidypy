@@ -1,6 +1,4 @@
 
-import sys
-
 from tidypy import execute_reports, get_default_config, Collector, TidyPyIssue
 
 
@@ -34,14 +32,7 @@ ISSUES = [
 ]
 
 
-if sys.platform == 'win32':
-    EXPECTED_PYCODESTYLE = '''blah\\bar.py:28:0 code1@tidypy Message 1
-foo.py:2:0 code2@tidypy Message 2
-foo.py:5:23 code1@tidypy Message 1
-subdir\\foobar.json:5:23 code3@tidypy Message 3
-'''.replace('\n', '\r\n')
-else:
-    EXPECTED_PYCODESTYLE = '''blah/bar.py:28:0 code1@tidypy Message 1
+EXPECTED_PYCODESTYLE = '''blah/bar.py:28:0 code1@tidypy Message 1
 foo.py:2:0 code2@tidypy Message 2
 foo.py:5:23 code1@tidypy Message 1
 subdir/foobar.json:5:23 code3@tidypy Message 3
@@ -58,6 +49,6 @@ def test_execute(capsys):
     execute_reports(cfg, 'someproject', collector)
 
     out, err = capsys.readouterr()
-    assert out == EXPECTED_PYCODESTYLE
+    assert out.replace('\r\n', '\n') == EXPECTED_PYCODESTYLE
     assert err == ''
 

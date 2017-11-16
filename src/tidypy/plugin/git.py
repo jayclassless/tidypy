@@ -56,6 +56,14 @@ def hook(project_path, strict):
 
 
 class GitHook(object):
+    def __init__(self):
+        try:
+            subprocess.call(['git'])
+        except OSError:
+            self._git_available = False
+        else:
+            self._git_available = True
+
     def get_hook_dir(self, path, ensure_exists=False):
         git_dir = os.path.join(path, '.git')
         if not os.path.exists(git_dir):
@@ -96,7 +104,8 @@ class GitHook(object):
 
         os.chmod(hook_filepath, stat.S_IRWXU | stat.S_IRGRP | stat.S_IROTH)
 
-        git_config('--add', 'tidypy.strict', text_type(strict).lower())
+        if self._git_available:
+            git_config('--add', 'tidypy.strict', text_type(strict).lower())
 
     def remove(self, path):
         hook_dir = self.get_hook_dir(path)
@@ -115,5 +124,6 @@ class GitHook(object):
 
         os.remove(hook_filepath)
 
-        git_config('--remove-section', 'tidypy')
+        if self._git_available:
+            git_config('--remove-section', 'tidypy')
 

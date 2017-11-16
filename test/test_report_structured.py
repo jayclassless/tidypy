@@ -4,10 +4,6 @@ import sys
 from tidypy import execute_reports, get_default_config, Collector, TidyPyIssue
 
 
-def windows_newlines(val):
-    return val.replace('\n', '\r\n')
-
-
 ISSUES = [
     TidyPyIssue(
         'code1',
@@ -38,49 +34,7 @@ ISSUES = [
 ]
 
 
-if sys.platform == 'win32':
-    EXPECTED_JSON = '''{
-  "tidypy": "0.3.0",
-  "issues": {
-    "blah\\bar.py": [
-      {
-        "line": 28,
-        "character": 0,
-        "code": "code1",
-        "tool": "tidypy",
-        "message": "Message 1"
-      }
-    ],
-    "foo.py": [
-      {
-        "line": 2,
-        "character": 0,
-        "code": "code2",
-        "tool": "tidypy",
-        "message": "Message 2"
-      },
-      {
-        "line": 5,
-        "character": 23,
-        "code": "code1",
-        "tool": "tidypy",
-        "message": "Message 1"
-      }
-    ],
-    "subdir\\foobar.json": [
-      {
-        "line": 5,
-        "character": 23,
-        "code": "code3",
-        "tool": "tidypy",
-        "message": "Message 3"
-      }
-    ]
-  }
-}
-'''
-else:
-    EXPECTED_JSON = '''{
+EXPECTED_JSON = '''{
   "tidypy": "0.3.0",
   "issues": {
     "blah/bar.py": [
@@ -132,46 +86,11 @@ def test_json_execute(capsys):
     execute_reports(cfg, 'someproject', collector)
 
     out, err = capsys.readouterr()
-    assert EXPECTED_JSON == out
+    assert EXPECTED_JSON == out.replace('\r\n', '\n')
     assert err == ''
 
 
-if sys.platform == 'win32':
-    EXPECTED_TOML = '''tidypy = "0.3.0"
-
-[issues]
-
-[[issues."blah\\bar.py"]]
-line = 28
-character = 0
-code = "code1"
-tool = "tidypy"
-message = "Message 1"
-
-[[issues."foo.py"]]
-line = 2
-character = 0
-code = "code2"
-tool = "tidypy"
-message = "Message 2"
-
-[[issues."foo.py"]]
-line = 5
-character = 23
-code = "code1"
-tool = "tidypy"
-message = "Message 1"
-
-[[issues."subdir\\foobar.json"]]
-line = 5
-character = 23
-code = "code3"
-tool = "tidypy"
-message = "Message 3"
-
-'''
-else:
-    EXPECTED_TOML = '''tidypy = "0.3.0"
+EXPECTED_TOML = '''tidypy = "0.3.0"
 
 [issues]
 
@@ -216,39 +135,12 @@ def test_toml_execute(capsys):
     execute_reports(cfg, 'someproject', collector)
 
     out, err = capsys.readouterr()
-    assert EXPECTED_TOML == out
+    print out
+    assert EXPECTED_TOML == out.replace('\r\n', '\n')
     assert err == ''
 
 
-if sys.platform == 'win32':
-    EXPECTED_YAML = windows_newlines('''tidypy: 0.3.0
-issues:
-  blah\\bar.py:
-  - line: 28
-    character: 0
-    code: code1
-    tool: tidypy
-    message: Message 1
-  foo.py:
-  - line: 2
-    character: 0
-    code: code2
-    tool: tidypy
-    message: Message 2
-  - line: 5
-    character: 23
-    code: code1
-    tool: tidypy
-    message: Message 1
-  subdir\\foobar.json:
-  - line: 5
-    character: 23
-    code: code3
-    tool: tidypy
-    message: Message 3
-''')
-else:
-    EXPECTED_YAML = '''tidypy: 0.3.0
+EXPECTED_YAML = '''tidypy: 0.3.0
 issues:
   blah/bar.py:
   - line: 28
@@ -286,19 +178,11 @@ def test_yaml_execute(capsys):
     execute_reports(cfg, 'someproject', collector)
 
     out, err = capsys.readouterr()
-    assert EXPECTED_YAML == out
+    assert EXPECTED_YAML == out.replace('\r\n', '\n')
     assert err == ''
 
 
-if sys.platform == 'win32':
-    EXPECTED_CSV = '''filename,line,character,tool,code,message
-blah\\bar.py,28,0,tidypy,code1,Message 1
-foo.py,2,0,tidypy,code2,Message 2
-foo.py,5,23,tidypy,code1,Message 1
-subdir\\foobar.json,5,23,tidypy,code3,Message 3
-'''
-else:
-    EXPECTED_CSV = '''filename,line,character,tool,code,message
+EXPECTED_CSV = '''filename,line,character,tool,code,message
 blah/bar.py,28,0,tidypy,code1,Message 1
 foo.py,2,0,tidypy,code2,Message 2
 foo.py,5,23,tidypy,code1,Message 1
@@ -315,7 +199,7 @@ def test_csv_execute(capsys):
     execute_reports(cfg, 'someproject', collector)
 
     out, err = capsys.readouterr()
-    assert EXPECTED_CSV == out
+    assert EXPECTED_CSV == out.replace('\r\n', '\n')
     assert err == ''
 
 
@@ -346,5 +230,5 @@ def test_csv_file_output(capsys, tmpdir):
     assert out == ''
     assert err == ''
 
-    assert EXPECTED_CSV.replace('\r\n', '\n') == open(test_file, 'r').read()
+    assert EXPECTED_CSV == open(test_file, 'r').read()
 
