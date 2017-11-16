@@ -103,10 +103,11 @@ def test_get_default_config():
 def test_get_user_config_win(tmpdir, monkeypatch):
     project_dir = tmpdir.mkdir('project')
     user_dir = tmpdir.mkdir('win')
-    user_dir.join('tidypy').write('[tidypy]\ntest = 1')
+    config_file = user_dir.join('tidypy')
+    config_file.write('[tidypy]\ntest = 1')
     monkeypatch.setattr(sys, 'platform', 'win32')
     def mockreturn(path):
-        return path.replace('~', str(user_dir))
+        return str(config_file)
     monkeypatch.setattr(os.path, 'expanduser', mockreturn)
 
     actual = get_user_config(str(project_dir))

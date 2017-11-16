@@ -135,7 +135,6 @@ def test_toml_execute(capsys):
     execute_reports(cfg, 'someproject', collector)
 
     out, err = capsys.readouterr()
-    print out
     assert EXPECTED_TOML == out.replace('\r\n', '\n')
     assert err == ''
 
