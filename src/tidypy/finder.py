@@ -50,7 +50,7 @@ class Finder(object):
                     self._found[text_type(path)].append(text_type(subpath))
 
     def is_excluded(self, path):
-        relpath = text_type(path.relative_to(self.base_path))
+        relpath = path.relative_to(self.base_path).as_posix()
         return matches_masks(relpath, self.excludes)
 
     def is_excluded_dir(self, path):

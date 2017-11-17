@@ -19,6 +19,7 @@ def test_exclude():
     cfg['exclude'] = [
         r'invalid',
         r'\.pyc$',
+        r'project1/module.+$',
     ]
     finder = Finder('test/project1', cfg)
 
@@ -35,8 +36,6 @@ def test_exclude():
         'project1/__init__.py',
         'project1/broken.py',
         'project1/koi8r.py',
-        'project1/module1.py',
-        'project1/module2.py',
         'project1/utf8.py',
         'project1b/__init__.py',
     ]))
