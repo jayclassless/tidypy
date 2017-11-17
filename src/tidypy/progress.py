@@ -1,10 +1,12 @@
 from __future__ import absolute_import
 
-from threading import Lock
+import sys
+
+from threading import Lock, Timer
 
 import six
 
-from progress.bar import Bar
+from tqdm import tqdm
 
 from .config import get_tools
 
@@ -39,13 +41,10 @@ class QuietProgress(Progress):
     pass
 
 
-class ConsoleProgress(Bar, Progress):
-    suffix = '%(percent)d%% %(currently_executing)s %(notification)s'
-
+class ConsoleProgress(Progress):
     def __init__(self, config):
-        Progress.__init__(self)
-
-        self._notification = None
+        super(ConsoleProgress, self).__init__()
+        self._timer = None
 
         tools = [
             name
@@ -53,11 +52,19 @@ class ConsoleProgress(Bar, Progress):
             if config[name]['use']
         ]
 
-        super(ConsoleProgress, self).__init__(
-            'Analyzing:',
-            max=len(tools),
+        self._bar = tqdm(
+            total=len(tools),
+            desc='Analyzing',
+            unit='tool',
+            dynamic_ncols=True,
+            bar_format='Analyzing |{bar}|'
+            ' {percentage:3.0f}% [{elapsed}{postfix}]',
         )
-        self.update()
+
+    def _refresh(self):
+        self._bar.refresh()
+        self._timer = Timer(1.0, self._refresh)
+        self._timer.start()
 
     @property
     def currently_executing(self):
@@ -67,27 +74,35 @@ class ConsoleProgress(Bar, Progress):
             ', '.join(self.current_tools),
         )
 
-    @property
-    def notification(self):
-        if not self._notification:
-            return ''
-        return '[%s]' % (self._notification,)
-
     def notify(self, message):
-        self._notification = message
-        self.update()
+        self._bar.write(message, file=self._bar.fp)
+
+    def on_start(self):
+        super(ConsoleProgress, self).on_start()
+        self._timer = Timer(1.0, self._refresh)
+        self._timer.start()
 
     def on_tool_start(self, tool):
         super(ConsoleProgress, self).on_tool_start(tool)
-        self.update()
+        self._bar.set_postfix({
+            'current': ','.join(self.current_tools),
+        })
 
     def on_tool_finish(self, tool):
-        if tool in self.current_tools:
-            self.next()  # noqa: @2to3
+        do_update = tool in self.current_tools
         super(ConsoleProgress, self).on_tool_finish(tool)
+        if do_update:
+            postfix = {
+                'current': ','.join(self.current_tools),
+            }
+            if not postfix['current']:
+                del postfix['current']
+            self._bar.set_postfix(postfix, refresh=False)
+            self._bar.update()
 
     def on_finish(self):
-        super(ConsoleProgress, self).finish()
-        six.print_('', file=self.file)
-        self.file.flush()
+        super(ConsoleProgress, self).on_finish()
+        six.print_('', file=sys.stderr)
+        self._timer.cancel()
+        self._bar.close()
 

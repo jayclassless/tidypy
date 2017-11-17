@@ -12,32 +12,27 @@ def test_console_progress(capsys):
     progress.on_start()
 
     progress.on_tool_start('pylint')
-    assert progress.progress == 0
     assert progress.current_tools == ['pylint']
     assert progress.completed_tools == []
     assert progress.currently_executing == '[pylint]'
 
     progress.on_tool_start('pycodestyle')
-    assert progress.progress == 0
     assert progress.current_tools == ['pylint', 'pycodestyle']
     assert progress.completed_tools == []
     assert progress.currently_executing == '[pylint, pycodestyle]'
 
     progress.on_tool_finish('pycodestyle')
     progress.on_tool_finish('pycodestyle')
-    assert progress.progress == 0.5
     assert progress.current_tools == ['pylint']
     assert progress.completed_tools == ['pycodestyle']
     assert progress.currently_executing == '[pylint]'
 
     progress.on_tool_finish('pylint')
-    assert progress.progress == 1.0
     assert progress.current_tools == []
     assert progress.completed_tools == ['pycodestyle', 'pylint']
     assert progress.currently_executing == ''
 
     progress.notify('testnote')
-    assert progress.notification == '[testnote]'
 
     progress.on_finish()
 
