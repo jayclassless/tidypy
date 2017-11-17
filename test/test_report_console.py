@@ -68,9 +68,10 @@ def test_console_execute(capsys):
 
     execute_reports(cfg, 'someproject', collector)
 
-    expected = u'\u2714 No issues found!\n'
     if sys.platform == 'win32':
-        expected = expected.replace('\n', '\r\n')
+        expected = u'No issues found!\r\n'
+    else:
+        expected = u'\u2714 No issues found!\n'
 
     out, err = capsys.readouterr()
     assert out == expected
@@ -80,7 +81,11 @@ def test_console_execute(capsys):
     collector.add_issues(ISSUES)
     execute_reports(cfg, 'someproject', collector)
 
+    expected = EXPECTED_CONSOLE
+    if sys.platform == 'win32':
+        expected = expected.replace(u'\u2717 ', '').replace('\n', '\r\n')
+
     out, err = capsys.readouterr()
-    assert out.replace('\r\n', '\n') == EXPECTED_CONSOLE
+    assert out == expected
     assert err == ''
 

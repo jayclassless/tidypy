@@ -1,3 +1,5 @@
+import sys
+
 import click
 
 from .base import Report
@@ -57,10 +59,12 @@ class ConsoleReport(Report):
 
             self.output('')
 
+        is_windows = sys.platform == 'win32'
         if total_issues:
             self.output(
                 click.style(
-                    u'\u2717 {num_issues} issues found.'.format(  # noqa: @2to3
+                    '{icon}{num_issues} issues found.'.format(
+                        icon='' if is_windows else u'\u2717',  # noqa: @2to3
                         num_issues=total_issues,
                     ),
                     fg='yellow',
@@ -70,7 +74,9 @@ class ConsoleReport(Report):
         else:
             self.output(
                 click.style(
-                    u'\u2714 No issues found!',  # noqa: @2to3
+                    '{icon}No issues found!'.format(
+                        icon='' if is_windows else u'\u2714',  # noqa: @2to3
+                    ),
                     fg='green',
                     bold=True,
                 )
