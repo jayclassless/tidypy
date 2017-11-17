@@ -64,7 +64,7 @@ class ConsoleReport(Report):
             self.output(
                 click.style(
                     '{icon}{num_issues} issues found.'.format(
-                        icon='' if is_windows else u'\u2717',  # noqa: @2to3
+                        icon='' if is_windows else u'\u2717 ',  # noqa: @2to3
                         num_issues=total_issues,
                     ),
                     fg='yellow',
@@ -75,7 +75,7 @@ class ConsoleReport(Report):
             self.output(
                 click.style(
                     '{icon}No issues found!'.format(
-                        icon='' if is_windows else u'\u2714',  # noqa: @2to3
+                        icon='' if is_windows else u'\u2714 ',  # noqa: @2to3
                     ),
                     fg='green',
                     bold=True,
