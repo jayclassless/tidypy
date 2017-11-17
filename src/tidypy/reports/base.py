@@ -1,5 +1,3 @@
-import os.path
-
 import click
 
 from six import text_type
