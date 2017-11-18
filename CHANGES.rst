@@ -5,6 +5,12 @@ TidyPy Change Log
 .. contents:: Releases
 
 
+0.4.0 (TBD)
+===========
+
+
+
+
 0.3.0 (2017-11-18)
 ==================
 

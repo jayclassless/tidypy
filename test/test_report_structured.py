@@ -35,7 +35,7 @@ ISSUES = [
 
 
 EXPECTED_JSON = '''{
-  "tidypy": "0.3.0",
+  "tidypy": "0.4.0",
   "issues": {
     "blah/bar.py": [
       {
@@ -90,7 +90,7 @@ def test_json_execute(capsys):
     assert err == ''
 
 
-EXPECTED_TOML = '''tidypy = "0.3.0"
+EXPECTED_TOML = '''tidypy = "0.4.0"
 
 [issues]
 
@@ -139,7 +139,7 @@ def test_toml_execute(capsys):
     assert err == ''
 
 
-EXPECTED_YAML = '''tidypy: 0.3.0
+EXPECTED_YAML = '''tidypy: 0.4.0
 issues:
   blah/bar.py:
   - line: 28
