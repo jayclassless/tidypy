@@ -51,7 +51,7 @@ Features
 * Provides a simple API for you to implement your own tool or reporter and
   include it in the analysis of your project.
 
-* Supports both Python 2 and 3, as well as PyPy.
+* Supports both Python 2 and 3, as well as PyPy. Even runs on Windows.
 
 
 Usage

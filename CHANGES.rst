@@ -5,8 +5,8 @@ TidyPy Change Log
 .. contents:: Releases
 
 
-0.3.0 (TBD)
-===========
+0.3.0 (2017-11-18)
+==================
 
 **Enhancements**
 
@@ -31,6 +31,7 @@ TidyPy Change Log
 * Fixed issue where ``pylint``'s ``duplicate-code`` issue was reported only
   against one file, and it was usually the wrong file. TidyPy will now report
   an issue against each file identified with the duplicate code.
+* Numerous fixes to support running TidyPy on Windows.
 
 
 0.2.0 (2017-11-04)
