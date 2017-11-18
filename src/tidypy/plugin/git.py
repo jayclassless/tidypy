@@ -58,7 +58,7 @@ def hook(project_path, strict):
 class GitHook(object):
     def __init__(self):
         try:
-            subprocess.call(['git'])
+            subprocess.call(['git'])  # noqa: bandit:B603,bandit:B607
         except OSError:
             self._git_available = False
         else:
