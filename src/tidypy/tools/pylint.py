@@ -25,7 +25,7 @@ class TidyPyReporter(BaseReporter):
         self._filters = compile_masks(filters)
         self._targets = targets
         self._finder = finder
-        self._all_files = finder.files(filters=filters)
+        self._all_files = list(finder.files(filters=filters))
         self._tidypy_issues = []
 
     def _resolve_filename(self, modname):
@@ -36,10 +36,11 @@ class TidyPyReporter(BaseReporter):
             if resolved in self._all_files:
                 return resolved
 
-        return name
+        return None
 
-    def _is_filtered(self, path):
-        return self._filters and not matches_masks(path, self._filters)
+    def _is_excluded(self, path):
+        return self._finder.is_excluded(Path(path)) \
+            or (self._filters and not matches_masks(path, self._filters))
 
     def _handle_duplicate_code(self, msg):
         issues = []
@@ -51,7 +52,7 @@ class TidyPyReporter(BaseReporter):
             if line.startswith('=='):
                 name, line = line[2:].rsplit(':', 1)
                 name = self._resolve_filename(name)
-                if not self._is_filtered(name):
+                if name:
                     dupe_files.append((
                         name,
                         int(line) + 1,
@@ -85,9 +86,9 @@ class TidyPyReporter(BaseReporter):
 
     def handle_message(self, msg):
         issues = []
-        is_filtered = self._is_filtered(msg.abspath)
+        is_excluded = self._is_excluded(msg.abspath)
 
-        if not is_filtered and msg.symbol == 'syntax-error':
+        if not is_excluded and msg.symbol == 'syntax-error':
             issues.append(ParseIssue(
                 msg.msg,
                 msg.abspath,
@@ -95,7 +96,7 @@ class TidyPyReporter(BaseReporter):
                 character=msg.column,
             ))
 
-        elif not is_filtered and msg.symbol == 'parse-error':
+        elif not is_excluded and msg.symbol == 'parse-error':
             if 'Unable to load file' in msg.msg:
                 issues.append(AccessIssue(
                     msg.msg.split('\n', 1)[1],
@@ -113,7 +114,7 @@ class TidyPyReporter(BaseReporter):
         elif msg.symbol == 'duplicate-code':
             issues.extend(self._handle_duplicate_code(msg))
 
-        elif not is_filtered:
+        elif not is_excluded:
             issues.append(PyLintIssue(
                 code=msg.symbol or msg.msg_id,
                 message=msg.msg,
