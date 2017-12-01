@@ -8,7 +8,18 @@ TidyPy Change Log
 0.4.0 (TBD)
 ===========
 
+**Enhancements**
 
+* Added a ``sphinx-extensions`` option to the ``rstlint`` tool to enable the
+  automatic recognition of Sphinx-specific extensions to ReST (Sphinx must be
+  installed in the same environment as TidyPy for it to work).
+* Added a ``ignore-roles`` option to the ``rstlint`` tool to help deal with
+  non-standard ReST text roles.
+
+**Fixes**
+
+* Fixed an issue that caused the ``pylint`` tool to crash when it encountered
+  ``duplicate-code`` issues on files that are being excluded from analysis.
 
 
 0.3.0 (2017-11-18)
