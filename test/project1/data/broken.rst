@@ -12,3 +12,7 @@ World
 
 .. youtube:: dQw4w9WgXcQ
 
+.. automodule:: tidypy
+
+:ref:`something`
+

@@ -1,5 +1,6 @@
 [tool.tidypy]
 disabled = []
+merge-issues = false
 #extends = 'github-gist:5baf85cea2045be585a065650e3ce6dc'
 
 [tool.tidypy.pylint.options]
@@ -12,4 +13,10 @@ ignore-directives = [
     'doesntexist',
 ]
 load-directives = {youtube = 'rstyoutube.YouTubeDirective', crash = 'adsasda.asddsaa.asdas'}
+sphinx-extensions = [
+    'sphinx.ext.autodoc',
+]
+ignore-roles = [
+    'ref',
+]
 
