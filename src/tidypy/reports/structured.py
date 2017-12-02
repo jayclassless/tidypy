@@ -7,7 +7,7 @@ from collections import OrderedDict
 
 import pkg_resources
 
-from six import iteritems
+from six import iteritems, text_type
 
 from ..util import render_toml, render_json, render_yaml
 from .base import Report
@@ -29,7 +29,10 @@ class StructuredReport(Report):
             ]
 
         return OrderedDict((
-            ('tidypy', str(pkg_resources.get_distribution('tidypy').version)),
+            (
+                'tidypy',
+                text_type(pkg_resources.get_distribution('tidypy').version),
+            ),
             ('issues', issues),
         ))
 

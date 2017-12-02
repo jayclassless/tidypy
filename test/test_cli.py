@@ -21,8 +21,13 @@ def test_default():
     assert result.output != ''
 
 
-def test_check():
+def test_check(tmpdir):
     runner = CliRunner()
+
+    project_dir = tmpdir.mkdir('empty_project')
+    result = runner.invoke(main, ['check', text_type(project_dir), '--disable-progress', '--report=null'])
+    assert result.exit_code == 0
+    assert result.output == ''
 
     result = runner.invoke(main, ['check', 'test/project1'])
     assert result.exit_code == 1
@@ -74,6 +79,17 @@ def test_default_config():
     assert result2.exit_code == 0
     assert result2.output != ''
     assert result2.output != result.output
+
+
+def test_broken_config(tmpdir):
+    runner = CliRunner()
+
+    project_dir = tmpdir.mkdir('broken_project')
+    project_dir.join('pyproject.toml').write('broken[garbage')
+
+    result = runner.invoke(main, ['check', text_type(project_dir)])
+    assert result.exit_code == 1
+    assert result.output.startswith('Could not parse config file')
 
 
 def test_purge_config_cache():
