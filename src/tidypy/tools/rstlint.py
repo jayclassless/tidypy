@@ -104,7 +104,7 @@ class RstLintTool(Tool):
                 directives.register_directive(name, clazz)
         if failed:
             issues.append(ToolIssue(
-                'Could not load docutils directives: %s' % (
+                'rstlint: Could not load docutils directives: %s' % (
                     ', '.join(failed),
                 ),
                 project_path,
@@ -150,7 +150,7 @@ class RstLintTool(Tool):
 
         else:
             issues.append(ToolIssue(
-                'Sphinx not found in the environment -- cannot load'
+                'rstlint: Sphinx not found in the environment -- cannot load'
                 ' extensions',
                 project_path,
             ))
