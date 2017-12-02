@@ -12,8 +12,10 @@ test::
 ci:: test
 	@pipenv run coveralls --rcfile=setup.cfg
 
-build::
-	@rm -rf dist build
+clean::
+	@rm -rf dist build .cache
+
+build:: clean
 	@python setup.py sdist
 	@python setup.py bdist_wheel
 
