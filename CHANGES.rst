@@ -15,6 +15,13 @@ TidyPy Change Log
   installed in the same environment as TidyPy for it to work).
 * Added a ``ignore-roles`` option to the ``rstlint`` tool to help deal with
   non-standard ReST text roles.
+* Changed tool execution from a multithreaded model to multiprocess. Larger
+  projects should see an improvement in execution speed.
+
+**Changes**
+
+* The ``--threads`` option to the ``check`` command has been changed to
+  ``--workers``.
 
 **Fixes**
 

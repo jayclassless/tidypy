@@ -6,6 +6,7 @@ lint::
 
 test::
 	@pipenv run coverage run --rcfile=setup.cfg --module py.test
+	@pipenv run coverage combine --rcfile=setup.cfg
 	@pipenv run coverage report --rcfile=setup.cfg
 
 ci:: test

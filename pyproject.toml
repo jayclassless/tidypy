@@ -13,6 +13,7 @@ exclude = [
 vulture = {use = false}
 pydocstyle = {use = false}
 disabled = []
+merge-issues = false
 
 [tool.tidypy.pycodestyle]
 disabled = [

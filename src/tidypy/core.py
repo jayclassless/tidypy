@@ -1,8 +1,11 @@
 
 import sys
 
-from concurrent.futures import ThreadPoolExecutor, as_completed
+from multiprocessing import Process
+from multiprocessing.managers import SyncManager
+
 from six import iteritems
+from six.moves.queue import Empty  # pylint: disable=import-error
 
 from .collector import Collector
 from .config import get_tools, get_reports
@@ -12,75 +15,124 @@ from .tools import ToolIssue
 from .util import SysOutCapture
 
 
-def _execute_tool(tool, finder, collector, progress):
-    name, tool = tool
-    progress.on_tool_start(name)
+class Worker(Process):
+    def notify(self, notification):
+        self._args[1].put(notification)
 
-    try:
-        collector.add_issues(tool.execute(finder))
-    except Exception:  # pragma: no cover  # pylint: disable=broad-except
-        collector.add_issues(ToolIssue(
-            '%s failed horribly' % (name,),
-            finder.project_path,
-            details=sys.exc_info(),
-            failure=True,
-        ))
+    def start_tool(self):
+        try:
+            tool = self._args[0].get_nowait()
+        except Empty:
+            return None
 
-    progress.on_tool_finish(name)
+        self.notify({
+            'type': 'start',
+            'tool': tool['name'],
+        })
+
+        return tool
+
+    def complete_tool(self, tool, issues):
+        self.notify({
+            'type': 'complete',
+            'tool': tool['name'],
+            'issues': issues,
+        })
+
+    def run(self):
+        finder = self._args[2]['finder']
+
+        while True:
+            tool = self.start_tool()
+            if not tool:
+                break
+
+            issues = []
+            try:
+                with SysOutCapture() as capture:
+                    impl = get_tools()[tool['name']](tool['config'])
+                    issues = impl.execute(finder)
+
+                    out = capture.get_stdout()
+                    if out:  # pragma: no cover
+                        issues.append(ToolIssue(
+                            '%s: Extraneous output to stdout' % (
+                                tool['name'],
+                            ),
+                            finder.project_path,
+                            details=out,
+                        ))
+                    err = capture.get_stderr()
+                    if err:  # pragma: no cover
+                        issues.append(ToolIssue(
+                            '%s: Extraneous output to stderr' % (
+                                tool['name'],
+                            ),
+                            finder.project_path,
+                            details=err,
+                        ))
+            except Exception:  # pragma: no cover  # noqa: broad-except
+                issues = [ToolIssue(
+                    '%s: Unexpected exception' % (tool['name'],),
+                    finder.project_path,
+                    details=sys.exc_info(),
+                    failure=True,
+                )]
+
+            self.complete_tool(tool, issues)
 
 
 def execute_tools(config, path, progress=None):
     progress = progress or QuietProgress()
     progress.on_start()
 
-    collector = Collector(config)
+    manager = SyncManager()
+    manager.start()
 
-    tools = [
-        (name, cls(config[name]))
-        for name, cls in iteritems(get_tools())
-        if config[name]['use'] and cls.can_be_used()
-    ]
-    if not tools:
+    num_tools = 0
+    tools = manager.Queue()
+    for name, cls in iteritems(get_tools()):
+        if config[name]['use'] and cls.can_be_used():
+            num_tools += 1
+            tools.put({
+                'name': name,
+                'config': config[name],
+            })
+
+    collector = Collector(config)
+    if not num_tools:
+        progress.on_finish()
         return collector
 
-    finder = Finder(path, config)
+    notifications = manager.Queue()
+    environment = manager.dict({
+        'finder': Finder(path, config),
+    })
 
-    with SysOutCapture() as capture:
-        with ThreadPoolExecutor(max_workers=config['threads']) as executor:
-            jobs = [
-                executor.submit(
-                    _execute_tool,
-                    tool,
-                    finder,
-                    collector,
-                    progress,
-                )
-                for tool in tools
-            ]
+    workers = []
+    for _ in range(config['workers']):
+        worker = Worker(
+            args=(
+                tools,
+                notifications,
+                environment,
+            ),
+        )
+        worker.start()
+        workers.append(worker)
 
-            try:
-                for future in as_completed(jobs):
-                    future.result()
-            except KeyboardInterrupt:  # pragma: no cover
-                progress.notify('Stopping... please wait')
-                collector.failure = True
-                for job in jobs:
-                    job.cancel()
-
-        out = capture.get_stdout()
-        if out:  # pragma: no cover
-            collector.add_issues(ToolIssue(
-                'Tool(s) wrote to stdout',
-                path,
-                details=out,
-            ))
-        err = capture.get_stderr()
-        if err:  # pragma: no cover
-            collector.add_issues(ToolIssue(
-                'Tool(s) wrote to stderr',
-                path,
-                details=err,
-            ))
+    while num_tools:
+        try:
+            notification = notifications.get(True, 0.25)
+        except Empty:
+            pass
+        else:
+            if notification['type'] == 'start':
+                progress.on_tool_start(notification['tool'])
+            elif notification['type'] == 'complete':
+                collector.add_issues(notification['issues'])
+                progress.on_tool_finish(notification['tool'])
+                num_tools -= 1
 
     progress.on_finish()
 

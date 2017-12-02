@@ -89,9 +89,11 @@ def test_get_default_config():
     actual = get_default_config()
     assert actual['exclude'] == []
     assert actual['merge-issues'] == True
-    assert actual['threads'] == 3
+    assert isinstance(actual['workers'], int)
+    assert actual['workers'] >= 1
+    assert actual['workers'] <= 4
     assert actual['reports'] == [{'type': 'console'}]
-    assert actual['disabled'] == ['tool']
+    assert actual['disabled'] == []
     assert actual['noqa'] == True
     assert actual['extends'] == []
     assert actual['ignore-missing-extends'] == False

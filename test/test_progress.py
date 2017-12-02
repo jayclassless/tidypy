@@ -32,8 +32,6 @@ def test_console_progress(capsys):
     assert progress.completed_tools == ['pycodestyle', 'pylint']
     assert progress.currently_executing == ''
 
-    progress.notify('testnote')
-
     progress.on_finish()
 
 
@@ -60,8 +58,6 @@ def test_quiet_progress(capsys):
     progress.on_tool_finish('pylint')
     assert progress.current_tools == []
     assert progress.completed_tools == ['pycodestyle', 'pylint']
-
-    progress.notify('testnote')
 
     progress.on_finish()
     out, err = capsys.readouterr()

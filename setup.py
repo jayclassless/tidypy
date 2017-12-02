@@ -107,7 +107,6 @@ setup(
     extras_require={
         ':python_version<"3.4"': [
             'pathlib2',
-            'futures',
             'backports.csv',
             'eradicate>=0.2,<0.3',
         ],

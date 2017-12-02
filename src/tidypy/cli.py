@@ -76,19 +76,17 @@ If not specified, defaults to the current working directory.
     ' be specified multiple times. Overrides the configuration file.',
 )
 @click.option(
+    '--workers',
+    type=click.IntRange(1),
+    metavar='NUM_WORKERS',
+    help='The number of workers to use to concurrently execute the tools.'
+    ' Overrides the configuration file.',
+)
+@click.option(
     '--disable-merge',
     is_flag=True,
     help='Disable the merging of issues from various tools when TidyPy'
     ' considers them equivalent. Overrides the configuration file.',
-)
-@click.option(
-    '--threads',
-    type=click.IntRange(1),
-    default=3,
-    show_default=True,
-    metavar='NUM_THREADS',
-    help='The number of threads to use to concurrently execute the tools.'
-    ' Overrides the configuration file.',
 )
 @click.option(
     '--disable-progress',
@@ -119,7 +117,7 @@ def check(
         tools,
         reports,
         disable_merge,
-        threads,
+        workers,
         disable_progress,
         disable_noqa,
         disable_config_cache,
@@ -140,8 +138,8 @@ def check(
         config['merge-issues'] = False
     if disable_noqa:
         config['noqa'] = False
-    if threads:
-        config['threads'] = threads
+    if workers:
+        config['workers'] = workers
     if tools:
         for tool in get_tools():
             config[tool]['use'] = tool in tools
@@ -161,9 +159,6 @@ def check(
         path,
         progress=progress,
     )
-
-    if collector.failure:
-        ctx.exit(1)
 
     execute_reports(config, path, collector)
 

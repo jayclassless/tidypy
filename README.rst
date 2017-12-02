@@ -107,12 +107,12 @@ To have TidyPy analyze your project, use the ``check`` subcommand::
                                       after the examination. Can be specified
                                       multiple times. Overrides the configuration
                                       file.
+      --workers NUM_WORKERS           The number of workers to use to concurrently
+                                      execute the tools. Overrides the
+                                      configuration file.
       --disable-merge                 Disable the merging of issues from various
                                       tools when TidyPy considers them equivalent.
                                       Overrides the configuration file.
-      --threads NUM_THREADS           The number of threads to use to concurrently
-                                      execute the tools. Overrides the
-                                      configuration file.  [default: 3]
       --disable-progress              Disable the display of the progress bar.
       --disable-noqa                  Disable the ability to ignore issues using
                                       the "# noqa" comment in Python files.

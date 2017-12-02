@@ -26,7 +26,6 @@ class Collector(object):
     DEFAULT_SORT = ('filename', 'line', 'character', 'tool', 'code')
 
     def __init__(self, config):
-        self.failure = False
         self._config = config
         self._all_issues = []
         self._cleaned_issues = None

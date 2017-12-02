@@ -1,3 +1,4 @@
+import multiprocessing
 import os
 import shutil
 import sys
@@ -168,18 +169,22 @@ def get_default_config():
     for name, cls in iteritems(get_tools()):
         config[name] = cls.get_default_config()
 
+    try:
+        workers = multiprocessing.cpu_count() - 1
+    except NotImplementedError:  # pragma: no cover
+        workers = 1
+    workers = max(1, min(4, workers))
+
     config.update({
         'exclude': [],
         'merge-issues': True,
-        'threads': 3,
+        'workers': workers,
         'reports': [
             {
                 'type': 'console',
             },
         ],
-        'disabled': [
-            'tool',
-        ],
+        'disabled': [],
         'noqa': True,
         'extends': [],
         'ignore-missing-extends': False,

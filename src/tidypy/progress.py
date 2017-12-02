@@ -33,9 +33,6 @@ class Progress(object):
     def on_finish(self):
         pass
 
-    def notify(self, message):
-        pass
-
 
 class QuietProgress(Progress):
     pass
@@ -73,9 +70,6 @@ class ConsoleProgress(Progress):
         return '[%s]' % (
             ', '.join(self.current_tools),
         )
-
-    def notify(self, message):
-        self._bar.write(message, file=self._bar.fp)
 
     def on_start(self):
         super(ConsoleProgress, self).on_start()
