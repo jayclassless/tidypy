@@ -15,7 +15,7 @@ def fix_paths(paths):
     return paths
 
 def test_exclude():
-    if os.mkfifo and not os.path.exists('test/project1/testfifo'):
+    if hasattr(os, 'mkfifo') and not os.path.exists('test/project1/testfifo'):
         os.mkfifo('test/project1/testfifo')
 
     cfg = get_default_config()
