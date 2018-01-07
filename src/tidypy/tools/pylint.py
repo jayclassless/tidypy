@@ -15,6 +15,11 @@ from .base import Tool, Issue, AccessIssue, ParseIssue
 class PyLintIssue(Issue):
     tool = 'pylint'
 
+    def __init__(self, *args, **kwargs):
+        super(PyLintIssue, self).__init__(*args, **kwargs)
+        if self.character is not None:
+            self.character += 1
+
 
 class TidyPyReporter(BaseReporter):
     name = 'tidypy'
