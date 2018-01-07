@@ -8,6 +8,11 @@ TidyPy Change Log
 0.5.0 (2018-xx-xx)
 ==================
 
+**Enhancements**
+
+* Upgraded the ``pylint`` tool.
+* Upgraded the ``pep8-naming`` plugin of the ``pycodestyle`` tool.
+
 **Fixes**
 
 * Fixed the character location reported in ``pylint`` issues being off-by-one.
