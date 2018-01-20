@@ -47,6 +47,12 @@ class PyromaTool(Tool):
     def execute(self, finder):
         issues = []
 
+        disabled = self.config['disabled'][:]
+        if 'LicenseClassifier' in disabled:
+            disabled.append('LicenceClassifier')
+        if 'Licence' in disabled:
+            disabled.append('License')
+
         for filepath in finder.files(self.config['filters']):
             dirname, _ = os.path.split(filepath)
 
@@ -56,7 +62,7 @@ class PyromaTool(Tool):
 
             for test in ratings.ALL_TESTS:
                 name = test.__class__.__name__
-                if name in self.config['disabled']:
+                if name in disabled:
                     continue
 
                 if test.test(data) is False:

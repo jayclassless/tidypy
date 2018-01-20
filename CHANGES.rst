@@ -12,6 +12,8 @@ TidyPy Change Log
 
 * Upgraded the ``pylint`` tool.
 * Upgraded the ``pep8-naming`` plugin of the ``pycodestyle`` tool.
+* Added some convenience handling of the ``License`` vs ``Licence`` and
+  ``LicenceClassifier`` vs ``LicenseClassifier`` codes reported by ``pyroma``.
 
 **Fixes**
 
