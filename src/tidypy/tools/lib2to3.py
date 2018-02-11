@@ -20,7 +20,7 @@ RE_UDIFF_LINE = re.compile(
 FIXER_PKG = 'lib2to3.fixes'
 
 
-class TidyPyRefactoringTool(RefactoringTool):
+class TidyPyRefactoringTool(RefactoringTool):  # pragma: PY2
     def __init__(self, fixers):
         fixers = [
             '%s.fix_%s' % (FIXER_PKG, fixer)
@@ -127,7 +127,7 @@ class Lib2to3Tool(PythonTool):
             for fixer in get_all_fix_names(FIXER_PKG)
         ]
 
-    def execute(self, finder):
+    def execute(self, finder):  # pragma: PY2
         fixers = get_all_fix_names(FIXER_PKG)
         for disabled in self.config['disabled']:
             if disabled in fixers:

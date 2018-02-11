@@ -11,7 +11,7 @@ from contextlib import contextmanager
 
 try:
     from pathlib import Path  # pylint: disable=unused-import
-except ImportError:
+except ImportError:  # pragma: PY2
     from pathlib2 import Path
 
 import click
@@ -20,7 +20,7 @@ import pytoml
 import requests
 import yaml
 
-from six import iteritems, text_type, StringIO
+from six import iteritems, text_type, StringIO, PY2
 
 
 def merge_list(list1, list2):
@@ -145,7 +145,7 @@ def render_yaml(obj):
 DEFAULT_ENCODING = 'latin-1'
 
 
-if sys.version_info < (3,):
+if PY2:  # pragma: PY2
     RE_ENCODING = re.compile(
         r'^[ \t\v]*#.*?coding[:=][ \t]*([-_.a-zA-Z0-9]+)',
     )
@@ -165,7 +165,7 @@ if sys.version_info < (3,):
         with codecs.open(filepath, 'r', encoding=encoding) as target:
             return target.read().encode('utf-8')
 
-else:
+else:  # pragma: PY3
     def _read_file(filepath):
         try:
             # pylint: disable=no-member

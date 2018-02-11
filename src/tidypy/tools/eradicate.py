@@ -21,7 +21,7 @@ class EradicateTool(PythonTool):
             ('commented', 'Commented-out code'),
         ]
 
-    def execute(self, finder):
+    def execute(self, finder):  # pragma: PY2
         from eradicate import commented_out_code_line_numbers
         issues = []
 
