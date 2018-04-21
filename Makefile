@@ -13,7 +13,7 @@ ci:: test
 	@pipenv run coveralls --rcfile=setup.cfg
 
 clean::
-	@rm -rf dist build .cache
+	@rm -rf dist build .cache .pytest_cache
 
 build:: clean
 	@python setup.py sdist
