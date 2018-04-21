@@ -5,15 +5,13 @@ python:
   - "3.4"
   - "3.5"
   - "3.6"
-  - "3.7-dev"
+  #- "3.7-dev"
   - "pypy"
   - "pypy3"
 
 install:
   - pip install pipenv
   - make setup
-  - ls -l
-  - pip freeze
 
 script:
   - make ci
