@@ -12,6 +12,8 @@ python:
 install:
   - pip install pipenv
   - make setup
+  - ls -l
+  - pip freeze
 
 script:
   - make ci
