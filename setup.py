@@ -90,7 +90,7 @@ setup(
         'pyyaml>=3.12,<4',
         'requests>=2,<3',
 
-        'pycodestyle>=2.3,<3',
+        'pycodestyle>=2.3,<2.4',
         'pep8-naming>=0.4,<0.6',
         'pydocstyle>=2,<3',
         'pyroma>=2.2,<3',
