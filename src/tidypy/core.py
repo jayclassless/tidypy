@@ -4,8 +4,8 @@ import sys
 from multiprocessing import Process
 from multiprocessing.managers import SyncManager
 
+from six.moves.queue import Empty  # noqa: relative-import
 from six import iteritems
-from six.moves.queue import Empty  # pylint: disable=import-error
 
 from .collector import Collector
 from .config import get_tools, get_reports
