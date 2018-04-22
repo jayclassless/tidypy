@@ -1,2 +1,4 @@
 include README.rst LICENSE.rst CHANGES.rst
+exclude Makefile Pipfile appveyor.yml pyproject.toml
+prune test
 

@@ -26,6 +26,7 @@ def test_get_tools():
         'bandit',
         'eradicate',
         'jsonlint',
+        'manifest',
         'polint',
         'pycodestyle',
         'pydocstyle',
