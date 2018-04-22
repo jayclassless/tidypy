@@ -12,7 +12,7 @@ from .util import read_file
 RE_PYTHON_FILE = re.compile(r'\.py$')
 
 RE_NOQA = re.compile(
-    r'# noqa(?:: (?P<codes>([a-zA-Z0-9-:@]+(?:[,\s]+)?)+))?',
+    r'# noqa(?:: (?P<codes>([a-z0-9-:@]+(?:[,\s]+)?)+))?',
     re.IGNORECASE,
 )
 

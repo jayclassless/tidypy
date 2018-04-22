@@ -52,6 +52,7 @@ setup(
             'polint = tidypy.tools.polint:PoLintTool',
             '2to3 = tidypy.tools.lib2to3:Lib2to3Tool',
             'manifest = tidypy.tools.manifest:CheckManifestTool',
+            'pydiatra = tidypy.tools.pydiatra:PyDiatraTool',
         ],
         'tidypy.reports': [
             'console = tidypy.reports.console:ConsoleReport',
@@ -104,6 +105,7 @@ setup(
         'restructuredtext-lint>=1.1,<2',
         'dennis>=0.9,<1',
         'check-manifest>=0.37,<0.38',
+        'pydiatra>=0.12,<0.13',
     ],
     extras_require={
         ':python_version<"3.4"': [

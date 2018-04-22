@@ -98,7 +98,7 @@ To have TidyPy analyze your project, use the ``check`` subcommand::
                                       the examination. Can be specified multiple
                                       times. Overrides the expressions specified
                                       in the configuration file.
-      -t, --tool [2to3|bandit|eradicate|jsonlint|manifest|mccabe|polint|pycodestyle|pydocstyle|pyflakes|pylint|pyroma|rstlint|vulture|yamllint]
+      -t, --tool [2to3|bandit|eradicate|jsonlint|manifest|mccabe|polint|pycodestyle|pydiatra|pydocstyle|pyflakes|pylint|pyroma|rstlint|vulture|yamllint]
                                       Specifies the name of a tool to use during
                                       the examination. Can be specified multiple
                                       times. Overrides the configuration file.
@@ -144,7 +144,7 @@ use the ``list-codes`` subcommand::
       Outputs a listing of all known issue codes that tools may report.
 
     Options:
-      -t, --tool [2to3|bandit|eradicate|jsonlint|manifest|mccabe|polint|pycodestyle|pydocstyle|pyflakes|pylint|pyroma|rstlint|vulture|yamllint]
+      -t, --tool [2to3|bandit|eradicate|jsonlint|manifest|mccabe|polint|pycodestyle|pydiatra|pydocstyle|pyflakes|pylint|pyroma|rstlint|vulture|yamllint]
                                       Specifies the name of a tool whose codes
                                       should be output. If not specified, defaults
                                       to all tools.
@@ -343,6 +343,11 @@ manifest
     your project's MANIFEST.in file.
 
     .. _check-manifest: https://github.com/mgedmin/check-manifest
+
+pydiatra
+    `pydiatra`_ is yet another static checker for Python code.
+
+    .. _pydiatra: https://github.com/jwilk/pydiatra
 
 
 .. _reporters:

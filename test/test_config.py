@@ -29,6 +29,7 @@ def test_get_tools():
         'manifest',
         'polint',
         'pycodestyle',
+        'pydiatra',
         'pydocstyle',
         'pyflakes',
         'pylint',
