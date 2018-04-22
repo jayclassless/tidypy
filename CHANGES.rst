@@ -19,6 +19,7 @@ TidyPy Change Log
 **Fixes**
 
 * Fixed the character location reported in ``pylint`` issues being off-by-one.
+* Fixed various issues with the ``pyroma`` tool leaking problems to stderr.
 
 
 0.4.0 (2017-12-02)
