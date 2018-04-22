@@ -21,7 +21,7 @@ from tidypy.config import put_config_cache, get_config_cache
 
 
 def test_get_tools():
-    expected = [
+    expected = sorted([
         '2to3',
         'bandit',
         'eradicate',
@@ -29,6 +29,7 @@ def test_get_tools():
         'manifest',
         'polint',
         'pycodestyle',
+        'pydiatra',
         'pydocstyle',
         'pyflakes',
         'pylint',
@@ -37,11 +38,7 @@ def test_get_tools():
         'rstlint',
         'vulture',
         'yamllint',
-    ]
-
-    if sys.platform != 'win32':
-        expected.append('pydiatra')
-    expected = sorted(expected)
+    ])
 
     actual = get_tools()
     assert expected == sorted(actual.keys())
