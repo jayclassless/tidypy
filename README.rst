@@ -3,7 +3,7 @@ TidyPy
 ******
 
 .. image:: https://img.shields.io/pypi/v/tidypy.svg
-   :target: https://pypi.python.org/pypi/tidypy
+   :target: https://pypi.org/project/tidypy
 .. image:: https://img.shields.io/pypi/l/tidypy.svg
    :target: https://pypi.python.org/pypi/tidypy
 .. image:: https://travis-ci.org/jayclassless/tidypy.svg?branch=master
