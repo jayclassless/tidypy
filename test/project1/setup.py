@@ -6,6 +6,7 @@ setup(
     name='project1',
     version=version,
     description="Test",
+    long_description='.. fake::\n:something:foo bar',
     classifiers=[],
     keywords='',
     author='',

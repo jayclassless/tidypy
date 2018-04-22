@@ -5,7 +5,7 @@ import os
 import warnings
 
 from ..util import SysOutCapture
-from .base import Tool, Issue
+from .base import Tool, Issue, ToolIssue
 
 
 # Hacks to prevent pyroma from screwing up the logging system for everyone else
@@ -35,6 +35,11 @@ TIDYPY_ISSUES = {
         'SetupFailed',
         'Execution of the setup module failed:\n%s',
     ),
+
+    'RST_ERROR': (
+        'RstProblem',
+        'The reStructuredText in your description generated errors:\n%s',
+    ),
 }
 
 
@@ -58,14 +63,16 @@ class PyromaTool(Tool):
             for test in ratings.ALL_TESTS
         ] + list(TIDYPY_ISSUES.values())
 
+    def __init__(self, *args, **kwargs):
+        super(PyromaTool, self).__init__(*args, **kwargs)
+        self.disabled = self.config['disabled'][:]
+        if 'LicenseClassifier' in self.disabled:
+            self.disabled.append('LicenceClassifier')
+        if 'Licence' in self.disabled:
+            self.disabled.append('License')
+
     def execute(self, finder):
         issues = []
-
-        disabled = self.config['disabled'][:]
-        if 'LicenseClassifier' in disabled:
-            disabled.append('LicenceClassifier')
-        if 'Licence' in disabled:
-            disabled.append('License')
 
         for filepath in finder.files(self.config['filters']):
             dirname, _ = os.path.split(filepath)
@@ -91,17 +98,35 @@ class PyromaTool(Tool):
                             ))
                         continue
 
-            for test in ratings.ALL_TESTS:
-                name = test.__class__.__name__
-                if name in disabled:
-                    continue
+                    for test in ratings.ALL_TESTS:
+                        name = test.__class__.__name__
+                        if name in self.disabled:
+                            continue
 
-                if test.test(data) is False:
-                    issues.append(PyromaIssue(
-                        name,
-                        test.message(),
-                        filepath,
-                    ))
+                        if test.test(data) is False:
+                            issues.append(PyromaIssue(
+                                name,
+                                test.message(),
+                                filepath,
+                            ))
 
-        return issues
+                    err = capture.get_stderr()
+                    if err:
+                        if err.startswith('<string>:'):
+                            issues.append(PyromaIssue(
+                                TIDYPY_ISSUES['RST_ERROR'][0],
+                                TIDYPY_ISSUES['RST_ERROR'][1] % (err,),
+                                filepath,
+                            ))
+                        else:
+                            issues.append(ToolIssue(
+                                err,
+                                filepath,
+                            ))
+
+        return [
+            issue
+            for issue in issues
+            if issue.code not in self.disabled
+        ]
 
