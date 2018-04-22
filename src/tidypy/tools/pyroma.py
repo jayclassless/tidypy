@@ -4,6 +4,7 @@ import logging
 import os
 import warnings
 
+from ..util import SysOutCapture
 from .base import Tool, Issue
 
 
@@ -24,6 +25,19 @@ ratings.PythonVersion._major_version_specified = False
 ratings.ValidREST._message = ''
 
 
+TIDYPY_ISSUES = {
+    'NOT_CALLED': (
+        'SetupNotCalled',
+        'setup() was not invoked.',
+    ),
+
+    'SCRIPT_FAIL': (
+        'SetupFailed',
+        'Execution of the setup module failed:\n%s',
+    ),
+}
+
+
 class PyromaIssue(Issue):
     tool = 'pyroma'
 
@@ -42,7 +56,7 @@ class PyromaTool(Tool):
         return [
             (test.__class__.__name__, test.message())
             for test in ratings.ALL_TESTS
-        ]
+        ] + list(TIDYPY_ISSUES.values())
 
     def execute(self, finder):
         issues = []
@@ -58,7 +72,24 @@ class PyromaTool(Tool):
 
             with warnings.catch_warnings():
                 warnings.simplefilter('ignore')
-                data = projectdata.get_data(dirname)
+                with SysOutCapture() as capture:
+                    try:
+                        data = projectdata.get_data(dirname)
+                    except RuntimeError:
+                        err = capture.get_stderr()
+                        if err:
+                            issues.append(PyromaIssue(
+                                TIDYPY_ISSUES['SCRIPT_FAIL'][0],
+                                TIDYPY_ISSUES['SCRIPT_FAIL'][1] % (err,),
+                                filepath,
+                            ))
+                        else:
+                            issues.append(PyromaIssue(
+                                TIDYPY_ISSUES['NOT_CALLED'][0],
+                                TIDYPY_ISSUES['NOT_CALLED'][1],
+                                filepath,
+                            ))
+                        continue
 
             for test in ratings.ALL_TESTS:
                 name = test.__class__.__name__
