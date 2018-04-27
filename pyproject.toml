@@ -9,6 +9,7 @@ exclude = [
     'test/.*',
     'build/.*',
     'dist/.*',
+    'Pipfile',
 ]
 vulture = {use = false}
 pydocstyle = {use = false}

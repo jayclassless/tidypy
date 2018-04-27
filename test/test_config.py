@@ -36,6 +36,7 @@ def test_get_tools():
         'pyroma',
         'mccabe',
         'rstlint',
+        'safety',
         'vulture',
         'yamllint',
     ])

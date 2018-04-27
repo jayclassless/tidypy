@@ -53,6 +53,7 @@ setup(
             '2to3 = tidypy.tools.lib2to3:Lib2to3Tool',
             'manifest = tidypy.tools.manifest:CheckManifestTool',
             'pydiatra = tidypy.tools.pydiatra:PyDiatraTool',
+            'safety = tidypy.tools.safety:SafetyTool',
         ],
         'tidypy.reports': [
             'console = tidypy.reports.console:ConsoleReport',
@@ -105,6 +106,9 @@ setup(
         'restructuredtext-lint>=1.1,<2',
         'dennis>=0.9,<1',
         'check-manifest>=0.37,<0.38',
+        'dparse>=0.4,<0.5',
+        'safety-db',
+        'packaging',
     ],
     extras_require={
         ':python_version<"3.4"': [

@@ -27,6 +27,8 @@ def test_exclude():
     finder = Finder('test/project1', cfg)
 
     expected = sorted(fix_paths([
+        'Pipfile',
+        'requirements.txt',
         'data/broken.json',
         'data/broken.po',
         'data/broken.pot',
