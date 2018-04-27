@@ -5,7 +5,7 @@ TidyPy
 .. image:: https://img.shields.io/pypi/v/tidypy.svg
    :target: https://pypi.org/project/tidypy
 .. image:: https://img.shields.io/pypi/l/tidypy.svg
-   :target: https://pypi.python.org/pypi/tidypy
+   :target: https://pypi.org/project/tidypy
 .. image:: https://travis-ci.org/jayclassless/tidypy.svg?branch=master
    :target: https://travis-ci.org/jayclassless/tidypy
 .. image:: https://ci.appveyor.com/api/projects/status/14qradi53f25doe8?svg=true
