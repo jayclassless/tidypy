@@ -8,7 +8,7 @@ TidyPy
    :target: https://pypi.org/project/tidypy
 .. image:: https://travis-ci.org/jayclassless/tidypy.svg?branch=master
    :target: https://travis-ci.org/jayclassless/tidypy
-.. image:: https://ci.appveyor.com/api/projects/status/14qradi53f25doe8?svg=true
+.. image:: https://ci.appveyor.com/api/projects/status/14qradi53f25doe8/branch/master?svg=true
    :target: https://ci.appveyor.com/project/jayclassless/tidypy
 .. image:: https://coveralls.io/repos/github/jayclassless/tidypy/badge.svg?branch=master
    :target: https://coveralls.io/github/jayclassless/tidypy?branch=master
