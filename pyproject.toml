@@ -6,12 +6,12 @@ requires = [
 
 [tool.tidypy]
 exclude = [
+    'docs/source/conf.py',
     'test/.*',
     'build/.*',
     'dist/.*',
 ]
 vulture = {use = false}
-pydocstyle = {use = false}
 disabled = []
 merge-issues = false
 
@@ -19,6 +19,13 @@ merge-issues = false
 disabled = [
     'W391',
     'E731',
+]
+
+[tool.tidypy.pydocstyle]
+disabled = [
+    'D100', 'D101', 'D102', 'D103', 'D104', 'D105', 'D107',
+    'D200', 'D202', 'D203', 'D205', 'D212',
+    'D400', 'D401',
 ]
 
 [tool.tidypy.pylint]
@@ -48,5 +55,13 @@ disabled = [
 [tool.tidypy.2to3]
 disabled = [
     'future',
+]
+
+[tool.tidypy.rstlint.options]
+sphinx-extensions = [
+    'sphinx.ext.autodoc',
+]
+ignore-roles = [
+    'ref',
 ]
 

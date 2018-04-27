@@ -12,33 +12,63 @@ from .config import get_tools
 
 
 class Progress(object):
+    """
+    An interface for receiving events that occur during the execution of a the
+    TidyPy tool suite.
+    """
+
     def __init__(self):
         self.current_tools = []
         self.completed_tools = []
         self._lock = Lock()
 
     def on_start(self):
-        pass
+        """
+        Called when the execution of the TidyPy tool suite begins.
+        """
 
     def on_tool_start(self, tool):
+        """
+        Called when an individual tool begins execution.
+
+        :param tool: the name of the tool that is starting
+        :type tool: str
+        """
+
         with self._lock:
             self.current_tools.append(tool)
 
     def on_tool_finish(self, tool):
+        """
+        Called when an individual tool completes execution.
+
+        :param tool: the name of the tool that completed
+        :type tool: str
+        """
+
         with self._lock:
             if tool in self.current_tools:
                 self.current_tools.remove(tool)
                 self.completed_tools.append(tool)
 
     def on_finish(self):
-        pass
+        """
+        Called after all tools in the suite have completed.
+        """
 
 
 class QuietProgress(Progress):
-    pass
+    """
+    An implementation of ``tidypy.Progress`` that produces no output.
+    """
 
 
 class ConsoleProgress(Progress):
+    """
+    An implementation of ``tidypy.Progress`` that outputs a progress bar to the
+    console.
+    """
+
     def __init__(self, config):
         super(ConsoleProgress, self).__init__()
         self._timer = None

@@ -13,6 +13,7 @@ pytest = "*"
 requests-mock = "*"
 rstyoutube = "*"
 Sphinx = "*"
+sphinx_rtd_theme = "*"
 twine = "*"
 wheel = "*"
 

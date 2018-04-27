@@ -16,9 +16,13 @@ clean::
 	@rm -rf dist build .cache .pytest_cache
 
 build:: clean
-	@python setup.py sdist
-	@python setup.py bdist_wheel
+	@pipenv run python setup.py sdist
+	@pipenv run python setup.py bdist_wheel
+
+docs::
+	@rm -rf docs/build
+	@cd docs && pipenv run make html
 
 publish::
-	@twine upload dist/*
+	@pipenv run twine upload dist/*
 

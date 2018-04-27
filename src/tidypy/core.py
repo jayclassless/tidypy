@@ -83,6 +83,22 @@ class Worker(Process):
 
 
 def execute_tools(config, path, progress=None):
+    """
+    Executes the suite of TidyPy tools upon the a project and returns the
+    issues that are found.
+
+    :param config: the TidyPy configuration to use
+    :type config: dict
+    :param path: that path to the project to analyze
+    :type path: str
+    :param progress:
+        the progress reporter object that will receive callbacks during the
+        execution of the tool suite. If not specified, not progress
+        notifications will occur.
+    :type progress: tidypy.Progress
+    :rtype: tidypy.Collector
+    """
+
     progress = progress or QuietProgress()
     progress.on_start()
 
@@ -145,6 +161,17 @@ def execute_reports(
         collector,
         on_report_finish=None,
         output_file=None):
+    """
+    Executes the configured suite of issue reports.
+
+    :param config: the TidyPy configuration to use
+    :type config: dict
+    :param path: that path to the project that was analyzed
+    :type path: str
+    :param collector: the issues to report
+    :type collector: tidypy.Collector
+    """
+
     reports = get_reports()
     for report in config['reports']:
         if report.get('type') and report['type'] in reports:

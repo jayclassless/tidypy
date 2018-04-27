@@ -20,7 +20,7 @@ class PbbtReport(ConsoleReport):
 
 @Test
 class TidyPyCase(BaseCase):
-    class Input(object):
+    class Input(object):  # noqa: pydocstyle:D106
         tidypy = Field(
             maybe(str),
             hint='The path to the base of project. Defaults to CWD.',

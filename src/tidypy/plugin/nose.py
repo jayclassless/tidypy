@@ -10,9 +10,7 @@ from ..reports.console import ConsoleReport
 
 
 class TidyPy(Plugin):
-    """
-    Executes TidyPy on the project and shows the results.
-    """
+    """Executes TidyPy on the project and shows the results."""
 
     name = 'tidypy'
     project_path = None

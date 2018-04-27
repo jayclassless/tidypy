@@ -24,6 +24,16 @@ from six import iteritems, text_type, StringIO, PY2
 
 
 def merge_list(list1, list2):
+    """
+    Merges the contents of two lists into a new list.
+
+    :param list1: the first list
+    :type list1: list
+    :param list2: the second list
+    :type list2: list
+    :returns: list
+    """
+
     merged = list(list1)
 
     for value in list2:
@@ -34,6 +44,24 @@ def merge_list(list1, list2):
 
 
 def merge_dict(dict1, dict2, merge_lists=False):
+    """
+    Recursively merges the contents of two dictionaries into a new dictionary.
+
+    When both input dictionaries share a key, the value from ``dict2`` is
+    kept.
+
+    :param dict1: the first dictionary
+    :type dict1: dict
+    :param dict2: the second dictionary
+    :type dict2: dict
+    :param merge_lists:
+        when this function encounters a key that contains lists in both input
+        dictionaries, this parameter dictates whether or not those lists should
+        be merged. If not specified, defaults to ``False``.
+    :type merge_lists: bool
+    :returns: dict
+    """
+
     merged = dict(dict1)
 
     for key, value in iteritems(dict2):
@@ -48,11 +76,26 @@ def merge_dict(dict1, dict2, merge_lists=False):
 
 
 def output_error(msg):
+    """
+    Prints the specified string to ``stderr``.
+
+    :param msg: the message to print
+    :type msg: str
+    """
+
     click.echo(click.style(msg, fg='red'), err=True)
 
 
 @contextmanager
 def mod_sys_path(paths):
+    """
+    A context manager that will append the specified paths to Python's
+    ``sys.path`` during the execution of the block.
+
+    :param paths: the paths to append
+    :type paths: list(str)
+    """
+
     old_path = sys.path
     sys.path = paths + sys.path
     try:
@@ -62,6 +105,11 @@ def mod_sys_path(paths):
 
 
 class SysOutCapture(object):
+    """
+    A context manager that captures output to ``stdout`` and ``stderr`` during
+    the execution of the block.
+    """
+
     def __init__(self):
         self._original_streams = None
         self._stdout = None
@@ -79,13 +127,33 @@ class SysOutCapture(object):
         self._original_streams = None
 
     def get_stdout(self):
+        """
+        Retrieves the content that was written to ``stdout``.
+
+        :returns: str
+        """
+
         return self._stdout.getvalue()
 
     def get_stderr(self):
+        """
+        Retrieves the content that was written to ``stderr``.
+
+        :returns: str
+        """
+
         return self._stderr.getvalue()
 
 
 def compile_masks(masks):
+    """
+    Compiles a list of regular expressions.
+
+    :param masks: the regular expressions to compile
+    :type masks: list(str) or str
+    :returns: list(regular expression object)
+    """
+
     if not masks:
         masks = []
     elif not isinstance(masks, (list, tuple)):
@@ -98,6 +166,17 @@ def compile_masks(masks):
 
 
 def matches_masks(target, masks):
+    """
+    Determines whether or not the target string matches any of the regular
+    expressions specified.
+
+    :param target: the string to check
+    :type target: str
+    :param masks: the regular expressions to check against
+    :type masks: list(regular expression object)
+    :returns: bool
+    """
+
     for mask in masks:
         if mask.search(target):
             return True
@@ -105,10 +184,24 @@ def matches_masks(target, masks):
 
 
 def render_json(obj):
+    """
+    Serializes the specified object to JSON.
+
+    :param obj: the object to serialize
+    :returns: str
+    """
+
     return json.dumps(obj, indent=2, separators=(',', ': '))
 
 
 def render_toml(obj):
+    """
+    Serializes the specified object to TOML.
+
+    :param obj: the object to serialize
+    :returns: str
+    """
+
     return pytoml.dumps(obj)
 
 
@@ -135,6 +228,13 @@ TidyYamlDumper.add_representer(OrderedDict, dict_representer)
 
 
 def render_yaml(obj):
+    """
+    Serializes the specified object to YAML.
+
+    :param obj: the object to serialize
+    :returns: str
+    """
+
     return yaml.dump(
         obj,
         default_flow_style=False,
@@ -181,6 +281,17 @@ _FILE_CACHE_LOCK = threading.Lock()
 
 
 def read_file(filepath):
+    """
+    Retrieves the contents of the specified file.
+
+    This function performs simple caching so that the same file isn't read more
+    than once per process.
+
+    :param filepath: the file to read.
+    :type filepath: str
+    :returns: str
+    """
+
     with _FILE_CACHE_LOCK:
         if filepath not in _FILE_CACHE:
             _FILE_CACHE[filepath] = _read_file(filepath)
@@ -196,5 +307,7 @@ _REQUESTS.headers.update({
 
 
 def get_requests():
+    """Retrieves a ``requests`` object to use within TidyPy."""
+
     return _REQUESTS
 

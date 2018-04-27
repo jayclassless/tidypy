@@ -6,6 +6,8 @@ TidyPy
    :target: https://pypi.org/project/tidypy
 .. image:: https://img.shields.io/pypi/l/tidypy.svg
    :target: https://pypi.org/project/tidypy
+.. image:: https://readthedocs.org/projects/tidypy/badge/?version=latest
+   :target: https://tidypy.readthedocs.io
 .. image:: https://travis-ci.org/jayclassless/tidypy.svg?branch=master
    :target: https://travis-ci.org/jayclassless/tidypy
 .. image:: https://ci.appveyor.com/api/projects/status/14qradi53f25doe8/branch/master?svg=true

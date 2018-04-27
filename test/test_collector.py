@@ -73,7 +73,7 @@ def test_sort_issues_default():
     shuffled = [] + expected
     random.shuffle(shuffled)
 
-    assert collector.sort_issues(shuffled) == expected
+    assert collector._sort_issues(shuffled) == expected
 
 
 def test_sort_issues_custom():
@@ -89,7 +89,7 @@ def test_sort_issues_custom():
     shuffled = [] + expected
     random.shuffle(shuffled)
 
-    assert collector.sort_issues(shuffled, ('tool', 'code', 'line')) == expected
+    assert collector._sort_issues(shuffled, ('tool', 'code', 'line')) == expected
 
 
 def test_sort_issues_empty():
@@ -103,7 +103,7 @@ def test_sort_issues_empty():
         FooIssue('test2', 'test message', 'test/file.ext', 5),
     ]
 
-    assert collector.sort_issues(expected, collector.NO_SORT) == expected
+    assert collector._sort_issues(expected, collector.NO_SORT) == expected
 
 
 def test_get_grouped_issues_default():

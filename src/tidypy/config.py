@@ -16,6 +16,16 @@ from .util import merge_dict, output_error
 
 
 def get_tools():
+    """
+    Retrieves the TidyPy tools that are available in the current Python
+    environment.
+
+    The returned dictionary has keys that are the tool names and values are the
+    tool classes.
+
+    :rtype: dict
+    """
+
     # pylint: disable=protected-access
 
     if not hasattr(get_tools, '_CACHE'):
@@ -35,6 +45,16 @@ def get_tools():
 
 
 def get_reports():
+    """
+    Retrieves the TidyPy issue reports that are available in the current Python
+    environment.
+
+    The returned dictionary has keys are the report names and values are the
+    report classes.
+
+    :rtype: dict
+    """
+
     # pylint: disable=protected-access
 
     if not hasattr(get_reports, '_CACHE'):
@@ -54,6 +74,16 @@ def get_reports():
 
 
 def get_extenders():
+    """
+    Retrieves the TidyPy configuration extenders that are available in the
+    current Python environment.
+
+    The returned dictionary has keys are the extender names and values are the
+    extender classes.
+
+    :rtype: dict
+    """
+
     # pylint: disable=protected-access
 
     if not hasattr(get_extenders, '_CACHE'):
@@ -92,6 +122,11 @@ def get_cache_path(location=None):
 
 
 def purge_config_cache(location=None):
+    """
+    Clears out the cache of TidyPy configurations that were retrieved from
+    outside the normal locations.
+    """
+
     cache_path = get_cache_path(location)
 
     if location:
@@ -164,6 +199,12 @@ def process_extensions(config, project_path, use_cache=True):
 
 
 def get_default_config():
+    """
+    Produces a stock/out-of-the-box TidyPy configuration.
+
+    :rtype: dict
+    """
+
     config = {}
 
     for name, cls in iteritems(get_tools()):
@@ -194,6 +235,19 @@ def get_default_config():
 
 
 def get_user_config(project_path, use_cache=True):
+    """
+    Produces a TidyPy configuration that incorporates the configuration files
+    stored in the current user's home directory.
+
+    :param project_path: the path to the project that is going to be analyzed
+    :type project_path: str
+    :param use_cache:
+        whether or not to use cached versions of any remote/referenced TidyPy
+        configurations. If not specified, defaults to ``True``.
+    :type use_cache: bool
+    :rtype: dict
+    """
+
     if sys.platform == 'win32':
         user_config = os.path.expanduser(r'~\\tidypy')
     else:
@@ -214,6 +268,19 @@ def get_user_config(project_path, use_cache=True):
 
 
 def get_local_config(project_path, use_cache=True):
+    """
+    Produces a TidyPy configuration using the ``pyproject.toml`` in the
+    project's directory.
+
+    :param project_path: the path to the project that is going to be analyzed
+    :type project_path: str
+    :param use_cache:
+        whether or not to use cached versions of any remote/referenced TidyPy
+        configurations. If not specified, defaults to ``True``.
+    :type use_cache: bool
+    :rtype: dict
+    """
+
     pyproject_path = os.path.join(project_path, 'pyproject.toml')
 
     if os.path.exists(pyproject_path):
@@ -229,6 +296,22 @@ def get_local_config(project_path, use_cache=True):
 
 
 def get_project_config(project_path, use_cache=True):
+    """
+    Produces the Tidypy configuration to use for the specified project.
+
+    If a ``pyproject.toml`` exists, the configuration will be based on that. If
+    not, the TidyPy configuration in the user's home directory will be used. If
+    one does not exist, the default configuration will be used.
+
+    :param project_path: the path to the project that is going to be analyzed
+    :type project_path: str
+    :param use_cache:
+        whether or not to use cached versions of any remote/referenced TidyPy
+        configurations. If not specified, defaults to ``True``.
+    :type use_cache: bool
+    :rtype: dict
+    """
+
     return get_local_config(project_path, use_cache=use_cache) \
         or get_user_config(project_path, use_cache=use_cache) \
         or get_default_config()

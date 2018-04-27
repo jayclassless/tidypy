@@ -15,6 +15,7 @@ TidyPy Change Log
 * Upgraded the ``pep8-naming`` plugin of the ``pycodestyle`` tool.
 * Added some convenience handling of the ``License`` vs ``Licence`` and
   ``LicenceClassifier`` vs ``LicenseClassifier`` codes reported by ``pyroma``.
+* Added the first draft of the project documentation.
 
 **Fixes**
 
