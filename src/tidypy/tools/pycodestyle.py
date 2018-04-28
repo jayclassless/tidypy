@@ -74,6 +74,11 @@ class TidyPyStyleGuide(StyleGuide):
 
 
 class PyCodeStyleTool(PythonTool):
+    """
+    pycodestyle is a tool to check your Python code against some of the style
+    conventions in PEP 8.
+    """
+
     @classmethod
     def get_default_config(cls):
         config = PythonTool.get_default_config()

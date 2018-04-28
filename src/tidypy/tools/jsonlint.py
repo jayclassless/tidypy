@@ -10,6 +10,12 @@ class JsonLintIssue(Issue):
 
 
 class JsonLintTool(Tool):
+    """
+    A part of the demjson package, this tool validates your JSON documents for
+    strict conformance to the JSON specification, and to detect potential data
+    portability issues.
+    """
+
     @classmethod
     def get_default_config(cls):
         config = Tool.get_default_config()

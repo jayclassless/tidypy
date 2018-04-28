@@ -114,6 +114,11 @@ class Lib2to3Issue(Issue):
 
 
 class Lib2to3Tool(PythonTool):
+    """
+    Uses Python's lib2to3 module to find code that should be changed in order
+    to be compatible with Python 3.
+    """
+
     @classmethod
     def get_default_config(cls):
         cfg = PythonTool.get_default_config()

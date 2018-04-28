@@ -48,6 +48,10 @@ class PyromaIssue(Issue):
 
 
 class PyromaTool(Tool):
+    """
+    Pyroma tests your project's packaging friendliness.
+    """
+
     @classmethod
     def get_default_config(cls):
         config = Tool.get_default_config()

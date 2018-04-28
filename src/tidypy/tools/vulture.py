@@ -88,6 +88,10 @@ class TidyPyVulture(Vulture):
 
 
 class VultureTool(PythonTool):
+    """
+    Vulture finds unused code in Python programs.
+    """
+
     @classmethod
     def get_default_config(cls):
         config = PythonTool.get_default_config()

@@ -19,6 +19,11 @@ class CheckManifestIssue(Issue):
 
 
 class CheckManifestTool(Tool):
+    """
+    Uses the check-manifest script to detect discrepancies or problems with
+    your project's MANIFEST.in file.
+    """
+
     @classmethod
     def get_default_config(cls):
         config = Tool.get_default_config()

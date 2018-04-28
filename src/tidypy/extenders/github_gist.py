@@ -11,6 +11,11 @@ RE_LOCATION = re.compile(r'^github-gist:([^/]+/)?(?P<code>.+)$')
 
 
 class GithubGistExtender(Extender):
+    """
+    Retrieves configurations from pyproject.toml or tidypy files in public
+    GitHub Gists.
+    """
+
     @classmethod
     def can_handle(cls, location):
         if RE_LOCATION.match(location):

@@ -77,6 +77,10 @@ class TidyPyBanditManager(manager.BanditManager):
 
 
 class BanditTool(PythonTool):
+    """
+    Bandit is a security linter for Python source code.
+    """
+
     @classmethod
     def get_default_config(cls):
         config = PythonTool.get_default_config()

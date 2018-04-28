@@ -9,6 +9,11 @@ RE_LOCATION = re.compile(r'^bitbucket:(?P<owner>[^/]+)/(?P<code>.+)$')
 
 
 class BitbucketExtender(Extender):
+    """
+    Retrieves configurations from pyproject.toml or tidypy files in public
+    Bitbucket repositories.
+    """
+
     @classmethod
     def can_handle(cls, location):
         if RE_LOCATION.match(location):

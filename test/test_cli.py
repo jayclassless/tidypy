@@ -47,7 +47,7 @@ def test_list_codes():
 
     toml_result = runner.invoke(main, ['list-codes', '--format=toml'])
     assert toml_result.exit_code == 0
-    assert toml_result.output != ''
+    assert toml_result.output == result.output
 
     json_result = runner.invoke(main, ['list-codes', '--format=json'])
     assert json_result.exit_code == 0
@@ -162,4 +162,34 @@ def test_vcs_mercurial(tmpdir):
 
     result = runner.invoke(main, ['remove-vcs', 'hg', other_dir])
     assert result.exit_code == 1
+
+
+def test_extensions():
+    runner = CliRunner()
+
+    result = runner.invoke(main, ['extensions'])
+    assert result.exit_code == 0
+    assert result.output != ''
+
+    toml_result = runner.invoke(main, ['extensions', '--format=toml'])
+    assert toml_result.exit_code == 0
+    assert toml_result.output == result.output
+
+    json_result = runner.invoke(main, ['extensions', '--format=json'])
+    assert json_result.exit_code == 0
+    assert json_result.output != ''
+    assert json_result.output != toml_result.output
+
+    yaml_result = runner.invoke(main, ['extensions', '--format=yaml'])
+    assert yaml_result.exit_code == 0
+    assert yaml_result.output != ''
+    assert yaml_result.output != toml_result.output
+    assert yaml_result.output != json_result.output
+
+    csv_result = runner.invoke(main, ['extensions', '--format=csv'])
+    assert csv_result.exit_code == 0
+    assert csv_result.output != ''
+    assert csv_result.output != toml_result.output
+    assert csv_result.output != json_result.output
+    assert csv_result.output != yaml_result.output
 

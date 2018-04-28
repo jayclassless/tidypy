@@ -15,6 +15,11 @@ class PyDocStyleIssue(Issue):
 
 
 class PyDocStyleTool(PythonTool):
+    """
+    pydocstyle is a static analysis tool for checking compliance with Python
+    docstring conventions (e.g., PEP 257).
+    """
+
     @classmethod
     def get_all_codes(cls):
         return [

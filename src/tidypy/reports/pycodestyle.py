@@ -2,6 +2,11 @@ from .base import Report
 
 
 class PyCodeStyleReport(Report):
+    """
+    Generates a report that is in the same format as pycodestyle's default
+    output.
+    """
+
     def execute(self, collector):
         issues = collector.get_issues(sortby=('filename', 'line', 'character'))
         for issue in issues:

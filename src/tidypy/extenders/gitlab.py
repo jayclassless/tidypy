@@ -9,6 +9,11 @@ RE_LOCATION = re.compile(r'^gitlab:(?P<owner>[^/]+)/(?P<project>.+)$')
 
 
 class GitlabExtender(Extender):
+    """
+    Retrieves configurations from pyproject.toml or tidypy files in public
+    GitLab repositories.
+    """
+
     @classmethod
     def can_handle(cls, location):
         if RE_LOCATION.match(location):

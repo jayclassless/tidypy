@@ -17,6 +17,10 @@ class YamlLintIssue(Issue):
 
 
 class YamlLintTool(Tool):
+    """
+    The yamllint tool, as its name implies, is a linter for YAML files.
+    """
+
     @classmethod
     def get_default_config(cls):
         config = Tool.get_default_config()

@@ -19,6 +19,11 @@ class PoLintIssue(Issue):
 
 
 class PoLintTool(Tool):
+    """
+    A part of the dennis package, this tool lints PO and POT files for
+    problems.
+    """
+
     @classmethod
     def get_default_config(cls):
         config = Tool.get_default_config()

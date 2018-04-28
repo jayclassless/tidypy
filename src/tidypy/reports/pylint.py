@@ -9,6 +9,10 @@ TMPL_ISSUE = '{type}:{line:>3},{character:>2}: {message} ({code}@{tool})'
 
 
 class PyLintReport(Report):
+    """
+    Generates a report that is in the same format as Pylint's default output.
+    """
+
     def execute(self, collector):
         issues = collector.get_grouped_issues()
 

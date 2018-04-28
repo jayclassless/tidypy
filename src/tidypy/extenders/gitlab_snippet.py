@@ -10,6 +10,11 @@ RE_LOCATION = re.compile(r'^gitlab-snippet:(?P<code>.+)$')
 
 
 class GitlabSnippetExtender(Extender):
+    """
+    Retrieves configurations from pyproject.toml or tidypy files in public
+    GitLab Snippets.
+    """
+
     @classmethod
     def can_handle(cls, location):
         if RE_LOCATION.match(location):

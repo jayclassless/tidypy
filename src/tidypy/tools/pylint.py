@@ -138,6 +138,11 @@ class TidyPyReporter(BaseReporter):
 
 
 class PyLintTool(Tool):
+    """
+    Pylint is a Python source code analyzer which looks for programming errors,
+    helps enforcing a coding standard and sniffs for some code smells.
+    """
+
     ALWAYS_DISABLED = [
         'locally-disabled',
         'locally-enabled',

@@ -40,6 +40,11 @@ class RstLintIssue(Issue):
 
 
 class RstLintTool(Tool):
+    """
+    The restructuredtext-lint tool, as its name implies, is a linter for
+    reStructuredText files.
+    """
+
     @classmethod
     def get_default_config(cls):
         config = Tool.get_default_config()

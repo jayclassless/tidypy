@@ -18,6 +18,11 @@ TAB = ' ' * 8
 
 
 class ConsoleReport(Report):
+    """
+    Prints a colored report to the console that groups issues by the file they
+    were found in.
+    """
+
     def execute(self, collector):
         issues = collector.get_grouped_issues()
 

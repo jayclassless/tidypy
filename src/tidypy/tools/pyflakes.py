@@ -54,6 +54,10 @@ class TidyPyReporter(Reporter):
 
 
 class PyFlakesTool(PythonTool):
+    """
+    Pyflakes is a simple program which checks Python source files for errors.
+    """
+
     @classmethod
     def get_all_codes(cls):
         codes = []

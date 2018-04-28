@@ -38,6 +38,10 @@ class StructuredReport(Report):
 
 
 class CsvReport(StructuredReport):
+    """
+    Generates a set of CSV records that contains the results of the analysis.
+    """
+
     def execute(self, collector):
         issues = self.get_structure(collector)
         writer = csv.writer(self.output_file, lineterminator=u'\n')  # noqa: @2to3
@@ -63,18 +67,33 @@ class CsvReport(StructuredReport):
 
 
 class JsonReport(StructuredReport):
+    """
+    Generates a JSON-serialized object that contains the results of the
+    analysis.
+    """
+
     def execute(self, collector):
         issues = self.get_structure(collector)
         self.output(render_json(issues))
 
 
 class TomlReport(StructuredReport):
+    """
+    Generates a TOML-serialized object that contains the results of the
+    analysis.
+    """
+
     def execute(self, collector):
         issues = self.get_structure(collector)
         self.output(render_toml(issues))
 
 
 class YamlReport(StructuredReport):
+    """
+    Generates a YAML-serialized object that contains the results of the
+    analysis.
+    """
+
     def execute(self, collector):
         issues = self.get_structure(collector)
         self.output(render_yaml(issues))

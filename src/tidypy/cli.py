@@ -1,5 +1,6 @@
 
 import csv
+import inspect
 import os
 
 from collections import OrderedDict
@@ -12,6 +13,7 @@ from .core import execute_tools, execute_reports
 from .config import (
     get_tools,
     get_reports,
+    get_extenders,
     get_default_config,
     get_project_config,
     purge_config_cache,
@@ -327,4 +329,52 @@ def remove_vcs(ctx, vcs, path):
     except Exception as exc:  # pylint: disable=broad-except
         output_error('VCS hook removal failed: %s' % (exc,))
         ctx.exit(1)
+
+
+def getdoc(clazz):
+    doc = inspect.getdoc(clazz) or ''
+    return doc.replace('\n', ' ')
+
+
+@main.command(
+    'extensions',
+    short_help='Outputs a listing of all available TidyPy extensions.',
+    help='Outputs a listing of all available TidyPy extensions.',
+)
+@click.option(
+    '--format',
+    '-f',
+    'fmt',
+    type=click.Choice(['toml', 'json', 'yaml', 'csv']),
+    default='toml',
+    help='Specifies the format in which the tools should be output. If not'
+    ' specified, defaults to TOML.',
+)
+def extensions(fmt):
+    ext = OrderedDict()
+
+    ext['tools'] = OrderedDict()
+    for name, tool in sorted(iteritems(get_tools())):
+        ext['tools'][name] = getdoc(tool)
+
+    ext['reports'] = OrderedDict()
+    for name, report in sorted(iteritems(get_reports())):
+        ext['reports'][name] = getdoc(report)
+
+    ext['extenders'] = OrderedDict()
+    for name, extender in sorted(iteritems(get_extenders())):
+        ext['extenders'][name] = getdoc(extender)
+
+    if fmt == 'toml':
+        click.echo(render_toml(ext))
+    elif fmt == 'json':
+        click.echo(render_json(ext))
+    elif fmt == 'yaml':
+        click.echo(render_yaml(ext))
+    elif fmt == 'csv':
+        writer = csv.writer(click.get_text_stream('stdout'))
+        writer.writerow(['type', 'name', 'description'])
+        for type_ in ext:
+            for name, description in iteritems(ext[type_]):
+                writer.writerow([type_, name, description])
 

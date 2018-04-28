@@ -11,6 +11,10 @@ class EradicateIssue(Issue):
 
 
 class EradicateTool(PythonTool):
+    """
+    Eradicate finds commented-out code in Python files.
+    """
+
     @classmethod
     def can_be_used(cls):
         return not six.PY3

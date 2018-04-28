@@ -10,6 +10,10 @@ class PyDiatraIssue(Issue):
 
 
 class PyDiatraTool(PythonTool):
+    """
+    pydiatra is yet another static checker for Python code.
+    """
+
     @classmethod
     def can_be_used(cls):
         try:

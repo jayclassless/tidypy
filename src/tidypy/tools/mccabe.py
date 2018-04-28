@@ -18,6 +18,11 @@ TMPL_COMPLEX = '"{entity}" is too complex ({score})'
 
 
 class McCabeTool(PythonTool):
+    """
+    Ned Batchelder's script to check the McCabe the cyclomatic complexity of
+    Python code.
+    """
+
     @classmethod
     def get_default_config(cls):
         config = PythonTool.get_default_config()

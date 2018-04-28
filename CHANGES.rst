@@ -16,6 +16,8 @@ TidyPy Change Log
 * Added some convenience handling of the ``License`` vs ``Licence`` and
   ``LicenceClassifier`` vs ``LicenseClassifier`` codes reported by ``pyroma``.
 * Added the first draft of the project documentation.
+* Added an ``extensions`` command that will output a listing of all the
+  available tools, reports, and extenders that are available.
 
 **Fixes**
 

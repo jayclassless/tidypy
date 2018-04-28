@@ -61,7 +61,7 @@ Usage
 When TidyPy is installed, the ``tidypy`` command should become available in
 your environment::
 
-    $ tidypy
+    $ tidypy --help
     Usage: tidypy [OPTIONS] COMMAND [ARGS]...
 
       A tool that executes several static analysis tools upon a Python project
@@ -75,6 +75,7 @@ your environment::
       check               Executes the tools upon the project files.
       default-config      Outputs a default configuration that can be used to
                           bootstrap your own configuration file.
+      extensions          Outputs a listing of all available TidyPy extensions.
       install-vcs         Installs TidyPy as a pre-commit hook into the specified
                           VCS.
       list-codes          Outputs a listing of all known issue codes that tools
@@ -303,7 +304,7 @@ pyflakes
     .. _Pyflakes: https://github.com/PyCQA/pyflakes
 
 mccabe
-    Ned Batchelder's script to check `McCabe`_ the cyclomatic complexity of
+    Ned Batchelder's script to check the `McCabe`_ cyclomatic complexity of
     Python code.
 
     .. _McCabe: https://github.com/pycqa/mccabe
@@ -327,7 +328,7 @@ rstlint
     .. _restructuredtext-lint: https://github.com/twolfson/restructuredtext-lint
 
 polint
-    A part of the `dennis`_, package this tool lints PO and POT files for
+    A part of the `dennis`_ package, this tool lints PO and POT files for
     problems.
 
     .. _dennis: https://github.com/willkg/dennis

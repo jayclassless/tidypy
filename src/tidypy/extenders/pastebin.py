@@ -9,6 +9,10 @@ RE_LOCATION = re.compile(r'^pastebin:(?P<code>.+)$')
 
 
 class PastebinExtender(Extender):
+    """
+    Retrieves configurations from public pastebin.com Pastes.
+    """
+
     @classmethod
     def can_handle(cls, location):
         if RE_LOCATION.match(location):
