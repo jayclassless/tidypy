@@ -9,6 +9,9 @@ python:
   - "pypy"
   - "pypy3"
 
+env:
+  - PIPENV_IGNORE_VIRTUALENVS=1
+
 install:
   - pip install pipenv
   - pipenv --version
