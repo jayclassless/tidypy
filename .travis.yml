@@ -10,7 +10,7 @@ python:
   - "pypy3"
 
 install:
-  - pip install "pipenv<11.10"
+  - pip install pipenv
   - pipenv --version
   - make setup
 

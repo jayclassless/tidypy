@@ -9,9 +9,9 @@ environment:
 
 install:
   - pip --version
-  - pip install "pipenv<11.10"
+  - pip install pipenv
   - pipenv --version
-  - pipenv install --dev --skip-lock
+  - pipenv install --dev
 
 test_script:
   - pipenv run py.test
