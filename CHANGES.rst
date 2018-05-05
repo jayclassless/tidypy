@@ -5,7 +5,7 @@ TidyPy Change Log
 .. contents:: Releases
 
 
-0.5.0 (2018-xx-xx)
+0.5.0 (2018-05-05)
 ==================
 
 **Enhancements**
