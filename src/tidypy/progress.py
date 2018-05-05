@@ -79,6 +79,7 @@ class ConsoleProgress(Progress):
             if config[name]['use']
         ]
 
+        tqdm.monitor_interval = 0
         self._bar = tqdm(
             total=len(tools),
             desc='Analyzing',
