@@ -117,10 +117,10 @@ class Issue(object):
     line = None
 
     #: The character number within the line of the file where the issue was
-    #: found (if known). THe first column in a line is notated as 1 (not zero).
+    #: found (if known). The first column in a line is notated as 1 (not zero).
     character = None
 
-    #: A character indicating the comperable pylint category this issue would
+    #: A character indicating the comparable pylint category this issue would
     #: fall into: E=error, W=warning, R=refactor, C=convention
     pylint_type = 'E'
 
@@ -175,7 +175,7 @@ class UnknownIssue(TidyPyIssue):
 
 class AccessIssue(TidyPyIssue):
     """
-    An issue indiciating that a file/directory cannot be accessed (typically
+    An issue indicating that a file/directory cannot be accessed (typically
     due to permissions).
     """
 

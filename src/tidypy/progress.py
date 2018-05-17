@@ -13,7 +13,7 @@ from .config import get_tools
 
 class Progress(object):
     """
-    An interface for receiving events that occur during the execution of a the
+    An interface for receiving events that occur during the execution of the
     TidyPy tool suite.
     """
 

@@ -84,7 +84,7 @@ class Worker(Process):
 
 def execute_tools(config, path, progress=None):
     """
-    Executes the suite of TidyPy tools upon the a project and returns the
+    Executes the suite of TidyPy tools upon the project and returns the
     issues that are found.
 
     :param config: the TidyPy configuration to use

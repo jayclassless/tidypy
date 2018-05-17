@@ -53,7 +53,7 @@ class Finder(object):
         """
         Reformats a file path to be relative to this Finder's project path.
 
-        :param filepath: the path to reformt
+        :param filepath: the path to reformat
         :type filepath: str or pathlib.Path
         :rtype: str
         """
