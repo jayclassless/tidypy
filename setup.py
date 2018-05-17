@@ -105,15 +105,13 @@ setup(
         'restructuredtext-lint>=1.1,<2',
         'dennis>=0.9,<1',
         'check-manifest>=0.37,<0.38',
+        'pydiatra>=0.12.2,<0.13',
     ],
     extras_require={
         ':python_version<"3.4"': [
             'pathlib2',
             'backports.csv',
             'eradicate>=0.2,<0.3',
-        ],
-        ':platform_system!="Windows"': [
-            'pydiatra>=0.12,<0.13',
         ],
     },
 )

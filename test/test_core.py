@@ -1,6 +1,4 @@
 
-import sys
-
 import six
 
 from tidypy import execute_tools, execute_reports, get_default_config, \
@@ -16,8 +14,6 @@ def test_execute_tools(capsys):
     if six.PY3:
         expected_tools.remove('eradicate')
         expected_tools.remove('2to3')
-    if sys.platform == 'win32':
-        expected_tools.remove('pydiatra')
 
     progress = QuietProgress()
     collector = execute_tools(cfg, 'test/project1', progress=progress)

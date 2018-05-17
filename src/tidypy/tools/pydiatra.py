@@ -2,6 +2,8 @@ from __future__ import absolute_import
 
 import warnings
 
+from pydiatra.checks import check_source
+
 from .base import PythonTool, Issue, AccessIssue
 
 
@@ -15,20 +17,11 @@ class PyDiatraTool(PythonTool):
     """
 
     @classmethod
-    def can_be_used(cls):
-        try:
-            import pydiatra  # noqa: unused-variable
-            return True
-        except ImportError:
-            return False
-
-    @classmethod
     def get_all_codes(cls):
         # Not currently a way to introspect all the codes pydiatra can return
         return []
 
     def execute(self, finder):
-        from pydiatra.checks import check_source
         issues = []
 
         with warnings.catch_warnings():
