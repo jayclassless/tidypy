@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='tidypy',
-    version='0.5.0',
+    version='0.6.0',
     description='A tool that executes a suite of static analysis tools upon a'
     ' Python project.',
     long_description=open('README.rst', 'r').read(),
@@ -92,7 +92,7 @@ setup(
         'requests>=2,<3',
 
         'pycodestyle>=2.3,<2.4',
-        'pep8-naming>=0.4,<0.6',
+        'pep8-naming>=0.4,<0.8',
         'pydocstyle>=2,<3',
         'pyroma>=2.2,<3',
         'vulture>=0.25,<0.27',

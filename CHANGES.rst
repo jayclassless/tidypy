@@ -5,7 +5,16 @@ TidyPy Change Log
 .. contents:: Releases
 
 
-0.5.0 (2018-xx-xx)
+0.6.0 (2018-xx-xx)
+==================
+
+**Enhancements**
+
+* Enabled the ``pydiatra`` tool on windows.
+* Upgraded the ``pep8-naming`` plugin of the ``pycodestyle`` tool.
+
+
+0.5.0 (2018-05-05)
 ==================
 
 **Enhancements**
