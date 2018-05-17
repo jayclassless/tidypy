@@ -16,7 +16,7 @@ install:
   - "%PYTHON%\\python.exe -m pipenv install --dev"
 
 cache:
-  - "%LocalAppData%\\pip\\cache"
+  - "%LocalAppData%\\pip\\Cache"
 
 test_script:
   - "%PYTHON%\\python.exe -m pipenv run py.test"
