@@ -8,7 +8,7 @@ environment:
     - PYTHON: "C:\\Python36"
 
 install:
-  - "set PATH=%PYTHON%;%PYTHON%\Scripts;%PATH%"
+  - "set PATH=%PYTHON%;%PYTHON%\\Scripts;%PATH%"
   - "%PYTHON%\\python.exe --version"
   - "%PYTHON%\\python.exe -m pip --version"
   - "%PYTHON%\\python.exe -m pip install pipenv"
@@ -16,7 +16,7 @@ install:
   - "%PYTHON%\\python.exe -m pipenv install --dev"
 
 cache:
-  - "%LocalAppData%\pip\cache"
+  - "%LocalAppData%\\pip\\cache"
 
 test_script:
   - "%PYTHON%\\python.exe -m pipenv run py.test"
