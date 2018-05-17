@@ -1,6 +1,7 @@
 
 import sys
 
+from six import PY2
 from tidypy import execute_reports, get_default_config, Collector, TidyPyIssue
 
 
@@ -83,6 +84,8 @@ def test_console_execute(capsys):
     expected = EXPECTED_CONSOLE.rstrip()
     if sys.platform == 'win32':
         expected = expected.replace(u'\u2717 ', '')
+        if PY2:
+            expected = expected.replace('\n', '\r\n')
 
     out, err = capsys.readouterr()
     assert out.rstrip() == expected
