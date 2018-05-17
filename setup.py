@@ -99,7 +99,7 @@ setup(
         'bandit>=1.4,<2',
         'pyflakes>=1.5,<1.7',
         'mccabe>=0.6,<0.7',
-        'pylint>=1.7,<1.9',
+        'pylint>=1.7,<1.10',
         'demjson>=2.2.4,<3',
         'yamllint>=1.8,<2',
         'restructuredtext-lint>=1.1,<2',

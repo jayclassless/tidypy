@@ -11,6 +11,7 @@ TidyPy Change Log
 **Enhancements**
 
 * Enabled the ``pydiatra`` tool on windows.
+* Upgraded the ``pylint`` tool.
 * Upgraded the ``pep8-naming`` plugin of the ``pycodestyle`` tool.
 
 
