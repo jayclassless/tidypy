@@ -1,6 +1,6 @@
 try:
     from backports import csv
-except ImportError:
+except ImportError:  # pragma: PY3
     import csv
 
 from collections import OrderedDict
