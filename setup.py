@@ -88,7 +88,7 @@ setup(
         'click>=6,<7',
         'tqdm>=4.11,<5',
         'pytoml>=0.1,<0.2',
-        'pyyaml>=3.12,<4',
+        'pyyaml>=3.12,<5',
         'requests>=2,<3',
 
         'pycodestyle>=2.3,<2.4',
@@ -97,7 +97,7 @@ setup(
         'pyroma>=2.2,<3',
         'vulture>=0.25,<0.28',
         'bandit>=1.4,<2',
-        'pyflakes>=1.5,<3',
+        'pyflakes>=1.5,<1.7',
         'mccabe>=0.6,<0.7',
         'pylint>=1.7,<1.10',
         'demjson>=2.2.4,<3',
