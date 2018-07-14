@@ -58,8 +58,8 @@ Features
 
 Usage
 -----
-When TidyPy is installed, the ``tidypy`` command should become available in
-your environment::
+When TidyPy is installed (``pip install tidypy``), the ``tidypy`` command
+should become available in your environment::
 
     $ tidypy --help
     Usage: tidypy [OPTIONS] COMMAND [ARGS]...
