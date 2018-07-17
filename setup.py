@@ -54,6 +54,7 @@ setup(
             '2to3 = tidypy.tools.lib2to3:Lib2to3Tool',
             'manifest = tidypy.tools.manifest:CheckManifestTool',
             'pydiatra = tidypy.tools.pydiatra:PyDiatraTool',
+            'secrets = tidypy.tools.secrets:DetectSecretsTool',
         ],
         'tidypy.reports': [
             'console = tidypy.reports.console:ConsoleReport',
@@ -107,6 +108,7 @@ setup(
         'dennis>=0.9,<1',
         'check-manifest>=0.37,<0.38',
         'pydiatra>=0.12.2,<0.13',
+        'detect-secrets>=0.9.1,<0.10',
     ],
     extras_require={
         ':python_version<"3.4"': [

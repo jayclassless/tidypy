@@ -10,6 +10,7 @@ exclude = [
     'test/.*',
     'build/.*',
     'dist/.*',
+    'Pipfile.lock',
 ]
 vulture = {use = false}
 disabled = []

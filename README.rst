@@ -101,7 +101,7 @@ To have TidyPy analyze your project, use the ``check`` subcommand::
                                       the examination. Can be specified multiple
                                       times. Overrides the expressions specified
                                       in the configuration file.
-      -t, --tool [2to3|bandit|eradicate|jsonlint|manifest|mccabe|polint|pycodestyle|pydiatra|pydocstyle|pyflakes|pylint|pyroma|rstlint|vulture|yamllint]
+      -t, --tool [2to3|bandit|eradicate|jsonlint|manifest|mccabe|polint|pycodestyle|pydiatra|pydocstyle|pyflakes|pylint|pyroma|rstlint|secrets|vulture|yamllint]
                                       Specifies the name of a tool to use during
                                       the examination. Can be specified multiple
                                       times. Overrides the configuration file.
@@ -147,7 +147,7 @@ use the ``list-codes`` subcommand::
       Outputs a listing of all known issue codes that tools may report.
 
     Options:
-      -t, --tool [2to3|bandit|eradicate|jsonlint|manifest|mccabe|polint|pycodestyle|pydiatra|pydocstyle|pyflakes|pylint|pyroma|rstlint|vulture|yamllint]
+      -t, --tool [2to3|bandit|eradicate|jsonlint|manifest|mccabe|polint|pycodestyle|pydiatra|pydocstyle|pyflakes|pylint|pyroma|rstlint|secrets|vulture|yamllint]
                                       Specifies the name of a tool whose codes
                                       should be output. If not specified, defaults
                                       to all tools.
@@ -220,6 +220,9 @@ support and notation for doing this:
   #error-codes>`_ comments that look like: ``# noqa``
 * `pydocstyle will also respect <http://www.pydocstyle.org/en/2.1.1/
   usage.html#in-file-configuration>`_ comments that look like: ``# noqa``
+* `detect-secrets will respect <https://github.com/Yelp/detect-secrets
+  #inline-whitelisting>`_ comments that look like: ``# pragma: whitelist
+  secret``
 
 TidyPy goes beyond these tool-specific flags to implement ``# noqa`` on a
 global scale for Python source files. It will ignore issues for lines that have
@@ -352,6 +355,11 @@ pydiatra
 
     .. _pydiatra: https://github.com/jwilk/pydiatra
 
+secrets
+    The `detect-secrets`_ tool attempts to find secrets (keys, passwords, etc)
+    within a code base.
+
+    .. _detect-secrets: https://github.com/Yelp/detect-secrets
 
 .. _reporters:
 
