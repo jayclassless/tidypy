@@ -5,11 +5,11 @@ except ImportError:  # pragma: PY3
 
 from collections import OrderedDict
 
+import basicserial
 import pkg_resources
 
 from six import iteritems, text_type
 
-from ..util import render_toml, render_json, render_yaml
 from .base import Report
 
 
@@ -74,7 +74,7 @@ class JsonReport(StructuredReport):
 
     def execute(self, collector):
         issues = self.get_structure(collector)
-        self.output(render_json(issues))
+        self.output(basicserial.to_json(issues, pretty=True))
 
 
 class TomlReport(StructuredReport):
@@ -85,7 +85,7 @@ class TomlReport(StructuredReport):
 
     def execute(self, collector):
         issues = self.get_structure(collector)
-        self.output(render_toml(issues))
+        self.output(basicserial.to_toml(issues, pretty=True))
 
 
 class YamlReport(StructuredReport):
@@ -96,5 +96,5 @@ class YamlReport(StructuredReport):
 
     def execute(self, collector):
         issues = self.get_structure(collector)
-        self.output(render_yaml(issues))
+        self.output(basicserial.to_yaml(issues, pretty=True))
 

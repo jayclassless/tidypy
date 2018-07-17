@@ -1,10 +1,11 @@
 
 from __future__ import absolute_import
 
+import basicserial
+
 from yamllint import linter
 from yamllint.config import YamlLintConfig
 
-from ..util import render_yaml
 from .base import Tool, Issue, AccessIssue, UnknownIssue
 
 
@@ -59,7 +60,7 @@ class YamlLintTool(Tool):
             elif rule in self.config['options']:
                 rule_parts.append('  %s: %s' % (
                     rule,
-                    render_yaml(self.config['options'][rule]),
+                    basicserial.to_yaml(self.config['options'][rule]),
                 ))
 
         if rule_parts:

@@ -92,6 +92,7 @@ setup(
         'pytoml>=0.1,<0.2',
         'pyyaml>=3.12,<5',
         'requests>=2,<3',
+        'basicserial>=0.1,<0.2',
 
         'pycodestyle>=2.3,<2.4',
         'pep8-naming>=0.4,<0.8',

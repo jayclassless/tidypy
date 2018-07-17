@@ -121,7 +121,6 @@ character = 23
 code = "code3"
 tool = "tidypy"
 message = "Message 3"
-
 '''
 
 

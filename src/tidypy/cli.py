@@ -6,6 +6,7 @@ import os
 from collections import OrderedDict
 
 import click
+import basicserial
 
 from six import iteritems
 
@@ -21,7 +22,7 @@ from .config import (
 from .plugin.git import GitHook
 from .plugin.mercurial import MercurialHook
 from .progress import QuietProgress, ConsoleProgress
-from .util import output_error, render_toml, render_json, render_yaml
+from .util import output_error
 
 
 # pylint: disable=too-many-arguments
@@ -201,11 +202,11 @@ def list_codes(tools, fmt):
         codes[tool] = dict(all_tools[tool].get_all_codes())
 
     if fmt == 'toml':
-        click.echo(render_toml(codes))
+        click.echo(basicserial.to_toml(codes, pretty=True))
     elif fmt == 'json':
-        click.echo(render_json(codes))
+        click.echo(basicserial.to_json(codes, pretty=True))
     elif fmt == 'yaml':
-        click.echo(render_yaml(codes))
+        click.echo(basicserial.to_yaml(codes, pretty=True))
     elif fmt == 'csv':
         writer = csv.writer(click.get_text_stream('stdout'))
         writer.writerow(['tool', 'code', 'message'])
@@ -237,7 +238,7 @@ def default_config(pyproject):
     if pyproject:
         config = {'tool': {'tidypy': config}}
 
-    click.echo(render_toml(config))
+    click.echo(basicserial.to_toml(config, pretty=True))
 
 
 @main.command(
@@ -366,11 +367,11 @@ def extensions(fmt):
         ext['extenders'][name] = getdoc(extender)
 
     if fmt == 'toml':
-        click.echo(render_toml(ext))
+        click.echo(basicserial.to_toml(ext, pretty=True))
     elif fmt == 'json':
-        click.echo(render_json(ext))
+        click.echo(basicserial.to_json(ext, pretty=True))
     elif fmt == 'yaml':
-        click.echo(render_yaml(ext))
+        click.echo(basicserial.to_yaml(ext, pretty=True))
     elif fmt == 'csv':
         writer = csv.writer(click.get_text_stream('stdout'))
         writer.writerow(['type', 'name', 'description'])

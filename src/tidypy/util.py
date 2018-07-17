@@ -1,12 +1,10 @@
 
 import codecs
-import json
 import re
 import sys
 import threading
 import tokenize
 
-from collections import OrderedDict
 from contextlib import contextmanager
 
 try:
@@ -16,11 +14,9 @@ except ImportError:  # pragma: PY2
 
 import click
 import pkg_resources
-import pytoml
 import requests
-import yaml
 
-from six import iteritems, text_type, StringIO, PY2
+from six import iteritems, StringIO, PY2
 
 
 def merge_list(list1, list2):
@@ -181,65 +177,6 @@ def matches_masks(target, masks):
         if mask.search(target):
             return True
     return False
-
-
-def render_json(obj):
-    """
-    Serializes the specified object to JSON.
-
-    :param obj: the object to serialize
-    :returns: str
-    """
-
-    return json.dumps(obj, indent=2, separators=(',', ': '))
-
-
-def render_toml(obj):
-    """
-    Serializes the specified object to TOML.
-
-    :param obj: the object to serialize
-    :returns: str
-    """
-
-    return pytoml.dumps(obj)
-
-
-class TidyYamlDumper(yaml.Dumper):  # pylint: disable=too-many-ancestors
-    pass
-
-
-def unicode_representer(dumper, ustr):
-    return dumper.represent_scalar(
-        'tag:yaml.org,2002:str',
-        ustr,
-    )
-
-
-def dict_representer(dumper, data):
-    return dumper.represent_mapping(
-        yaml.resolver.BaseResolver.DEFAULT_MAPPING_TAG,
-        list(data.items())
-    )
-
-
-TidyYamlDumper.add_representer(text_type, unicode_representer)
-TidyYamlDumper.add_representer(OrderedDict, dict_representer)
-
-
-def render_yaml(obj):
-    """
-    Serializes the specified object to YAML.
-
-    :param obj: the object to serialize
-    :returns: str
-    """
-
-    return yaml.dump(
-        obj,
-        default_flow_style=False,
-        Dumper=TidyYamlDumper,
-    ).rstrip()
 
 
 DEFAULT_ENCODING = 'latin-1'
