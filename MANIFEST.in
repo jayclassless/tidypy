@@ -1,5 +1,5 @@
 include README.rst LICENSE.rst CHANGES.rst
-exclude Makefile Pipfile appveyor.yml pyproject.toml
+exclude Makefile Pipfile appveyor.yml pyproject.toml readthedocs.yml
 prune test
 prune docs
 
