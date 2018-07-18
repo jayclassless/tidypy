@@ -1,12 +1,11 @@
 from __future__ import absolute_import
 
-import ast
-
 from vulture import Vulture
 from vulture.core import ENCODING_REGEX
 from vulture.utils import VultureInputException
 
 from .base import PythonTool, Issue, ParseIssue, AccessIssue
+from ..util import parse_python_file
 
 
 class VultureIssue(Issue):
@@ -58,8 +57,8 @@ class TidyPyVulture(Vulture):
         self.code = code.splitlines()
         self.filename = filename
         try:
-            node = ast.parse(code, filename=self.filename)
-        except SyntaxError as err:
+            node = parse_python_file(self.filename)
+        except (SyntaxError, TypeError) as err:
             self._tidypy_issues.append(ParseIssue(err, filename))
         else:
             self.visit(node)

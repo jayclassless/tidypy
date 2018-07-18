@@ -1,12 +1,11 @@
 
 from __future__ import absolute_import
 
-import ast
-
 from mccabe import PathGraphingAstVisitor
 from six import itervalues
 
 from .base import PythonTool, Issue, AccessIssue, ParseIssue
+from ..util import parse_python_file
 
 
 class McCabeIssue(Issue):
@@ -45,11 +44,7 @@ class McCabeTool(PythonTool):
 
         for filepath in finder.files(self.config['filters']):
             try:
-                source = finder.read_file(filepath)
-                tree = ast.parse(
-                    source,
-                    filename=filepath,
-                )
+                tree = parse_python_file(filepath)
             except (SyntaxError, TypeError) as exc:
                 issues.append(ParseIssue(exc, filepath))
                 continue
