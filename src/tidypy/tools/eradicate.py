@@ -10,6 +10,10 @@ class EradicateIssue(Issue):
     pylint_type = 'R'
 
 
+CODE = 'commented'
+DESCRIPTION = 'Commented-out code'
+
+
 class EradicateTool(PythonTool):
     """
     Eradicate finds commented-out code in Python files.
@@ -21,13 +25,14 @@ class EradicateTool(PythonTool):
 
     @classmethod
     def get_all_codes(cls):
-        return [
-            ('commented', 'Commented-out code'),
-        ]
+        return [(CODE, DESCRIPTION)]
 
     def execute(self, finder):  # pragma: PY2
         from eradicate import commented_out_code_line_numbers
+
         issues = []
+        if CODE in self.config['disabled']:
+            return issues
 
         for filepath in finder.files(self.config['filters']):
             try:
@@ -38,8 +43,8 @@ class EradicateTool(PythonTool):
 
             for line in commented_out_code_line_numbers(source):
                 issues.append(EradicateIssue(
-                    'commented',
-                    'Commented-out code',
+                    CODE,
+                    DESCRIPTION,
                     filepath,
                     line,
                 ))

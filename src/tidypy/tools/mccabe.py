@@ -13,7 +13,8 @@ class McCabeIssue(Issue):
     pylint_type = 'W'
 
 
-TMPL_COMPLEX = '"{entity}" is too complex ({score})'
+CODE = 'complex'
+DESCRIPTION = '"{entity}" is too complex ({score})'
 
 
 class McCabeTool(PythonTool):
@@ -32,14 +33,11 @@ class McCabeTool(PythonTool):
 
     @classmethod
     def get_all_codes(cls):
-        return [
-            ('complex', TMPL_COMPLEX),
-        ]
+        return [(CODE, DESCRIPTION)]
 
     def execute(self, finder):
         issues = []
-
-        if 'complex' in self.config['disabled']:
+        if CODE in self.config['disabled']:
             return issues
 
         for filepath in finder.files(self.config['filters']):
@@ -60,7 +58,7 @@ class McCabeTool(PythonTool):
                 if complexity > self.config['options']['max-complexity']:
                     issues.append(McCabeIssue(
                         'complex',
-                        TMPL_COMPLEX.format(
+                        DESCRIPTION.format(
                             entity=graph.entity,
                             score=complexity,
                         ),

@@ -16,7 +16,7 @@ class DetectSecretsIssue(Issue):
 
 
 CODE = 'secret'
-DESCRIPTION = 'Possible secret detected: %s'
+DESCRIPTION = 'Possible secret detected: {description}'
 
 
 class DetectSecretsTool(Tool):
@@ -31,6 +31,8 @@ class DetectSecretsTool(Tool):
 
     def execute(self, finder):
         issues = []
+        if CODE in self.config['disabled']:
+            return issues
 
         plugins = [
             from_plugin_classname(plugin.classname, **dict([
@@ -60,7 +62,7 @@ class DetectSecretsTool(Tool):
         if isinstance(problem, PotentialSecret):
             return DetectSecretsIssue(
                 CODE,
-                DESCRIPTION % (problem.type,),
+                DESCRIPTION.format(description=problem.type),
                 filename,
                 problem.lineno,
             )
