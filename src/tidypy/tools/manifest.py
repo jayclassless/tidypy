@@ -58,7 +58,14 @@ class CheckManifestTool(Tool):
 
         for filepath in finder.files(self.config['filters']):
             dirname, _ = os.path.split(filepath)
-            check_manifest.check_manifest(dirname)
+            try:
+                check_manifest.check_manifest(dirname)
+            except check_manifest.Failure as exc:
+                issues.append(CheckManifestIssue(
+                    'error',
+                    'Unexpected error: %s' % (exc,),
+                    filepath,
+                ))
 
         return issues
 
