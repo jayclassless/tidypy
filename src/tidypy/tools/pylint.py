@@ -4,6 +4,7 @@ import os.path
 
 import astroid
 
+from pylint.exceptions import UnknownMessageError
 from pylint.lint import PyLinter
 from pylint.reporters import BaseReporter
 from six import text_type
@@ -209,7 +210,10 @@ class PyLintTool(Tool):
                     )
 
         for disabled in self.config['disabled'] + self.ALWAYS_DISABLED:
-            pylint.disable(disabled)
+            try:
+                pylint.disable(disabled)
+            except UnknownMessageError:
+                pass
 
         sys_paths = finder.sys_paths(filters=self.config['filters'])
         with mod_sys_path(sys_paths):

@@ -102,7 +102,6 @@ setup(
         'bandit>=1.4,<2',
         'pyflakes>=1.5,<1.7',
         'mccabe>=0.6,<0.7',
-        'pylint>=1.7,<1.10',
         'demjson>=2.2.4,<3',
         'yamllint>=1.8,<2',
         'restructuredtext-lint>=1.1,<2',
@@ -115,7 +114,11 @@ setup(
         ':python_version<"3.4"': [
             'pathlib2',
             'backports.csv',
+            'pylint>=1.7,<2',
             'eradicate>=0.2,<0.3',
+        ],
+        ':python_version>="3.4"': [
+            'pylint>=2,<2.1',
         ],
     },
 )
