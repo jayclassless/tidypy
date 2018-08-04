@@ -1,6 +1,9 @@
 setup::
 	@pipenv install --dev
 
+setup3::
+	@pipenv install --dev --three
+
 lint::
 	@pipenv run tidypy check
 
@@ -13,7 +16,7 @@ ci:: test
 	@pipenv run coveralls --rcfile=setup.cfg
 
 clean::
-	@rm -rf dist build .cache .pytest_cache
+	@rm -rf dist build .cache .pytest_cache Pipfile.lock
 
 build:: clean
 	@pipenv run python setup.py sdist

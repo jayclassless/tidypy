@@ -108,7 +108,7 @@ setup(
         'dennis>=0.9,<1',
         'check-manifest>=0.37,<0.38',
         'pydiatra>=0.12.2,<0.13',
-        'detect-secrets>=0.9.1,<0.10',
+        'detect-secrets>=0.9.1,<0.11',
     ],
     extras_require={
         ':python_version<"3.4"': [
@@ -118,7 +118,7 @@ setup(
             'eradicate>=0.2,<0.3',
         ],
         ':python_version>="3.4"': [
-            'pylint>=2,<2.1',
+            'pylint>=2,<2.2',
         ],
     },
 )
