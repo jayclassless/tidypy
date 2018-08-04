@@ -74,11 +74,8 @@ class GitHook(object):
             if ensure_exists:
                 os.mkdir(hook_dir)
                 return hook_dir
-
             return None
-
-        else:
-            return hook_dir
+        return hook_dir
 
     def install(self, path, strict):
         hook_dir = self.get_hook_dir(path, ensure_exists=True)

@@ -210,7 +210,7 @@ class Finder(object):
         return list(paths)
 
     def topmost_directories(self, directories):
-        if not directories or len(directories) < 1:
+        if not directories:
             return []
         directories = sorted(directories)
 

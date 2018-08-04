@@ -38,11 +38,8 @@ class MercurialHook(object):
             if ensure_exists:
                 open(hgrc, 'w').close()
                 return hgrc
-
             return None
-
-        else:
-            return hgrc
+        return hgrc
 
     def install(self, path, strict):
         hgrc = self.get_hgrc(path, ensure_exists=True)

@@ -13,8 +13,6 @@ old_config = logging.basicConfig  # pylint: disable=invalid-name
 try:
     logging.basicConfig = lambda **k: None
     from pyroma import projectdata, ratings
-except ImportError:
-    raise
 finally:
     logging.basicConfig = old_config
 

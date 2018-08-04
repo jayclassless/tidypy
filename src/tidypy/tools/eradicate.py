@@ -28,7 +28,7 @@ class EradicateTool(PythonTool):
         return [(CODE, DESCRIPTION)]
 
     def execute(self, finder):  # pragma: PY2
-        from eradicate import commented_out_code_line_numbers
+        from eradicate import commented_out_code_line_numbers  # noqa: no-name-in-module
 
         issues = []
         if CODE in self.config['disabled']:
