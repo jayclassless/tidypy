@@ -87,7 +87,7 @@ setup(
     },
     install_requires=[
         'six',
-        'click>=6,<7',
+        'click>=6,<8',
         'tqdm>=4.11,<5',
         'pytoml>=0.1,<0.2',
         'pyyaml>=3.12,<5',
