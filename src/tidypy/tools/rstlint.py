@@ -2,6 +2,7 @@
 import os
 
 from importlib import import_module
+from shutil import rmtree
 from tempfile import mkdtemp
 
 from docutils.nodes import system_message
@@ -143,12 +144,21 @@ class RstLintTool(Tool):
             directives.register_directive = hijacked_directive
             roles.register_local_role = hijacked_role
 
-            tmp_dir = mkdtemp()
-            with open(os.path.join(tmp_dir, 'conf.py'), 'w') as conf:
-                conf.write('extensions = %r' % (
-                    self.config['options']['sphinx-extensions'],
-                ))
-            Sphinx(tmp_dir, tmp_dir, tmp_dir, tmp_dir, None, status=None)
+            tmp_dir_in = mkdtemp()
+            tmp_dir_out = mkdtemp()
+            try:
+                with open(os.path.join(tmp_dir_in, 'conf.py'), 'w') as conf:
+                    conf.write('extensions = %r' % (
+                        self.config['options']['sphinx-extensions'],
+                    ))
+                Sphinx(
+                    tmp_dir_in, tmp_dir_in,
+                    tmp_dir_out, tmp_dir_out,
+                    None, status=None,
+                )
+            finally:
+                rmtree(tmp_dir_in)
+                rmtree(tmp_dir_out)
 
             directives.register_directive = register_directive
             roles.register_local_role = register_local_role
