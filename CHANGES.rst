@@ -5,7 +5,7 @@ TidyPy Change Log
 .. contents:: Releases
 
 
-0.6.0 (2018-xx-xx)
+0.6.0 (2018-09-30)
 ==================
 
 **Enhancements**
@@ -14,6 +14,10 @@ TidyPy Change Log
 * Enabled the ``pydiatra`` tool on windows (thanks @jwilk).
 * Upgraded the ``pylint`` and ``vulture`` tools.
 * Upgraded the ``pep8-naming`` plugin of the ``pycodestyle`` tool.
+
+**Fixes**
+
+* Fixed an issue with ``rstlint`` crashing due to recent updates to Sphinx.
 
 
 0.5.0 (2018-05-05)
