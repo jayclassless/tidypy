@@ -36,7 +36,7 @@ def pytest_addoption(parser):
         action='store_true',
         dest='tidypy_fail_on_issue',
         default=False,
-        help='Whether or not nose should fail if TidyPy finds issues.'
+        help='Whether or not pytest should fail if TidyPy finds issues.'
     )
 
 
