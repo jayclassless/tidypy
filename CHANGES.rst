@@ -5,6 +5,15 @@ TidyPy Change Log
 .. contents:: Releases
 
 
+0.7.0 (TBD)
+===========
+
+**Enhancements**
+
+* Upgraded the ``pycodestyle``, ``pydocstyle``, ``vulture``, and ``pyflakes``
+  tools.
+
+
 0.6.0 (2018-09-30)
 ==================
 

@@ -180,8 +180,8 @@ class Collector(object):
             issue
             for issue in issues
             if issue.tool != 'tidypy' or (
-                issue.tool == 'tidypy' and
-                issue.code not in self._config['disabled']
+                issue.tool == 'tidypy'
+                and issue.code not in self._config['disabled']  # noqa: W503
             )
         ]
 

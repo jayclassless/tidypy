@@ -6,14 +6,16 @@ environment:
     - PYTHON: "C:\\Python34"
     - PYTHON: "C:\\Python35"
     - PYTHON: "C:\\Python36"
+    - PYTHON: "C:\\Python37"
 
 install:
   - "set PATH=%PYTHON%;%PYTHON%\\Scripts;%PATH%"
   - "%PYTHON%\\python.exe --version"
+  - "%PYTHON%\\python.exe -m pip install --upgrade pip pipenv"
   - "%PYTHON%\\python.exe -m pip --version"
-  - "%PYTHON%\\python.exe -m pip install pipenv"
   - "%PYTHON%\\python.exe -m pipenv --version"
   - "%PYTHON%\\python.exe -m pipenv install --dev"
+  - "%PYTHON%\\python.exe -m pipenv run pip freeze"
 
 cache:
   - "%LocalAppData%\\pip\\Cache"

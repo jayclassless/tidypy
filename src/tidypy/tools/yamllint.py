@@ -88,8 +88,8 @@ class YamlLintTool(Tool):
                     self.make_issue(problem, filepath)
                     for problem in problems
                     if not (
-                        'syntax' in self.config['disabled'] and
-                        not problem.rule
+                        'syntax' in self.config['disabled']
+                        and not problem.rule  # noqa: W503
                     )
                 ]
         return issues
