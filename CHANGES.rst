@@ -5,13 +5,15 @@ TidyPy Change Log
 .. contents:: Releases
 
 
-0.7.0 (TBD)
-===========
+0.7.0 (2018-10-24)
+==================
 
 **Enhancements**
 
 * Upgraded the ``pycodestyle``, ``pydocstyle``, ``vulture``, and ``pyflakes``
   tools.
+* Added ability to distinguish and disable specific codes from the ``secrets``
+  tool.
 
 
 0.6.0 (2018-09-30)
