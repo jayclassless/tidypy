@@ -15,8 +15,22 @@ class DetectSecretsIssue(Issue):
     pylint_type = 'W'
 
 
-CODE = 'secret'
+PLUGINS = [
+    from_plugin_classname(_plugin.classname, **dict([
+        (
+            _arg[0][2:].replace('-', '_'),
+            _arg[1],
+        )
+        for _arg in _plugin.related_args
+    ]))
+    for _plugin in PluginOptions.all_plugins
+]
+
 DESCRIPTION = 'Possible secret detected: {description}'
+
+
+def plugin_code(plugin):
+    return plugin.__class__.__name__
 
 
 class DetectSecretsTool(Tool):
@@ -27,23 +41,23 @@ class DetectSecretsTool(Tool):
 
     @classmethod
     def get_all_codes(cls):
-        return [(CODE, DESCRIPTION)]
+        return [
+            (
+                plugin_code(plugin),
+                plugin.secret_type,
+            )
+            for plugin in PLUGINS
+        ]
 
     def execute(self, finder):
         issues = []
-        if CODE in self.config['disabled']:
-            return issues
 
         plugins = [
-            from_plugin_classname(plugin.classname, **dict([
-                (
-                    arg[0][2:].replace('-', '_'),
-                    arg[1],
-                )
-                for arg in plugin.related_args
-            ]))
-            for plugin in PluginOptions.all_plugins
+            plugin
+            for plugin in PLUGINS
+            if plugin_code(plugin) not in self.config['disabled']
         ]
+
         detector = SecretsCollection(plugins)
 
         for filepath in finder.files(self.config['filters']):
@@ -60,8 +74,13 @@ class DetectSecretsTool(Tool):
 
     def make_issue(self, problem, filename):
         if isinstance(problem, PotentialSecret):
+            plugin = [
+                plugin
+                for plugin in PLUGINS
+                if plugin.secret_type == problem.type
+            ][0]
             return DetectSecretsIssue(
-                CODE,
+                plugin_code(plugin),
                 DESCRIPTION.format(description=problem.type),
                 filename,
                 problem.lineno,

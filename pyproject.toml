@@ -67,3 +67,8 @@ ignore-roles = [
     'ref',
 ]
 
+[tool.tidypy.secrets]
+disabled = [
+    'KeywordDetector',
+]
+
