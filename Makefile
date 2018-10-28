@@ -49,3 +49,10 @@ clean-noaccess::
 		rm $$file; \
 	done;
 
+
+build-docker::
+	@docker build . --pull --tag=tidypy:latest
+
+lint-docker::
+	@docker run --rm --tty --volume=`pwd`:/project tidypy
+
