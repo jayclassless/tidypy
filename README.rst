@@ -12,6 +12,8 @@ TidyPy
    :target: https://travis-ci.org/jayclassless/tidypy
 .. image:: https://ci.appveyor.com/api/projects/status/14qradi53f25doe8/branch/master?svg=true
    :target: https://ci.appveyor.com/project/jayclassless/tidypy
+.. image:: https://img.shields.io/docker/build/tidypy/tidypy.svg
+   :target: https://hub.docker.com/r/tidypy/tidypy
 .. image:: https://coveralls.io/repos/github/jayclassless/tidypy/badge.svg?branch=master
    :target: https://coveralls.io/github/jayclassless/tidypy?branch=master
 .. image:: https://requires.io/github/jayclassless/tidypy/requirements.svg?branch=master
@@ -198,6 +200,31 @@ If you'd like to enable bash completion for TidyPy, run the following in your
 shell (or put it in your bash startup scripts)::
 
     $ eval "$(_TIDYPY_COMPLETE=source tidypy)"
+
+
+Docker
+------
+If you don't want to install TidyPy locally on your system or in your
+virtualenv, you can use the `published Docker
+<https://hub.docker.com/r/tidypy/tidypy>`_ image::
+
+   $ docker run --rm --tty --volume=`pwd`:/project tidypy/tidypy
+
+The command above will run ``tidypy check`` on the contents of the current
+directory. If you want to run it on a different directory, then change the
+```pwd``` to whatever path you need (the goal being to mount your project
+directory to the container's ``/project`` volume).
+
+Running TidyPy in this manner has a few limitiations, mostly around the fact
+that since TidyPy is running in its own, isolated Python environment, tools
+like pylint won't be able to introspect the packages your project installed
+locally, so it may report false positives around "import-error",
+"no-name-in-module", "no-member", etc.
+
+If you want to run a command other than ``check``, just pass that along when
+you invoke docker::
+
+   $ docker run --rm --tty --volume=`pwd`:/project tidypy/tidypy tidypy list-codes
 
 
 Configuration
