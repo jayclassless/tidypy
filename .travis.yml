@@ -1,3 +1,4 @@
+dist: xenial
 language: python
 
 python:
@@ -5,9 +6,9 @@ python:
   - "3.4"
   - "3.5"
   - "3.6"
-  - "3.7-dev"
-  # pipenv seems to have issues on pypy2
-  # - "pypy"
+  - "3.7"
+  - "3.8-dev"
+  - "pypy"
   - "pypy3"
 
 env:
@@ -15,6 +16,8 @@ env:
 
 install:
   - pip install --upgrade pip pipenv
+  - pip --version
+  - pipenv --support
   - pip freeze
   - make setup
   - pipenv run pip freeze

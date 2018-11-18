@@ -13,7 +13,8 @@ install:
   - "%PYTHON%\\python.exe --version"
   - "%PYTHON%\\python.exe -m pip install --upgrade pip pipenv"
   - "%PYTHON%\\python.exe -m pip --version"
-  - "%PYTHON%\\python.exe -m pipenv --version"
+  - "%PYTHON%\\python.exe -m pipenv --support"
+  - "%PYTHON%\\python.exe -m pip freeze"
   - "%PYTHON%\\python.exe -m pipenv install --dev"
   - "%PYTHON%\\python.exe -m pipenv run pip freeze"
 
