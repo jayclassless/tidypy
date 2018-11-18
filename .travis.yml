@@ -7,7 +7,11 @@ python:
   - "3.5"
   - "3.6"
   - "3.7"
-  - "3.8-dev"
+
+  # pylint/astroid has issues with 3.8
+  #- "3.8-dev"
+
+  # pipenv has issues with pypy
   #- "pypy"
   #- "pypy3"
 
