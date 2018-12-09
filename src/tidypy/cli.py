@@ -37,6 +37,20 @@ def main():
     pass
 
 
+def validate_report_type(ctx, param, values):
+    for value in values:
+        if ':' in value:
+            rtype, fname = value.split(':', 1)
+        else:
+            rtype, fname = value, None
+        if rtype not in get_reports():
+            msg = 'invalid choice: {value}. (choose from {choices})'.format(
+                value=value,
+                choices=','.join(sorted(get_reports().keys())))
+            raise click.BadParameter(msg, param=param)
+        yield (rtype, fname)
+
+
 @main.command(  # noqa
     'check',
     short_help='Executes the tools upon the project files.',
@@ -74,9 +88,12 @@ If not specified, defaults to the current working directory.
     '-r',
     'reports',
     multiple=True,
-    type=click.Choice(sorted(get_reports().keys())),
+    metavar='[{}][:filename]'.format(','.join(sorted(get_reports().keys()))),
+    callback=validate_report_type,
     help='Specifies the name of a report to execute after the examination. Can'
-    ' be specified multiple times. Overrides the configuration file.',
+    ' specify an optional output file name using the form -r report:filename. '
+    'If filename is unset, the report will be written on stdout. '
+    'Can be specified multiple times. Overrides the configuration file.',
 )
 @click.option(
     '--workers',
@@ -147,11 +164,12 @@ def check(
         for tool in get_tools():
             config[tool]['use'] = tool in tools
     if reports:
-        config['reports'] = [
-            {'type': report}
-            for report in reports
-        ]
-
+        config['reports'] = []
+        for report, fname in reports:
+            cfg = {'type': report}
+            if fname:
+                cfg['file'] = fname
+            config['reports'].append(cfg)
     if disable_progress:
         progress = QuietProgress()
     else:
@@ -378,4 +396,3 @@ def extensions(fmt):
         for type_ in ext:
             for name, description in iteritems(ext[type_]):
                 writer.writerow([type_, name, description])
-
