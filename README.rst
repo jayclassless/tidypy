@@ -107,11 +107,14 @@ To have TidyPy analyze your project, use the ``check`` subcommand::
                                       Specifies the name of a tool to use during
                                       the examination. Can be specified multiple
                                       times. Overrides the configuration file.
-      -r, --report [console|csv|json|null|pycodestyle|pylint|toml|yaml]
+      -r, --report [console,csv,json,null,pycodestyle,pylint,toml,yaml][:filename]
                                       Specifies the name of a report to execute
-                                      after the examination. Can be specified
-                                      multiple times. Overrides the configuration
-                                      file.
+                                      after the examination. Can specify an
+                                      optional output file name using the form -r
+                                      report:filename. If filename is unset, the
+                                      report will be written on stdout. Can be
+                                      specified multiple times. Overrides the
+                                      configuration file.
       --workers NUM_WORKERS           The number of workers to use to concurrently
                                       execute the tools. Overrides the
                                       configuration file.

@@ -10,7 +10,8 @@ TidyPy Change Log
 
 **Enhancements**
 
-* Added ability to specify a filename for reports on the command line.
+* Added ability to specify a filename for reports on the command line (thanks
+  `douardda`_).
 
 
 0.7.0 (2018-10-24)
@@ -30,7 +31,7 @@ TidyPy Change Log
 **Enhancements**
 
 * Added the ``secrets`` tool.
-* Enabled the ``pydiatra`` tool on windows (thanks @jwilk).
+* Enabled the ``pydiatra`` tool on windows (thanks `jwilk`_).
 * Upgraded the ``pylint`` and ``vulture`` tools.
 * Upgraded the ``pep8-naming`` plugin of the ``pycodestyle`` tool.
 
@@ -145,4 +146,9 @@ TidyPy Change Log
 ==================
 
 * Initial public release.
+
+
+
+.. _jwilk: https://github.com/jwilk
+.. _douardda: https://github.com/douardda
 
