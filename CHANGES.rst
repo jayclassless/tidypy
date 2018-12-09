@@ -5,6 +5,14 @@ TidyPy Change Log
 .. contents:: Releases
 
 
+0.8.0 (TBD)
+===========
+
+**Enhancements**
+
+* Added ability to specify a filename for reports on the command line.
+
+
 0.7.0 (2018-10-24)
 ==================
 
