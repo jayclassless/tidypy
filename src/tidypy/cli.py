@@ -37,7 +37,9 @@ def main():
     pass
 
 
-def validate_report_type(ctx, param, values):
+def validate_report_type(ctx, param, values):  # noqa: unused-argument
+    types = []
+
     for value in values:
         if ':' in value:
             rtype, fname = value.split(':', 1)
@@ -48,7 +50,9 @@ def validate_report_type(ctx, param, values):
                 value=value,
                 choices=','.join(sorted(get_reports().keys())))
             raise click.BadParameter(msg, param=param)
-        yield (rtype, fname)
+        types.append((rtype, fname))
+
+    return types
 
 
 @main.command(  # noqa
