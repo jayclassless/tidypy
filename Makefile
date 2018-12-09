@@ -2,7 +2,7 @@ setup::
 	@pipenv install --dev
 
 setup3::
-	@pipenv install --dev --three
+	@pipenv install --dev --python=`which python3`
 
 lint::
 	@pipenv run tidypy check

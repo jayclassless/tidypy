@@ -36,6 +36,7 @@ disabled = [
     'no-self-use',
     'duplicate-code',
     'useless-object-inheritance',
+    'consider-using-dict-comprehension',
 ]
 [tool.tidypy.pylint.options]
 min-public-methods = 0

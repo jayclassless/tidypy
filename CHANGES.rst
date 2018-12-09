@@ -12,7 +12,7 @@ TidyPy Change Log
 
 * Added ability to specify a filename for reports on the command line (thanks
   `douardda`_).
-* Upgraded the ``secrets`` tool.
+* Upgraded the ``secrets`` and ``pylint`` tools.
 
 
 0.7.0 (2018-10-24)
