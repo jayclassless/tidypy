@@ -115,7 +115,7 @@ setup(
             'pathlib2',
             'backports.csv',
             'pylint>=1.7,<2',
-            'eradicate>=0.2,<0.3',
+            'eradicate>=0.2,<1.1',
         ],
         ':python_version>="3.4"': [
             'pylint>=2,<2.3',
