@@ -108,7 +108,7 @@ setup(
         'dennis>=0.9,<1',
         'check-manifest>=0.37,<0.38',
         'pydiatra>=0.12.2,<0.13',
-        'detect-secrets>=0.9.1,<0.12',
+        'detect-secrets>=0.11.3,<0.12',
     ],
     extras_require={
         ':python_version<"3.4"': [

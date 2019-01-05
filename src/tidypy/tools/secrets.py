@@ -4,7 +4,7 @@ from __future__ import absolute_import
 from detect_secrets.core.usage import PluginOptions
 from detect_secrets.core.secrets_collection import SecretsCollection
 from detect_secrets.core.potential_secret import PotentialSecret
-from detect_secrets.plugins.core.initialize import from_plugin_classname
+from detect_secrets.plugins.common.initialize import from_plugin_classname
 from six import iteritems
 
 from .base import Tool, Issue, AccessIssue, UnknownIssue
