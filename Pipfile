@@ -4,7 +4,7 @@ verify_ssl = true
 name = "pypi"
 
 [dev-packages]
-tidypy = {path = ".", editable = true}
+tidypy = {path = ".",editable = true}
 coverage-python-version = "*"
 coveralls = "*"
 nose = "*"

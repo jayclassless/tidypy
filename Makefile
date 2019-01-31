@@ -1,8 +1,8 @@
 setup::
-	@pipenv install --dev
+	@pipenv install --dev --skip-lock
 
 setup3::
-	@pipenv install --dev --python=`which python3`
+	@pipenv install --dev --python=`which python3` --skip-lock
 
 lint::
 	@pipenv run tidypy check
@@ -16,7 +16,7 @@ ci:: test
 	@pipenv run coveralls --rcfile=setup.cfg
 
 clean::
-	@rm -rf dist build .cache .pytest_cache Pipfile.lock
+	@rm -rf dist build .cache .pytest_cache Pipfile.lock pip-wheel-metadata
 
 build:: clean
 	@pipenv run python setup.py sdist
