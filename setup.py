@@ -94,8 +94,8 @@ setup(
         'requests>=2,<3',
         'basicserial>=0.1,<0.2',
 
-        'pycodestyle>=2.4,<2.5',
-        'pep8-naming>=0.4,<0.8',
+        'pycodestyle>=2.4,<2.6',
+        'pep8-naming>=0.4,<0.9',
         'pydocstyle>=2,<4',
         'pyroma>=2.2,<3',
         'vulture>=0.25,<2',

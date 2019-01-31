@@ -12,7 +12,9 @@ TidyPy Change Log
 
 * Added ability to specify a filename for reports on the command line (thanks
   `douardda`_).
-* Upgraded the ``secrets``, ``pylint``, and ``eradicate`` tools.
+* Upgraded the ``secrets``, ``pylint``, ``pycodestyle``, and ``eradicate``
+  tools.
+* Upgraded the ``pep8-naming`` plugin of the ``pycodestyle`` tool.
 
 
 0.7.0 (2018-10-24)
