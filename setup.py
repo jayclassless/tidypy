@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='tidypy',
-    version='0.8.0',
+    version='0.9.0',
     description='A tool that executes a suite of static analysis tools upon a'
     ' Python project.',
     long_description=open('README.rst', 'r').read(),
@@ -108,7 +108,7 @@ setup(
         'dennis>=0.9,<1',
         'check-manifest>=0.37,<0.38',
         'pydiatra>=0.12.2,<0.13',
-        'detect-secrets>=0.11.3,<0.12',
+        'detect-secrets>=0.11.3,<0.13',
     ],
     extras_require={
         ':python_version<"3.4"': [

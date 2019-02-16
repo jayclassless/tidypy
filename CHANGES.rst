@@ -5,6 +5,14 @@ TidyPy Change Log
 .. contents:: Releases
 
 
+0.9.0 (TBD)
+===========
+
+**Enhancements**
+
+* Upgraded the ``secrets`` tool.
+
+
 0.8.0 (2019-01-30)
 ==================
 
