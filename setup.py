@@ -118,7 +118,7 @@ setup(
             'eradicate>=0.2,<1.1',
         ],
         ':python_version>="3.4"': [
-            'pylint>=2,<2.3',
+            'pylint>=2,<2.4',
         ],
     },
 )

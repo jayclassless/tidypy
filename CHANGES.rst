@@ -10,7 +10,7 @@ TidyPy Change Log
 
 **Enhancements**
 
-* Upgraded the ``secrets`` tool.
+* Upgraded the ``pylint`` and ``secrets`` tools.
 
 
 0.8.0 (2019-01-30)
