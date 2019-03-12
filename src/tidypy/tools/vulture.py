@@ -1,5 +1,6 @@
 from __future__ import absolute_import
 
+from six import string_types
 from vulture import Vulture
 from vulture.core import ENCODING_REGEX
 from vulture.utils import VultureInputException
@@ -24,7 +25,17 @@ class TidyPyVulture(Vulture):
     )
 
     def __init__(self, config):
-        super(TidyPyVulture, self).__init__()
+        ignore_names = config['options']['ignore-names']
+        if isinstance(ignore_names, string_types):
+            ignore_names = ignore_names.split(',')
+
+        ignore_decorators = config['options']['ignore-decorators']
+        if isinstance(ignore_decorators, string_types):
+            ignore_decorators = ignore_decorators.split(',')
+
+        super(TidyPyVulture, self).__init__(
+            ignore_names=ignore_names, ignore_decorators=ignore_decorators
+        )
         self.config = config
         self._tidypy_issues = []
 
@@ -65,12 +76,16 @@ class TidyPyVulture(Vulture):
 
     def get_issues(self):
         issues = []
+        min_confidence = self.config['options']['min-confidence']
 
         for code, template, prop_name in self.ISSUE_TYPES:
             if code in self.config['disabled']:
                 continue
 
             for item in getattr(self, prop_name):
+                if item.confidence < min_confidence:
+                    continue
+
                 try:
                     filename = item.file
                 except AttributeError:
@@ -94,7 +109,12 @@ class VultureTool(PythonTool):
     @classmethod
     def get_default_config(cls):
         config = PythonTool.get_default_config()
-        config['options']['whitelist'] = []
+        config['options'] = {
+            'ignore-names': None,
+            'ignore-decorators': None,
+            'min-confidence': 0,
+            'whitelist': [],
+        }
         return config
 
     @classmethod
