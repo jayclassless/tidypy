@@ -5,8 +5,8 @@ TidyPy Change Log
 .. contents:: Releases
 
 
-0.9.0 (TBD)
-===========
+0.9.0 (2019-03-16)
+==================
 
 **Enhancements**
 
@@ -15,6 +15,8 @@ TidyPy Change Log
   "parseable" output format.
 * Added a reporter named ``custom`` that allows you to specify the output
   format of issues.
+* Added support for the ``vulture`` options ``ignore-names``,
+  ``ignore-decorators``, and ``min-confidence`` (thanks `acaprari`_).
 
 
 0.8.0 (2019-01-30)
@@ -166,4 +168,5 @@ TidyPy Change Log
 
 .. _jwilk: https://github.com/jwilk
 .. _douardda: https://github.com/douardda
+.. _acaprari: https://github.com/acaprari
 
