@@ -54,3 +54,28 @@ def test_execute(capsys):
     out, err = capsys.readouterr()
     assert out.replace('\r\n', '\n') == EXPECTED_PYLINT
     assert err == ''
+
+
+EXPECTED_PARSEABLE = '''************* Module blah.bar
+blah/bar.py:28: [tidypy(code1), ] Message 1
+************* Module foo
+foo.py:2: [tidypy(code2), ] Message 2
+foo.py:5: [tidypy(code1), ] Message 1
+************* Module subdir/foobar.json
+subdir/foobar.json:5: [tidypy(code3), ] Message 3
+'''
+
+
+def test_execute_parseable(capsys):
+    cfg = get_default_config()
+    cfg['reports'] = [{'type': 'pylint-parseable'}]
+
+    collector = Collector(cfg)
+    collector.add_issues(ISSUES)
+
+    execute_reports(cfg, 'someproject', collector)
+
+    out, err = capsys.readouterr()
+    assert out.replace('\r\n', '\n') == EXPECTED_PARSEABLE
+    assert err == ''
+

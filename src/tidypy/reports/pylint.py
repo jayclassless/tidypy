@@ -3,26 +3,25 @@ import os.path
 from .base import Report
 
 
-TMPL_FILENAME = '************* Module {module}'
-
-TMPL_ISSUE = '{type}:{line:>3},{character:>2}: {message} ({code}@{tool})'
-
-
 class PyLintReport(Report):
     """
     Generates a report that is in the same format as Pylint's default output.
     """
 
+    TMPL_FILENAME = '************* Module {module}'
+    TMPL_ISSUE = '{type}:{line:>3},{character:>2}: {message} ({code}@{tool})'
+
     def execute(self, collector):
         issues = collector.get_grouped_issues()
 
         for filename in sorted(issues.keys()):
-            self.output(TMPL_FILENAME.format(
+            self.output(self.TMPL_FILENAME.format(
                 module=self.make_module(filename),
             ))
 
             for issue in issues[filename]:
-                self.output(TMPL_ISSUE.format(
+                self.output(self.TMPL_ISSUE.format(
+                    file=self.relative_filename(filename),
                     line=issue.line,
                     character=(issue.character or 1) - 1,
                     tool=issue.tool,
@@ -37,4 +36,13 @@ class PyLintReport(Report):
         if ext == '.py':
             return root.replace('/', '.')
         return filename
+
+
+class PyLintParseableReport(PyLintReport):
+    """
+    Generates a report that is in roughly the same format as Pylint's
+    "parseable" output.
+    """
+
+    TMPL_ISSUE = '{file}:{line}: [{tool}({code}), ] {message}'
 

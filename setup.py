@@ -64,6 +64,7 @@ setup(
             'yaml = tidypy.reports.structured:YamlReport',
             'csv = tidypy.reports.structured:CsvReport',
             'pylint = tidypy.reports.pylint:PyLintReport',
+            'pylint-parseable = tidypy.reports.pylint:PyLintParseableReport',
             'null = tidypy.reports.null:NullReport',
         ],
         'tidypy.extenders': [

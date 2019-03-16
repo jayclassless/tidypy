@@ -57,6 +57,7 @@ def test_get_reports():
         'null',
         'pycodestyle',
         'pylint',
+        'pylint-parseable',
         'toml',
         'yaml',
     ])
