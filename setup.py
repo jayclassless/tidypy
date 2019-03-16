@@ -90,7 +90,7 @@ setup(
         'click>=6,<8',
         'tqdm>=4.11,<5',
         'pytoml>=0.1,<0.2',
-        'pyyaml>=3.12,<5',
+        'pyyaml>=3.12,<6',
         'requests>=2,<3',
         'basicserial>=0.1,<0.2',
 
