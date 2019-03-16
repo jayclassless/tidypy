@@ -168,12 +168,13 @@ def check(
         for tool in get_tools():
             config[tool]['use'] = tool in tools
     if reports:
-        config['reports'] = []
+        config['requested_reports'] = []
         for report, fname in reports:
-            cfg = {'type': report}
-            if fname:
-                cfg['file'] = fname
-            config['reports'].append(cfg)
+            cfg = {
+                'type': report,
+                'file': fname,
+            }
+            config['requested_reports'].append(cfg)
     if disable_progress:
         progress = QuietProgress()
     else:

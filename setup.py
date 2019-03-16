@@ -58,6 +58,7 @@ setup(
         ],
         'tidypy.reports': [
             'console = tidypy.reports.console:ConsoleReport',
+            'custom = tidypy.reports.custom:CustomReport',
             'pycodestyle = tidypy.reports.pycodestyle:PyCodeStyleReport',
             'json = tidypy.reports.structured:JsonReport',
             'toml = tidypy.reports.structured:TomlReport',

@@ -220,7 +220,7 @@ def get_default_config():
         'exclude': [],
         'merge-issues': True,
         'workers': workers,
-        'reports': [
+        'requested_reports': [
             {
                 'type': 'console',
             },

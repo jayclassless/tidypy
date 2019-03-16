@@ -44,7 +44,7 @@ F:  5,22: Message 3 (code3@tidypy)
 
 def test_execute(capsys):
     cfg = get_default_config()
-    cfg['reports'] = [{'type': 'pylint'}]
+    cfg['requested_reports'] = [{'type': 'pylint'}]
 
     collector = Collector(cfg)
     collector.add_issues(ISSUES)
@@ -68,7 +68,7 @@ subdir/foobar.json:5: [tidypy(code3), ] Message 3
 
 def test_execute_parseable(capsys):
     cfg = get_default_config()
-    cfg['reports'] = [{'type': 'pylint-parseable'}]
+    cfg['requested_reports'] = [{'type': 'pylint-parseable'}]
 
     collector = Collector(cfg)
     collector.add_issues(ISSUES)

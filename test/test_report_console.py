@@ -63,7 +63,7 @@ subdir/foobar.json (1)
 
 def test_console_execute(capsys):
     cfg = get_default_config()
-    cfg['reports'] = [{'type': 'console'}]
+    cfg['requested_reports'] = [{'type': 'console'}]
 
     collector = Collector(cfg)
 

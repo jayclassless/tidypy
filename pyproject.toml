@@ -17,6 +17,9 @@ vulture = {use = false}
 disabled = []
 merge-issues = false
 
+[tool.tidypy.report]
+custom = {format = '{filename}|{line:>05}|{character:<3}|{tool}|{code}|{message}'}
+
 [tool.tidypy.pycodestyle]
 disabled = [
     'W391',

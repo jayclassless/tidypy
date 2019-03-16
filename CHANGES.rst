@@ -11,7 +11,10 @@ TidyPy Change Log
 **Enhancements**
 
 * Upgraded the ``pylint`` and ``secrets`` tools.
-* Added a reporter that emulates ``pylint``'s "parseable" output format.
+* Added a reporter named ``pylint-parseable`` that emulates ``pylint``'s
+  "parseable" output format.
+* Added a reporter named ``custom`` that allows you to specify the output
+  format of issues.
 
 
 0.8.0 (2019-01-30)

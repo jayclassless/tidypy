@@ -44,7 +44,7 @@ def test_execute_tools(capsys):
 
 def test_execute_reports(capsys):
     cfg = get_default_config()
-    cfg['reports'] = [
+    cfg['requested_reports'] = [
         {'type': 'null'},
         {'type': 'doesntexist'},
     ]

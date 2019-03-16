@@ -107,7 +107,7 @@ To have TidyPy analyze your project, use the ``check`` subcommand::
                                       Specifies the name of a tool to use during
                                       the examination. Can be specified multiple
                                       times. Overrides the configuration file.
-      -r, --report [console,csv,json,null,pycodestyle,pylint,pylint-parseable,toml,yaml][:filename]
+      -r, --report [console,csv,custom,json,null,pycodestyle,pylint,pylint-parseable,toml,yaml][:filename]
                                       Specifies the name of a report to execute
                                       after the examination. Can specify an
                                       optional output file name using the form -r
@@ -429,6 +429,15 @@ toml
 
 csv
     Generates a set of CSV records that contains the results of the analysis.
+
+custom
+    Prints ouput to the console that is in the format defined by a template
+    string specified in the project configuration. The template string is
+    expected to be one allowed by the `str.format()`_ Python method. It will
+    receive the following arguments: ``filename``, ``line``, ``character``,
+    ``tool``, ``code``, ``message``.
+
+    .. _str.format(): https://docs.python.org/3/library/stdtypes.html#str.format
 
 
 .. _integrations:

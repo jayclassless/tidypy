@@ -78,7 +78,7 @@ EXPECTED_JSON = '''{
 
 def test_json_execute(capsys):
     cfg = get_default_config()
-    cfg['reports'] = [{'type': 'json'}]
+    cfg['requested_reports'] = [{'type': 'json'}]
 
     collector = Collector(cfg)
     collector.add_issues(ISSUES)
@@ -126,7 +126,7 @@ message = "Message 3"
 
 def test_toml_execute(capsys):
     cfg = get_default_config()
-    cfg['reports'] = [{'type': 'toml'}]
+    cfg['requested_reports'] = [{'type': 'toml'}]
 
     collector = Collector(cfg)
     collector.add_issues(ISSUES)
@@ -168,7 +168,7 @@ issues:
 
 def test_yaml_execute(capsys):
     cfg = get_default_config()
-    cfg['reports'] = [{'type': 'yaml'}]
+    cfg['requested_reports'] = [{'type': 'yaml'}]
 
     collector = Collector(cfg)
     collector.add_issues(ISSUES)
@@ -189,7 +189,7 @@ subdir/foobar.json,5,23,tidypy,code3,Message 3
 
 def test_csv_execute(capsys):
     cfg = get_default_config()
-    cfg['reports'] = [{'type': 'csv'}]
+    cfg['requested_reports'] = [{'type': 'csv'}]
 
     collector = Collector(cfg)
     collector.add_issues(ISSUES)
@@ -205,7 +205,7 @@ def test_csv_file_output(capsys, tmpdir):
     target_dir = tmpdir.mkdir('reports')
 
     cfg = get_default_config()
-    cfg['reports'] = [{'type': 'csv'}]
+    cfg['requested_reports'] = [{'type': 'csv'}]
 
     collector = Collector(cfg)
     collector.add_issues(ISSUES)
@@ -221,7 +221,7 @@ def test_csv_file_output(capsys, tmpdir):
     assert EXPECTED_CSV == open(test_file, 'r').read()
 
     test_file = str(target_dir) + 'test2'
-    cfg['reports'] = [{'type': 'csv', 'file': test_file}]
+    cfg['requested_reports'] = [{'type': 'csv', 'file': test_file}]
     execute_reports(cfg, 'someproject', collector)
 
     out, err = capsys.readouterr()

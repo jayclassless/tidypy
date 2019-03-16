@@ -24,7 +24,7 @@ class Report(object):
         self._output_needs_closing = False
         if output_file:
             self.output_file = output_file
-        elif 'file' in self.config:
+        elif self.config.get('file'):
             self.output_file = click.open_file(
                 self.config['file'],
                 mode='w',

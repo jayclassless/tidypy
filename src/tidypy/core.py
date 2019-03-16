@@ -173,10 +173,12 @@ def execute_reports(
     """
 
     reports = get_reports()
-    for report in config['reports']:
+    for report in config.get('requested_reports', []):
         if report.get('type') and report['type'] in reports:
+            cfg = config.get('report', {}).get(report['type'], {})
+            cfg.update(report)
             reporter = reports[report['type']](
-                report,
+                cfg,
                 path,
                 output_file=output_file,
             )

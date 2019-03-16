@@ -41,7 +41,7 @@ subdir/foobar.json:5:23 code3@tidypy Message 3
 
 def test_execute(capsys):
     cfg = get_default_config()
-    cfg['reports'] = [{'type': 'pycodestyle'}]
+    cfg['requested_reports'] = [{'type': 'pycodestyle'}]
 
     collector = Collector(cfg)
     collector.add_issues(ISSUES)
