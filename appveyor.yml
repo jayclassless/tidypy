@@ -1,6 +1,7 @@
 build: "off"
 
 environment:
+  PIP_USE_PEP517: "no"
   matrix:
     - PYTHON: "C:\\Python27"
     - PYTHON: "C:\\Python34"
