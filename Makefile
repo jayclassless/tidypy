@@ -1,8 +1,8 @@
 setup::
-	@pipenv install --dev --skip-lock
+	@PIP_USE_PEP517=no pipenv install --dev --skip-lock
 
 setup3::
-	@pipenv install --dev --python=`which python3` --skip-lock
+	@PIP_USE_PEP517=no pipenv install --dev --python=`which python3` --skip-lock
 
 lint::
 	@pipenv run tidypy check
