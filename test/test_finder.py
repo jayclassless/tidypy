@@ -254,6 +254,6 @@ def test_read_file():
     expected = "# -*- coding: utf-8 -*-\n\ntest = 'ҖՄڇឈ'\n\n"
     assert expected == finder.read_file('test/project1/project1/utf8.py').replace('\r\n', '\n')
 
-    expected = "# -*- coding: koi8-r -*-\n\ntest = '©©© ©©©©©© ©©©©©©©©©©©'\n\n"
+    expected = "# -*- coding: koi8-r -*-\n\ntest = '©©© ©©©©©© ©©©©©©©©©©©'\n\n#foo = 1\n\n"
     assert expected == finder.read_file('test/project1/project1/koi8r.py').replace('\r\n', '\n')
 

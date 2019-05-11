@@ -94,7 +94,7 @@ setup(
         'pytoml>=0.1,<0.2',
         'pyyaml>=3.12,<6',
         'requests>=2,<3',
-        'basicserial>=0.1,<0.2',
+        'basicserial>=0.1,<0.3',
 
         'pycodestyle>=2.4,<2.6',
         'pep8-naming>=0.4,<0.9',
@@ -111,13 +111,13 @@ setup(
         'check-manifest>=0.37,<0.39',
         'pydiatra>=0.12.2,<0.13',
         'detect-secrets>=0.11.3,<0.13',
+        'eradicate>=1,<2',
     ],
     extras_require={
         ':python_version<"3.4"': [
             'pathlib2',
             'backports.csv',
             'pylint>=1.7,<2',
-            'eradicate>=0.2,<1.1',
         ],
         ':python_version>="3.4"': [
             'pylint>=2,<2.4',

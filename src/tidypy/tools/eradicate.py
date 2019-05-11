@@ -1,6 +1,7 @@
 from __future__ import absolute_import
 
-import six
+from eradicate import commented_out_code_line_numbers
+from six import PY2
 
 from .base import PythonTool, Issue, AccessIssue
 
@@ -20,15 +21,10 @@ class EradicateTool(PythonTool):
     """
 
     @classmethod
-    def can_be_used(cls):
-        return not six.PY3
-
-    @classmethod
     def get_all_codes(cls):
         return [(CODE, DESCRIPTION)]
 
-    def execute(self, finder):  # pragma: PY2
-        from eradicate import commented_out_code_line_numbers  # noqa: no-name-in-module
+    def execute(self, finder):
 
         issues = []
         if CODE in self.config['disabled']:
@@ -36,7 +32,9 @@ class EradicateTool(PythonTool):
 
         for filepath in finder.files(self.config['filters']):
             try:
-                source = finder.read_file(filepath).decode('utf-8')
+                source = finder.read_file(filepath)
+                if PY2:
+                    source = source.decode('utf-8')
             except EnvironmentError as exc:
                 issues.append(AccessIssue(exc, filepath))
                 continue
