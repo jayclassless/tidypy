@@ -5,12 +5,13 @@ TidyPy Change Log
 .. contents:: Releases
 
 
-0.10.0 (TBD)
-============
+0.10.0 (2019-05-18)
+===================
 
 **Enhancements**
 
 * Upgraded the ``manifest`` tool.
+* Enabled the ``eradicate`` tool in PY3 environments.
 
 
 0.9.0 (2019-03-16)
