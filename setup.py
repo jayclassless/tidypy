@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='tidypy',
-    version='0.10.0',
+    version='0.10.1',
     description='A tool that executes a suite of static analysis tools upon a'
     ' Python project.',
     long_description=open('README.rst', 'r').read(),
