@@ -49,7 +49,7 @@ Features
 * Includes a number of `integrations`_ so you can use it with your favorite
   toolchain.
 
-* Includes a variety out `reporters`_ that allow you to view or use the results
+* Includes a variety of `reporters`_ that allow you to view or use the results
   of TidyPy's analysis in whatever way works best for you.
 
 * Provides a simple API for you to implement your own tool or reporter and
