@@ -5,6 +5,15 @@ TidyPy Change Log
 .. contents:: Releases
 
 
+0.10.1 (TBD)
+============
+
+**Fixes**
+
+* Fixed an issue listing the codes from the most recent version of the
+  ``pyroma`` tool.
+
+
 0.10.0 (2019-05-18)
 ===================
 

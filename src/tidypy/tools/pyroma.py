@@ -19,8 +19,15 @@ finally:
 
 # Hacks so we can get the messages of these tests without running them.
 # pylint: disable=protected-access
-ratings.PythonVersion._major_version_specified = False
-ratings.ValidREST._message = ''
+HACKS = (
+    ('PythonVersion', '_major_version_specified', False),
+    ('ValidREST', '_message', ''),
+    ('ClassifierVerification', '_incorrect', []),
+    ('Licensing', '_message', ''),
+)
+for clazz, attr, value in HACKS:
+    if hasattr(ratings, clazz):
+        setattr(getattr(ratings, clazz), attr, value)
 
 
 TIDYPY_ISSUES = {
@@ -61,7 +68,7 @@ class PyromaTool(Tool):
     @classmethod
     def get_all_codes(cls):
         return [
-            (test.__class__.__name__, test.message())
+            (test.__class__.__name__, test.message().strip())
             for test in ratings.ALL_TESTS
         ] + list(TIDYPY_ISSUES.values())
 
