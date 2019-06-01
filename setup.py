@@ -27,6 +27,7 @@ setup(
         'Topic :: Software Development',
         'Topic :: Software Development :: Quality Assurance',
         'Topic :: Software Development :: Testing',
+        'Development Status :: 4 - Beta',
     ],
     url='https://github.com/jayclassless/tidypy',
     package_dir={'': 'src'},

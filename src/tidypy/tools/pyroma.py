@@ -18,7 +18,6 @@ finally:
 
 
 # Hacks so we can get the messages of these tests without running them.
-# pylint: disable=protected-access
 HACKS = (
     ('PythonVersion', '_major_version_specified', False),
     ('ValidREST', '_message', ''),

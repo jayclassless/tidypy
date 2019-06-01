@@ -10,8 +10,8 @@ python:
   - "3.8-dev"
 
   # pipenv has issues with pypy
-  #- "pypy"
-  #- "pypy3"
+  # - "pypy"
+  # - "pypy3"
 
 env:
   - PIPENV_IGNORE_VIRTUALENVS=1
