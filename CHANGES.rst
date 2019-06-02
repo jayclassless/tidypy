@@ -5,8 +5,8 @@ TidyPy Change Log
 .. contents:: Releases
 
 
-0.10.1 (TBD)
-============
+0.10.1 (2019-06-02)
+===================
 
 **Fixes**
 
