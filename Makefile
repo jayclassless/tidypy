@@ -13,8 +13,6 @@ test::
 	@pipenv run coverage report --rcfile=setup.cfg
 
 ci:: test
-	@pipenv run coveralls --rcfile=setup.cfg
-	@pipenv run codecov
 
 clean::
 	@rm -rf dist build .cache .pytest_cache Pipfile.lock pip-wheel-metadata

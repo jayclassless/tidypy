@@ -5,9 +5,7 @@ name = "pypi"
 
 [dev-packages]
 tidypy = {path = ".",editable = true}
-codecov = "*"
 coverage-python-version = "*"
-coveralls = "*"
 nose = "*"
 pbbt = "*"
 pytest = "*"

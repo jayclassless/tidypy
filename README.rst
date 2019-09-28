@@ -8,14 +8,10 @@ TidyPy
    :target: https://pypi.org/project/tidypy
 .. image:: https://readthedocs.org/projects/tidypy/badge/?version=latest
    :target: https://tidypy.readthedocs.io
-.. image:: https://travis-ci.org/jayclassless/tidypy.svg?branch=master
-   :target: https://travis-ci.org/jayclassless/tidypy
-.. image:: https://ci.appveyor.com/api/projects/status/14qradi53f25doe8/branch/master?svg=true
-   :target: https://ci.appveyor.com/project/jayclassless/tidypy
+.. image:: https://github.com/jayclassless/tidypy/workflows/Test/badge.svg
+   :target: https://github.com/jayclassless/tidypy/actions
 .. image:: https://img.shields.io/docker/build/tidypy/tidypy.svg
    :target: https://hub.docker.com/r/tidypy/tidypy
-.. image:: https://coveralls.io/repos/github/jayclassless/tidypy/badge.svg?branch=master
-   :target: https://coveralls.io/github/jayclassless/tidypy?branch=master
 .. image:: https://requires.io/github/jayclassless/tidypy/requirements.svg?branch=master
    :target: https://requires.io/github/jayclassless/tidypy/requirements/?branch=master
 
