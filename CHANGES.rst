@@ -5,8 +5,12 @@ TidyPy Change Log
 .. contents:: Releases
 
 
-0.10.2 (TBD)
+0.11.0 (TBD)
 ============
+
+**Enhancements**
+
+* Upgraded the ``pylint``, ``pydocstyle``, and ``manifest`` tools.
 
 **Fixes**
 

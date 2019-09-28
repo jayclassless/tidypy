@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='tidypy',
-    version='0.10.1',
+    version='0.11.0',
     description='A tool that executes a suite of static analysis tools upon a'
     ' Python project.',
     long_description=open('README.rst', 'r').read(),
@@ -99,7 +99,6 @@ setup(
 
         'pycodestyle>=2.4,<2.6',
         'pep8-naming>=0.4,<0.9',
-        'pydocstyle>=2,<4',
         'pyroma>=2.2,<3',
         'vulture>=1.1,<2',
         'bandit>=1.4,<2',
@@ -109,7 +108,7 @@ setup(
         'yamllint>=1.8,<2',
         'restructuredtext-lint>=1.1,<2',
         'dennis>=0.9,<1',
-        'check-manifest>=0.37,<0.39',
+        'check-manifest>=0.37,<0.40',
         'pydiatra>=0.12.2,<0.13',
         'detect-secrets>=0.11.3,<0.13',
         'eradicate>=1,<2',
@@ -119,9 +118,11 @@ setup(
             'pathlib2',
             'backports.csv',
             'pylint>=1.7,<2',
+            'pydocstyle>=2,<4',
         ],
         ':python_version>="3.4"': [
-            'pylint>=2,<2.4',
+            'pylint>=2,<2.5',
+            'pydocstyle>=4,<5',
         ],
     },
 )
