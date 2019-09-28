@@ -103,7 +103,7 @@ To have TidyPy analyze your project, use the ``check`` subcommand::
                                       the examination. Can be specified multiple
                                       times. Overrides the expressions specified
                                       in the configuration file.
-      -t, --tool [2to3|bandit|eradicate|jsonlint|manifest|mccabe|polint|pycodestyle|pydiatra|pydocstyle|pyflakes|pylint|pyroma|rstlint|secrets|vulture|yamllint]
+      -t, --tool [2to3|bandit|dlint|eradicate|jsonlint|manifest|mccabe|polint|pycodestyle|pydiatra|pydocstyle|pyflakes|pylint|pyroma|rstlint|secrets|vulture|yamllint]
                                       Specifies the name of a tool to use during
                                       the examination. Can be specified multiple
                                       times. Overrides the configuration file.
@@ -152,7 +152,7 @@ use the ``list-codes`` subcommand::
       Outputs a listing of all known issue codes that tools may report.
 
     Options:
-      -t, --tool [2to3|bandit|eradicate|jsonlint|manifest|mccabe|polint|pycodestyle|pydiatra|pydocstyle|pyflakes|pylint|pyroma|rstlint|secrets|vulture|yamllint]
+      -t, --tool [2to3|bandit|dlint|eradicate|jsonlint|manifest|mccabe|polint|pycodestyle|pydiatra|pydocstyle|pyflakes|pylint|pyroma|rstlint|secrets|vulture|yamllint]
                                       Specifies the name of a tool whose codes
                                       should be output. If not specified, defaults
                                       to all tools.
@@ -390,6 +390,12 @@ secrets
     within a code base.
 
     .. _detect-secrets: https://github.com/Yelp/detect-secrets
+
+dlint
+    `Dlint`_ is a tool for encouraging best coding practices and helping ensure
+    we're writing secure Python code.
+
+    .. _Dlint: https://github.com/duo-labs/dlint
 
 .. _reporters:
 

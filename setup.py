@@ -56,6 +56,7 @@ setup(
             'manifest = tidypy.tools.manifest:CheckManifestTool',
             'pydiatra = tidypy.tools.pydiatra:PyDiatraTool',
             'secrets = tidypy.tools.secrets:DetectSecretsTool',
+            'dlint = tidypy.tools.dlint:DlintTool',
         ],
         'tidypy.reports': [
             'console = tidypy.reports.console:ConsoleReport',
@@ -112,6 +113,7 @@ setup(
         'pydiatra>=0.12.2,<0.13',
         'detect-secrets>=0.11.3,<0.13',
         'eradicate>=1,<2',
+        'dlint>=0.8,<0.9',
     ],
     extras_require={
         ':python_version<"3.4"': [

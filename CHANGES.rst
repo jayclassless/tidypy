@@ -10,6 +10,7 @@ TidyPy Change Log
 
 **Enhancements**
 
+* Added the `dlint` tool.
 * Upgraded the ``pylint``, ``pydocstyle``, and ``manifest`` tools.
 
 **Fixes**

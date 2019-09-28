@@ -24,6 +24,7 @@ def test_get_tools():
     expected = sorted([
         '2to3',
         'bandit',
+        'dlint',
         'eradicate',
         'jsonlint',
         'manifest',
