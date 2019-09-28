@@ -2,8 +2,7 @@ from __future__ import absolute_import
 
 from six import string_types
 from vulture import Vulture
-from vulture.core import ENCODING_REGEX
-from vulture.utils import VultureInputException
+from vulture.utils import VultureInputException, sanitize_code
 
 from .base import PythonTool, Issue, ParseIssue, AccessIssue
 from ..util import parse_python_file
@@ -64,13 +63,14 @@ class TidyPyVulture(Vulture):
     # this method writes directly to stdout. This is a copy&paste with that
     # piece replaced by capturing an issue
     def scan(self, code, filename=''):
-        code = ENCODING_REGEX.sub("", code, count=1)
+        code = sanitize_code(code)
         self.code = code.splitlines()
         self.filename = filename
         try:
             node = parse_python_file(self.filename)
-        except (SyntaxError, TypeError) as err:
-            self._tidypy_issues.append(ParseIssue(err, filename))
+        except (SyntaxError, TypeError, ValueError) as err:
+            self._tidypy_issues.append(ParseIssue(err, self.filename))
+            self.found_dead_code_or_error = True
         else:
             self.visit(node)
 

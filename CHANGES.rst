@@ -5,6 +5,14 @@ TidyPy Change Log
 .. contents:: Releases
 
 
+0.10.2 (TBD)
+============
+
+**Fixes**
+
+* Fixed an issue with the most recent version of the ``vulture`` tool crashing.
+
+
 0.10.1 (2019-06-02)
 ===================
 
