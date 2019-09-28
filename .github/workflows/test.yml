@@ -1,0 +1,43 @@
+name: Test
+
+on:
+  - push
+  - pull_request
+
+jobs:
+  test:
+    strategy:
+      matrix:
+        python-version:
+          - 2.7
+          - 3.5
+          - 3.6
+          - 3.7
+        platform:
+          - ubuntu-latest
+          - macos-latest
+          - windows-latest
+
+    runs-on: ${{ matrix.platform }}
+
+    steps:
+      - name: Setup Python
+        uses: actions/setup-python@v1
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Checkout Code
+        uses: actions/checkout@v1
+
+      - name: Install
+        run: |
+          pip install --upgrade pip pipenv
+          pip --version
+          pipenv --version
+          pip freeze
+          make setup
+          pipenv run pip freeze
+
+      - name: Test
+        run: make ci
+
