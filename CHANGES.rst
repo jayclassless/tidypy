@@ -5,12 +5,12 @@ TidyPy Change Log
 .. contents:: Releases
 
 
-0.11.0 (TBD)
-============
+0.11.0 (2019-09-29)
+===================
 
 **Enhancements**
 
-* Added the `dlint` tool.
+* Added the ``dlint`` tool.
 * Upgraded the ``pylint``, ``pydocstyle``, and ``manifest`` tools.
 
 **Fixes**
