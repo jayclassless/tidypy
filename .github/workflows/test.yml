@@ -33,7 +33,7 @@ jobs:
 
       - name: Install
         run: |
-          pip install --upgrade pip pipenv
+          pip install pipenv
           pip --version
           pipenv --version
           pip freeze
