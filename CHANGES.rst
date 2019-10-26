@@ -5,6 +5,14 @@ TidyPy Change Log
 .. contents:: Releases
 
 
+0.12.0 (TBD)
+============
+
+**Enhancements**
+
+* Upgraded the ``manifest`` and ``dlint`` tools.
+
+
 0.11.0 (2019-09-29)
 ===================
 
