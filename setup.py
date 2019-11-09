@@ -99,7 +99,7 @@ setup(
         'basicserial>=0.1,<0.3',
 
         'pycodestyle>=2.4,<2.6',
-        'pep8-naming>=0.4,<0.9',
+        'pep8-naming>=0.4,<0.10',
         'pyroma>=2.2,<3',
         'vulture>=1.1,<2',
         'bandit>=1.4,<2',
@@ -111,7 +111,7 @@ setup(
         'dennis>=0.9,<1',
         'check-manifest>=0.37,<0.41',
         'pydiatra>=0.12.2,<0.13',
-        'detect-secrets>=0.11.3,<0.13',
+        'detect-secrets>=0.11.3,<0.14',
         'eradicate>=1,<2',
         'dlint>=0.8,<0.10',
     ],

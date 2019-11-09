@@ -10,7 +10,8 @@ TidyPy Change Log
 
 **Enhancements**
 
-* Upgraded the ``manifest`` and ``dlint`` tools.
+* Upgraded the ``manifest``, ``secrets``, and ``dlint`` tools.
+* Upgraded the ``pep8-naming`` plugin of the ``pycodestyle`` tool.
 
 
 0.11.0 (2019-09-29)
