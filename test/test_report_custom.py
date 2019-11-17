@@ -71,7 +71,7 @@ def test_execute_bad_format(capsys):
 
     out, err = capsys.readouterr()
     assert out == ''
-    assert err.strip() == "Invalid format for custom report: Cannot specify ',' with 's'."
+    assert err.strip().startswith('Invalid format for custom report')
 
 
 def test_execute_bad_token(capsys):
