@@ -36,9 +36,9 @@ jobs:
 
       - name: Install
         run: |
-          make setup
+          make setup-ci
           make freeze
 
       - name: Test
-        run: make ci
+        run: make test-ci
 

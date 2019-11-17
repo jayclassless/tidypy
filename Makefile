@@ -1,25 +1,22 @@
 VENV = .venv
+BINDIR = $(if $(wildcard ${VENV}/bin), '${VENV}/bin/', '')
+
 
 setup::
 	@python -m venv ${VENV} || virtualenv ${VENV}
-	@${VENV}/bin/pip install --upgrade pip
-	@${VENV}/bin/pip install -r requirements.txt
-	@${VENV}/bin/pip install -e .
+	@${MAKE} install
+
+setup-ci:: install
+
+install::
+	@${BINDIR}pip install --upgrade pip
+	@${BINDIR}pip install -r requirements.txt
+	@${BINDIR}pip install -e .
 
 freeze::
-	@${VENV}/bin/python --version
-	@${VENV}/bin/pip --version
-	@${VENV}/bin/pip freeze
-
-lint::
-	@${VENV}/bin/tidypy check
-
-test::
-	@${VENV}/bin/coverage run --rcfile=setup.cfg --module py.test
-	@${VENV}/bin/coverage combine --rcfile=setup.cfg
-	@${VENV}/bin/coverage report --rcfile=setup.cfg
-
-ci:: test
+	@${BINDIR}python --version
+	@${BINDIR}pip --version
+	@${BINDIR}pip freeze
 
 clean::
 	@rm -rf dist build .cache .pytest_cache pip-wheel-metadata .coverage.*
@@ -27,16 +24,28 @@ clean::
 clean-full:: clean
 	@rm -rf .venv
 
+
+lint::
+	@${BINDIR}tidypy check
+
+test::
+	@${BINDIR}coverage run --rcfile=setup.cfg --module py.test
+	@${BINDIR}coverage combine --rcfile=setup.cfg
+	@${BINDIR}coverage report --rcfile=setup.cfg
+
+test-ci:: test
+
+
 build:: clean
-	@${VENV}/bin/python setup.py sdist
-	@${VENV}/bin/python setup.py bdist_wheel
+	@${BINDIR}python setup.py sdist
+	@${BINDIR}python setup.py bdist_wheel
 
 docs::
 	@rm -rf docs/build
 	@cd docs && make html
 
 publish::
-	@${VENV}/bin/twine upload dist/*
+	@${BINDIR}twine upload dist/*
 
 
 NO_ACCESS_FILES = \
