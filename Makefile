@@ -1,7 +1,7 @@
 VENV = .venv
 
 setup::
-	@python -m venv ${VENV}
+	@python -m venv ${VENV} || virtualenv ${VENV}
 	@${VENV}/bin/pip install --upgrade pip
 	@${VENV}/bin/pip install -r requirements.txt
 	@${VENV}/bin/pip install -e .
