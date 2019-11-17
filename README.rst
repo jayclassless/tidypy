@@ -473,10 +473,6 @@ pbbt
 
     .. _PBBT: https://bitbucket.org/prometheus/pbbt
 
-setuptools
-    TidyPy can be invoked via the ``setup.py`` of your project. Just execute
-    ``python setup.py tidypy``.
-
 
 Extending TidyPy
 ----------------

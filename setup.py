@@ -85,9 +85,6 @@ setup(
         'nose.plugins.0.10': [
             'tidypy = tidypy.plugin.nose:TidyPy',
         ],
-        'distutils.commands': [
-            'tidypy = tidypy.plugin.setuptools:TidyPyCommand',
-        ],
     },
     install_requires=[
         'six',
