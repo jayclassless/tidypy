@@ -1,32 +1,42 @@
-setup::
-	@PIP_USE_PEP517=no pipenv install --dev --skip-lock
+VENV = .venv
 
-setup3::
-	@PIP_USE_PEP517=no pipenv install --dev --python=`which python3` --skip-lock
+setup::
+	@python -m venv ${VENV}
+	@${VENV}/bin/pip install --upgrade pip
+	@${VENV}/bin/pip install -r requirements.txt
+	@${VENV}/bin/pip install -e .
+
+freeze::
+	@${VENV}/bin/python --version
+	@${VENV}/bin/pip --version
+	@${VENV}/bin/pip freeze
 
 lint::
-	@pipenv run tidypy check
+	@${VENV}/bin/tidypy check
 
 test::
-	@pipenv run coverage run --rcfile=setup.cfg --module py.test
-	@pipenv run coverage combine --rcfile=setup.cfg
-	@pipenv run coverage report --rcfile=setup.cfg
+	@${VENV}/bin/coverage run --rcfile=setup.cfg --module py.test
+	@${VENV}/bin/coverage combine --rcfile=setup.cfg
+	@${VENV}/bin/coverage report --rcfile=setup.cfg
 
 ci:: test
 
 clean::
-	@rm -rf dist build .cache .pytest_cache Pipfile.lock pip-wheel-metadata
+	@rm -rf dist build .cache .pytest_cache pip-wheel-metadata .coverage.*
+
+clean-full:: clean
+	@rm -rf .venv
 
 build:: clean
-	@pipenv run python setup.py sdist
-	@pipenv run python setup.py bdist_wheel
+	@${VENV}/bin/python setup.py sdist
+	@${VENV}/bin/python setup.py bdist_wheel
 
 docs::
 	@rm -rf docs/build
-	@cd docs && pipenv run make html
+	@cd docs && make html
 
 publish::
-	@pipenv run twine upload dist/*
+	@${VENV}/bin/twine upload dist/*
 
 
 NO_ACCESS_FILES = \

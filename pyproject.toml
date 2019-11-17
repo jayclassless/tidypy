@@ -6,11 +6,11 @@ requires = [
 
 [tool.tidypy]
 exclude = [
+    '.venv/.*',
     'docs/source/conf.py',
     'test/.*',
     'build/.*',
     'dist/.*',
-    'Pipfile.lock',
     '.pytest_cache/.*',
 ]
 vulture = {use = false}

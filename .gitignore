@@ -5,5 +5,5 @@
 *.pyc
 build
 dist
-Pipfile.lock
 pip-wheel-metadata
+.venv
