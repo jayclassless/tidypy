@@ -469,9 +469,21 @@ pbbt
 Extending TidyPy
 ----------------
 A simple interface exists for extending TidyPy to include more and different
-tools and reporters. When the API settles down, I'll document it here.
+tools and reporters. To add a tool, create a class that extends `tidypy.Tool`_,
+and in your ``setup.py``, declare an ``entry_point`` for ``tidypy.tools`` that
+points to your class::
 
-TODO
+    entry_points={
+        'tidypy.tools': [
+            'mycooltool = path.to.model:MyCoolToolClassName',
+        ],
+    }
+
+To add a reporter, the process is nearly identical, except that you extend
+`tidypy.Report`_ and declare an ``entry_point`` for ``tidypy.reports``.
+
+.. _tidypy.Tool: https://tidypy.readthedocs.io/en/stable/api.html#tidypy.Tool
+.. _tidypy.Report: https://tidypy.readthedocs.io/en/stable/api.html#tidypy.Report
 
 
 FAQs
