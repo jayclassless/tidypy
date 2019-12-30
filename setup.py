@@ -109,7 +109,7 @@ setup(
         'eradicate>=1,<2',
         'dlint>=0.8,<0.10',
         'pylint>=2,<2.5',
-        'pydocstyle>=4,<5',
+        'pydocstyle>=4,<6',
     ],
 )
 
