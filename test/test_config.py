@@ -97,7 +97,6 @@ def test_get_default_config():
     assert isinstance(actual['workers'], int)
     assert actual['workers'] >= 1
     assert actual['workers'] <= 4
-    assert actual['requested_reports'] == [{'type': 'console'}]
     assert actual['disabled'] == []
     assert actual['noqa'] == True
     assert actual['extends'] == []

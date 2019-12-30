@@ -165,14 +165,14 @@ def check(
     if tools:
         for tool in get_tools():
             config[tool]['use'] = tool in tools
-    if reports:
-        config['requested_reports'] = []
-        for report, fname in reports:
-            cfg = {
-                'type': report,
-                'file': fname,
-            }
-            config['requested_reports'].append(cfg)
+    reports = reports or [['console', None]]
+    config['requested_reports'] = [
+        {
+            'type': report,
+            'file': fname,
+        }
+        for report, fname in reports
+    ]
     if disable_progress:
         progress = QuietProgress()
     else:

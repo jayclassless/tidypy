@@ -218,11 +218,6 @@ def get_default_config():
         'exclude': [],
         'merge-issues': True,
         'workers': workers,
-        'requested_reports': [
-            {
-                'type': 'console',
-            },
-        ],
         'disabled': [],
         'noqa': True,
         'extends': [],
