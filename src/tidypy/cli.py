@@ -8,8 +8,6 @@ from collections import OrderedDict
 import click
 import basicserial
 
-from six import iteritems
-
 from .core import execute_tools, execute_reports
 from .config import (
     get_tools,
@@ -81,7 +79,7 @@ If not specified, defaults to the current working directory.
     multiple=True,
     type=click.Choice(sorted([
         name
-        for name, cls in iteritems(get_tools())
+        for name, cls in get_tools().items()
         if cls.can_be_used()
     ])),
     help='Specifies the name of a tool to use during the examination. Can be'
@@ -234,7 +232,7 @@ def list_codes(tools, fmt):
         writer = csv.writer(click.get_text_stream('stdout'))
         writer.writerow(['tool', 'code', 'message'])
         for tool in codes:
-            for code, message in iteritems(codes[tool]):
+            for code, message in codes[tool].items():
                 writer.writerow([tool, code, message])
 
 
@@ -378,15 +376,15 @@ def extensions(fmt):
     ext = OrderedDict()
 
     ext['tools'] = OrderedDict()
-    for name, tool in sorted(iteritems(get_tools())):
+    for name, tool in sorted(get_tools().items()):
         ext['tools'][name] = getdoc(tool)
 
     ext['reports'] = OrderedDict()
-    for name, report in sorted(iteritems(get_reports())):
+    for name, report in sorted(get_reports().items()):
         ext['reports'][name] = getdoc(report)
 
     ext['extenders'] = OrderedDict()
-    for name, extender in sorted(iteritems(get_extenders())):
+    for name, extender in sorted(get_extenders().items()):
         ext['extenders'][name] = getdoc(extender)
 
     if fmt == 'toml':
@@ -399,5 +397,5 @@ def extensions(fmt):
         writer = csv.writer(click.get_text_stream('stdout'))
         writer.writerow(['type', 'name', 'description'])
         for type_ in ext:
-            for name, description in iteritems(ext[type_]):
+            for name, description in ext[type_].items():
                 writer.writerow([type_, name, description])

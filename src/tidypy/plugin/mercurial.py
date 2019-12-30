@@ -1,8 +1,6 @@
 
+import configparser
 import os.path
-
-from six import text_type
-from six.moves import configparser
 
 from ..config import get_project_config
 from ..core import execute_tools
@@ -63,7 +61,7 @@ class MercurialHook(object):
 
         if not config.has_section('tidypy'):
             config.add_section('tidypy')
-        config.set('tidypy', 'strict', text_type(strict))
+        config.set('tidypy', 'strict', str(strict))
 
         with open(hgrc, 'w') as config_file:
             config.write(config_file)

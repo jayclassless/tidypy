@@ -1,7 +1,7 @@
 
-from six import iteritems, itervalues, text_type
+from pathlib import Path
 
-from .util import read_file, compile_masks, matches_masks, Path
+from .util import read_file, compile_masks, matches_masks
 
 
 ALWAYS_EXCLUDED_DIRS = compile_masks([
@@ -37,7 +37,7 @@ class Finder(object):
         self._find(self.base_path)
         self._found = dict([
             (dirname, files)
-            for dirname, files in iteritems(self._found)
+            for dirname, files in self._found.items()
             if files
         ])
 
@@ -47,7 +47,7 @@ class Finder(object):
         The path to the project that this Finder is operating from.
         """
 
-        return text_type(self.base_path)
+        return str(self.base_path)
 
     def relative_to_project(self, filepath):
         """
@@ -58,20 +58,20 @@ class Finder(object):
         :rtype: str
         """
 
-        return text_type(Path(filepath).relative_to(self.base_path))
+        return str(Path(filepath).relative_to(self.base_path))
 
     def _find(self, path):
         for subpath in path.iterdir():
             if subpath.is_dir():
                 if not self.is_excluded_dir(subpath):
-                    self._found[text_type(subpath)] = []
+                    self._found[str(subpath)] = []
                     self._find(subpath)
 
             elif subpath.is_file():
                 if not self.is_excluded(subpath):
-                    if text_type(path) not in self._found:
-                        self._found[text_type(path)] = []
-                    self._found[text_type(path)].append(text_type(subpath))
+                    if str(path) not in self._found:
+                        self._found[str(path)] = []
+                    self._found[str(path)].append(str(subpath))
 
     def is_excluded(self, path):
         """
@@ -113,9 +113,9 @@ class Finder(object):
 
         filters = compile_masks(filters or [r'.*'])
 
-        for files in itervalues(self._found):
+        for files in self._found.values():
             for file_ in files:
-                relpath = text_type(Path(file_).relative_to(self.base_path))
+                relpath = str(Path(file_).relative_to(self.base_path))
                 if matches_masks(relpath, filters):
                     yield file_
 
@@ -144,8 +144,8 @@ class Finder(object):
         filters = compile_masks(filters or [r'.*'])
         contains = compile_masks(containing)
 
-        for dirname, files in iteritems(self._found):
-            relpath = text_type(Path(dirname).relative_to(self.base_path))
+        for dirname, files in self._found.items():
+            relpath = str(Path(dirname).relative_to(self.base_path))
             if matches_masks(relpath, filters):
                 if not contains or self._contains(files, contains):
                     yield dirname
@@ -198,12 +198,12 @@ class Finder(object):
         packages = list(self.packages(filters=filters))
 
         for module in self.modules(filters=filters):
-            parent = text_type(Path(module).parent)
+            parent = str(Path(module).parent)
             if parent not in packages:
                 paths.add(parent)
 
         paths.update(self.topmost_directories([
-            text_type(Path(package).parent)
+            str(Path(package).parent)
             for package in packages
         ]))
 
@@ -218,7 +218,7 @@ class Finder(object):
 
         for directory in directories[1:]:
             parents = sorted([
-                text_type(parent)
+                str(parent)
                 for parent in Path(directory).parents
             ])
             for parent in parents:

@@ -3,7 +3,7 @@ BINDIR = $(if $(wildcard ${VENV}/bin), '${VENV}/bin/', '')
 
 
 setup::
-	@python -m venv ${VENV} || virtualenv ${VENV}
+	@python -m venv ${VENV}
 	@${MAKE} install
 
 setup-ci:: install

@@ -1,8 +1,7 @@
+
+from pathlib import Path
+
 import click
-
-from six import text_type
-
-from ..util import Path
 
 
 class Report(object):
@@ -72,5 +71,5 @@ class Report(object):
         :type newline: str
         """
 
-        click.echo(text_type(msg), nl=newline, file=self.output_file)
+        click.echo(str(msg), nl=newline, file=self.output_file)
 

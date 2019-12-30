@@ -4,8 +4,6 @@ import stat
 import subprocess  # noqa: bandit:B404
 import sys
 
-from six import text_type
-
 from ..config import get_project_config
 from ..core import execute_tools
 from ..reports.console import ConsoleReport
@@ -102,7 +100,7 @@ class GitHook(object):
         os.chmod(hook_filepath, stat.S_IRWXU | stat.S_IRGRP | stat.S_IROTH)
 
         if self._git_available:
-            git_config('--add', 'tidypy.strict', text_type(strict).lower())
+            git_config('--add', 'tidypy.strict', str(strict).lower())
 
     def remove(self, path):
         hook_dir = self.get_hook_dir(path)

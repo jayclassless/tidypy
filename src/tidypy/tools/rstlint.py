@@ -9,7 +9,6 @@ from docutils.nodes import system_message
 from docutils.parsers.rst import Directive, directives, roles
 from docutils.utils import Reporter
 from restructuredtext_lint import lint
-from six import iteritems
 
 from .base import Tool, Issue, AccessIssue, UnknownIssue, ToolIssue
 
@@ -100,7 +99,7 @@ class RstLintTool(Tool):
             roles.register_local_role(name, dummy_role)
 
         failed = []
-        for name, cls in iteritems(self.config['options']['load-directives']):
+        for name, cls in self.config['options']['load-directives'].items():
             try:
                 mod, clazz = cls.rsplit('.', 1)
                 clazz = getattr(import_module(mod), clazz)
@@ -125,7 +124,7 @@ class RstLintTool(Tool):
         issues = []
 
         try:
-            from sphinx.application import Sphinx
+            from sphinx.application import Sphinx  # noqa: import-outside-toplevel
         except ImportError:
             Sphinx = None  # noqa: N806
 

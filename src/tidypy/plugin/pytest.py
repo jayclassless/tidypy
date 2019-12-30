@@ -1,8 +1,5 @@
-from __future__ import absolute_import
 
 import pytest
-
-from six import text_type
 
 from ..config import get_project_config
 from ..core import execute_tools
@@ -66,7 +63,7 @@ class TidyPyPlugin(object):
     def __init__(self, config):
         self.enabled = config.getoption('tidypy')
         self.project_path = config.getoption('tidypy_project_path') \
-            or text_type(config.rootdir)
+            or str(config.rootdir)
         self.fail_on_issue = config.getoption('tidypy_fail_on_issue')
         self.tidypy_config = get_project_config(self.project_path)
         self._session_results = None

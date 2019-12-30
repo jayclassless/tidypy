@@ -1,8 +1,5 @@
 
-from __future__ import absolute_import
-
 from mccabe import PathGraphingAstVisitor
-from six import itervalues
 
 from .base import PythonTool, Issue, AccessIssue, ParseIssue
 from ..util import parse_python_file
@@ -53,7 +50,7 @@ class McCabeTool(PythonTool):
             visitor = PathGraphingAstVisitor()
             visitor.preorder(tree, visitor)
 
-            for graph in itervalues(visitor.graphs):
+            for graph in visitor.graphs.values():
                 complexity = graph.complexity()
                 if complexity > self.config['options']['max-complexity']:
                     issues.append(McCabeIssue(

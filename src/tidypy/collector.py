@@ -4,8 +4,6 @@ import re
 from collections import OrderedDict, defaultdict
 from threading import Lock
 
-from six import itervalues
-
 from .util import read_file
 
 
@@ -204,7 +202,7 @@ class Collector(object):
             ('tool', 'code', 'character'),
         )
         issues = []
-        for group in itervalues(grouped):
+        for group in grouped.values():
             issues.extend(self._merge_group(group))
 
         return issues

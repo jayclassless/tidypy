@@ -1,23 +1,16 @@
 
 import ast
-import codecs
 import re
 import sys
 import threading
 import tokenize
 
 from contextlib import contextmanager
-
-try:
-    from pathlib import Path  # pylint: disable=unused-import
-except ImportError:  # pragma: PY2
-    from pathlib2 import Path
+from io import StringIO
 
 import click
 import pkg_resources
 import requests
-
-from six import iteritems, StringIO, PY2
 
 
 def merge_list(list1, list2):
@@ -61,7 +54,7 @@ def merge_dict(dict1, dict2, merge_lists=False):
 
     merged = dict(dict1)
 
-    for key, value in iteritems(dict2):
+    for key, value in dict2.items():
         if isinstance(merged.get(key), dict):
             merged[key] = merge_dict(merged[key], value)
         elif merge_lists and isinstance(merged.get(key), list):
@@ -183,35 +176,13 @@ def matches_masks(target, masks):
 DEFAULT_ENCODING = 'latin-1'
 
 
-if PY2:  # pragma: PY2
-    RE_ENCODING = re.compile(
-        r'^[ \t\v]*#.*?coding[:=][ \t]*([-_.a-zA-Z0-9]+)',
-    )
-
-    def _read_file(filepath):
-        encoding = DEFAULT_ENCODING
-        with open(filepath, 'r') as target:
-            i = 0
-            while i < 2:
-                line = target.readline()
-                match = RE_ENCODING.match(line)
-                if match:
-                    encoding = match.groups()[0]
-                    break
-                i += 1
-
-        with codecs.open(filepath, 'r', encoding=encoding) as target:
-            return target.read().encode('utf-8')
-
-else:  # pragma: PY3
-    def _read_file(filepath):
-        try:
-            # pylint: disable=no-member
-            with tokenize.open(filepath) as target:
-                return target.read()
-        except (LookupError, SyntaxError, UnicodeError):
-            with open(filepath, 'r', encoding=DEFAULT_ENCODING) as target:
-                return target.read()
+def _read_file(filepath):
+    try:
+        with tokenize.open(filepath) as target:
+            return target.read()
+    except (LookupError, SyntaxError, UnicodeError):
+        with open(filepath, 'r', encoding=DEFAULT_ENCODING) as target:
+            return target.read()
 
 
 _FILE_CACHE = {}

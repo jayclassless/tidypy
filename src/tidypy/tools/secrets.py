@@ -1,11 +1,8 @@
 
-from __future__ import absolute_import
-
 from detect_secrets.core.usage import PluginOptions
 from detect_secrets.core.secrets_collection import SecretsCollection
 from detect_secrets.core.potential_secret import PotentialSecret
 from detect_secrets.plugins.common.initialize import from_plugin_classname
-from six import iteritems
 
 from .base import Tool, Issue, AccessIssue, UnknownIssue
 
@@ -66,7 +63,7 @@ class DetectSecretsTool(Tool):
             except Exception as exc:  # pylint: disable=broad-except
                 issues.append(self.make_issue(exc, filepath))
 
-        for filepath, problems in iteritems(detector.data):
+        for filepath, problems in detector.data.items():
             for problem in problems:
                 issues.append(self.make_issue(problem, filepath))
 

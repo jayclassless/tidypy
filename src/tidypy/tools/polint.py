@@ -9,7 +9,6 @@ from dennis.templatelinter import (
     get_lint_rules as get_template_linter_rules,
 )
 from dennis.tools import get_available_formats
-from six import itervalues, iterkeys
 
 from .base import Tool, Issue, AccessIssue, UnknownIssue, ParseIssue
 
@@ -31,7 +30,7 @@ class PoLintTool(Tool):
             r'\.pot?$',
         ]
         config['options'] = {
-            'variable-formats': list(iterkeys(get_available_formats())),
+            'variable-formats': list(get_available_formats()),
         }
         return config
 
@@ -39,13 +38,13 @@ class PoLintTool(Tool):
     def get_all_codes(cls):
         codes = []
 
-        for rule in itervalues(get_linter_rules()):
+        for rule in get_linter_rules().values():
             codes.append((
                 rule.num,
                 rule.desc,
             ))
 
-        for rule in itervalues(get_template_linter_rules()):
+        for rule in get_template_linter_rules().values():
             codes.append((
                 rule.num,
                 rule.desc,

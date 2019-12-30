@@ -1,14 +1,10 @@
-try:
-    from backports import csv
-except ImportError:  # pragma: PY3
-    import csv
+
+import csv
 
 from collections import OrderedDict
 
 import basicserial
 import pkg_resources
-
-from six import iteritems, text_type
 
 from .base import Report
 
@@ -16,7 +12,7 @@ from .base import Report
 class StructuredReport(Report):
     def get_structure(self, collector):
         issues = OrderedDict()
-        for filename, file_issues in iteritems(collector.get_grouped_issues()):
+        for filename, file_issues in collector.get_grouped_issues().items():
             issues[self.relative_filename(filename)] = [
                 OrderedDict((
                     ('line', issue.line),
@@ -31,7 +27,7 @@ class StructuredReport(Report):
         return OrderedDict((
             (
                 'tidypy',
-                text_type(pkg_resources.get_distribution('tidypy').version),
+                str(pkg_resources.get_distribution('tidypy').version),
             ),
             ('issues', issues),
         ))
@@ -54,7 +50,7 @@ class CsvReport(StructuredReport):
             'message',
         ])
 
-        for filename, file_issues in iteritems(issues['issues']):
+        for filename, file_issues in issues['issues'].items():
             for issue in file_issues:
                 writer.writerow([
                     filename,

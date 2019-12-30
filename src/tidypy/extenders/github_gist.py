@@ -1,8 +1,6 @@
 
 import re
 
-from six import itervalues
-
 from ..util import get_requests
 from .base import Extender, DoesNotExistError
 
@@ -34,7 +32,7 @@ class GithubGistExtender(Extender):
 
         files = [
             gfile
-            for gfile in itervalues(resp.json().get('files', {}))
+            for gfile in resp.json().get('files', {}).values()
             if gfile['filename'] in ('tidypy', 'pyproject.toml')
         ]
 

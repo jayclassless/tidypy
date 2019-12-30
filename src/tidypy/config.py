@@ -8,8 +8,6 @@ from hashlib import sha512
 import pkg_resources
 import pytoml
 
-from six import iteritems, itervalues, string_types
-
 from .extenders import DoesNotExistError
 from .extenders.filesys import FilesysExtender
 from .util import merge_dict, output_error
@@ -159,7 +157,7 @@ def retrieve_extension(location, project_path, use_cache=True):
             return config
 
     extender = FilesysExtender
-    for cls in itervalues(get_extenders()):
+    for cls in get_extenders().values():
         if cls.can_handle(location):
             extender = cls
             break
@@ -178,7 +176,7 @@ def process_extensions(config, project_path, use_cache=True):
     extends = config['extends']
     if not extends:
         return config
-    if isinstance(extends, string_types):
+    if isinstance(extends, str):
         extends = [extends]
 
     base = dict()
@@ -207,7 +205,7 @@ def get_default_config():
 
     config = {}
 
-    for name, cls in iteritems(get_tools()):
+    for name, cls in get_tools().items():
         config[name] = cls.get_default_config()
 
     try:

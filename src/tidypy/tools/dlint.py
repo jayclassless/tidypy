@@ -1,6 +1,4 @@
 
-from __future__ import absolute_import
-
 from dlint import linters
 
 from .base import PythonTool, Issue, AccessIssue, ParseIssue

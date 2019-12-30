@@ -4,8 +4,7 @@ import sys
 from multiprocessing import Process
 from multiprocessing.managers import SyncManager
 
-from six.moves.queue import Empty  # noqa: relative-import
-from six import iteritems
+from queue import Empty
 
 from .collector import Collector
 from .config import get_tools, get_reports
@@ -107,7 +106,7 @@ def execute_tools(config, path, progress=None):
 
     num_tools = 0
     tools = manager.Queue()
-    for name, cls in iteritems(get_tools()):
+    for name, cls in get_tools().items():
         if config[name]['use'] and cls.can_be_used():
             num_tools += 1
             tools.put({

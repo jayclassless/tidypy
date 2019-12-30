@@ -1,4 +1,3 @@
-from __future__ import absolute_import
 
 from pep8ext_naming import NamingChecker
 from pycodestyle import StyleGuide, BaseReport, register_check

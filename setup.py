@@ -17,7 +17,6 @@ setup(
         'Intended Audience :: Developers',
         'License :: OSI Approved :: MIT License',
         'Programming Language :: Python',
-        'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
@@ -52,7 +51,6 @@ setup(
             'yamllint = tidypy.tools.yamllint:YamlLintTool',
             'rstlint = tidypy.tools.rstlint:RstLintTool',
             'polint = tidypy.tools.polint:PoLintTool',
-            '2to3 = tidypy.tools.lib2to3:Lib2to3Tool',
             'manifest = tidypy.tools.manifest:CheckManifestTool',
             'pydiatra = tidypy.tools.pydiatra:PyDiatraTool',
             'secrets = tidypy.tools.secrets:DetectSecretsTool',
@@ -87,7 +85,6 @@ setup(
         ],
     },
     install_requires=[
-        'six',
         'click>=6,<8',
         'tqdm>=4.11,<5',
         'pytoml>=0.1,<0.2',
@@ -111,18 +108,8 @@ setup(
         'detect-secrets>=0.11.3,<0.14',
         'eradicate>=1,<2',
         'dlint>=0.8,<0.10',
+        'pylint>=2,<2.5',
+        'pydocstyle>=4,<5',
     ],
-    extras_require={
-        ':python_version<"3.4"': [
-            'pathlib2',
-            'backports.csv',
-            'pylint>=1.7,<2',
-            'pydocstyle>=2,<4',
-        ],
-        ':python_version>="3.4"': [
-            'pylint>=2,<2.5',
-            'pydocstyle>=4,<5',
-        ],
-    },
 )
 

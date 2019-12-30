@@ -1,5 +1,6 @@
 
-from ..util import Path
+from pathlib import Path
+
 from .base import Extender, DoesNotExistError
 
 

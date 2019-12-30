@@ -1,11 +1,9 @@
-from __future__ import absolute_import
 
 import re
 import sys
 
 from bandit import manager, config as bandit_config
 from bandit.core import extension_loader
-from six import iteritems, itervalues
 
 from .base import PythonTool, Issue, ParseIssue, AccessIssue, UnknownIssue
 
@@ -93,16 +91,12 @@ class BanditTool(PythonTool):
     def get_all_codes(cls):
         codes = [
             (code, plugin.name)
-            for code, plugin in iteritems(
-                extension_loader.MANAGER.plugins_by_id
-            )
+            for code, plugin in extension_loader.MANAGER.plugins_by_id.items()
         ]
 
         codes += [
             (blacklist['id'], blacklist['message'])
-            for blacklist in itervalues(
-                extension_loader.MANAGER.blacklist_by_id
-            )
+            for blacklist in extension_loader.MANAGER.blacklist_by_id.values()
         ]
 
         return codes

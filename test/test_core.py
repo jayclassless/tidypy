@@ -11,8 +11,6 @@ def test_execute_tools(capsys):
 
     expected_tools = sorted(get_tools())
     expected_tools.remove('pycodestyle')
-    if six.PY3:
-        expected_tools.remove('2to3')
 
     progress = QuietProgress()
     collector = execute_tools(cfg, 'test/project1', progress=progress)

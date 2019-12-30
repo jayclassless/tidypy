@@ -15,6 +15,7 @@ TidyPy Change Log
 
 **Changes**
 
+* Removed support for Python 2.
 * Removed the ``setuptools`` plugin, as it was causing many problems, and was
   little-used, anyway.
 

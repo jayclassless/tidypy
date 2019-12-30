@@ -1,6 +1,4 @@
-from __future__ import absolute_import
 
-from six import string_types
 from vulture import Vulture
 from vulture.utils import VultureInputException, sanitize_code
 
@@ -25,11 +23,11 @@ class TidyPyVulture(Vulture):
 
     def __init__(self, config):
         ignore_names = config['options']['ignore-names']
-        if isinstance(ignore_names, string_types):
+        if isinstance(ignore_names, str):
             ignore_names = ignore_names.split(',')
 
         ignore_decorators = config['options']['ignore-decorators']
-        if isinstance(ignore_decorators, string_types):
+        if isinstance(ignore_decorators, str):
             ignore_decorators = ignore_decorators.split(',')
 
         super(TidyPyVulture, self).__init__(

@@ -99,7 +99,7 @@ To have TidyPy analyze your project, use the ``check`` subcommand::
                                       the examination. Can be specified multiple
                                       times. Overrides the expressions specified
                                       in the configuration file.
-      -t, --tool [2to3|bandit|dlint|eradicate|jsonlint|manifest|mccabe|polint|pycodestyle|pydiatra|pydocstyle|pyflakes|pylint|pyroma|rstlint|secrets|vulture|yamllint]
+      -t, --tool [bandit|dlint|eradicate|jsonlint|manifest|mccabe|polint|pycodestyle|pydiatra|pydocstyle|pyflakes|pylint|pyroma|rstlint|secrets|vulture|yamllint]
                                       Specifies the name of a tool to use during
                                       the examination. Can be specified multiple
                                       times. Overrides the configuration file.
@@ -148,7 +148,7 @@ use the ``list-codes`` subcommand::
       Outputs a listing of all known issue codes that tools may report.
 
     Options:
-      -t, --tool [2to3|bandit|dlint|eradicate|jsonlint|manifest|mccabe|polint|pycodestyle|pydiatra|pydocstyle|pyflakes|pylint|pyroma|rstlint|secrets|vulture|yamllint]
+      -t, --tool [bandit|dlint|eradicate|jsonlint|manifest|mccabe|polint|pycodestyle|pydiatra|pydocstyle|pyflakes|pylint|pyroma|rstlint|secrets|vulture|yamllint]
                                       Specifies the name of a tool whose codes
                                       should be output. If not specified, defaults
                                       to all tools.
@@ -362,14 +362,6 @@ polint
 
     .. _dennis: https://github.com/willkg/dennis
 
-2to3
-    Uses Python's `lib2to3`_ module to find code that should be changed in
-    order to be compatible with Python 3. This tool is disabled by default when
-    executing on Python 3, but you can forcefully enable it in your
-    configuration if you want.
-
-    .. _lib2to3: https://docs.python.org/2/library/2to3.html
-
 manifest
     Uses the `check-manifest`_ script to detect discrepancies or problems with
     your project's MANIFEST.in file.
@@ -523,13 +515,10 @@ I tried TidyPy out on my project and it reported hundreds/thousands of issues. M
 Contributing
 ------------
 Contributions are most welcome. Particularly if they're bug fixes! To hack on
-this code, simply clone it, make sure you have `Pipenv`_ installed (it's a
-great tool, you should use it even if you're not working on this project), and
-then run ``make setup``. This will create a virtualenv with all the tools
-you'll need. The ``Makefile`` also has a ``test`` target for running the pytest
-suite, and a ``lint`` target for running TidyPy on itself.
-
-.. _Pipenv: https://github.com/kennethreitz/pipenv
+this code, simply clone it, and then run ``make setup``. This will create a
+virtualenv with all the tools you'll need. The ``Makefile`` also has a ``test``
+target for running the pytest suite, and a ``lint`` target for running TidyPy
+on itself.
 
 
 License

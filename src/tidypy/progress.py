@@ -1,10 +1,7 @@
-from __future__ import absolute_import
 
 import sys
 
 from threading import Lock, Timer
-
-import six
 
 from tqdm import tqdm
 
@@ -127,7 +124,7 @@ class ConsoleProgress(Progress):
 
     def on_finish(self):
         super(ConsoleProgress, self).on_finish()
-        six.print_('', file=sys.stderr)
+        print('', file=sys.stderr)
         self._timer.cancel()
         self._bar.close()
 

@@ -1,15 +1,15 @@
-from __future__ import absolute_import
 
 import os.path
+
+from pathlib import Path
 
 import astroid
 
 from pylint.exceptions import UnknownMessageError
 from pylint.lint import PyLinter
 from pylint.reporters import BaseReporter
-from six import text_type
 
-from ..util import mod_sys_path, compile_masks, matches_masks, Path
+from ..util import mod_sys_path, compile_masks, matches_masks
 from .base import Tool, Issue, AccessIssue, ParseIssue
 
 
@@ -38,7 +38,7 @@ class TidyPyReporter(BaseReporter):
         name = modname.replace('.', os.sep) + '.py'
 
         for target in self._targets:
-            resolved = text_type(Path(target).parent / name)
+            resolved = str(Path(target).parent / name)
             if resolved in self._all_files:
                 return resolved
 

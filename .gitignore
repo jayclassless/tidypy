@@ -7,3 +7,4 @@ build
 dist
 pip-wheel-metadata
 .venv
+.python-version
