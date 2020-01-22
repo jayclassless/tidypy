@@ -9,7 +9,7 @@ setup::
 setup-ci:: install
 
 install::
-	@${BINDIR}pip install --upgrade pip
+	#@${BINDIR}pip install --upgrade pip
 	@${BINDIR}pip install -r requirements.txt
 	@${BINDIR}pip install -e .
 
