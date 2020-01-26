@@ -5,6 +5,14 @@ TidyPy Change Log
 .. contents:: Releases
 
 
+0.13.0 (TBD)
+============
+
+**Enhancements**
+
+* Upgraded the ``dlint`` tool.
+
+
 0.12.0 (2020-01-05)
 ===================
 
