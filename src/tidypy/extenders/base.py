@@ -1,5 +1,5 @@
 
-import pytoml
+import toml
 
 
 class Extender(object):
@@ -51,7 +51,7 @@ class Extender(object):
         :rtype: dict
         """
 
-        parsed = pytoml.loads(content)
+        parsed = toml.loads(content)
 
         if is_pyproject:
             parsed = parsed.get('tool', {})

@@ -5,8 +5,8 @@ import sys
 
 from hashlib import sha512
 
+import toml
 import pkg_resources
-import pytoml
 
 from .extenders import DoesNotExistError
 from .extenders.filesys import FilesysExtender
@@ -139,7 +139,7 @@ def get_config_cache(location):
     path = get_cache_path(location)
     if os.path.exists(path):
         with open(path, 'r') as config_file:
-            config = pytoml.load(config_file).get('tidypy', {})
+            config = toml.load(config_file).get('tidypy', {})
 
     return config
 
@@ -147,7 +147,7 @@ def get_config_cache(location):
 def put_config_cache(location, config):
     path = get_cache_path(location)
     with open(path, 'w') as config_file:
-        pytoml.dump(config, config_file)
+        toml.dump(config, config_file)
 
 
 def retrieve_extension(location, project_path, use_cache=True):
@@ -251,7 +251,7 @@ def get_user_config(project_path, use_cache=True):
 
     if os.path.exists(user_config):
         with open(user_config, 'r') as config_file:
-            config = pytoml.load(config_file).get('tidypy', {})
+            config = toml.load(config_file).get('tidypy', {})
 
         config = merge_dict(get_default_config(), config)
         config = process_extensions(config, project_path, use_cache=use_cache)
@@ -278,7 +278,7 @@ def get_local_config(project_path, use_cache=True):
 
     if os.path.exists(pyproject_path):
         with open(pyproject_path, 'r') as config_file:
-            config = pytoml.load(config_file)
+            config = toml.load(config_file)
 
         config = config.get('tool', {}).get('tidypy', {})
         config = merge_dict(get_default_config(), config)

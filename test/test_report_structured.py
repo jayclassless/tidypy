@@ -93,7 +93,6 @@ def test_json_execute(capsys):
 EXPECTED_TOML = '''tidypy = "0.13.0"
 
 [issues]
-
 [[issues."blah/bar.py"]]
 line = 28
 character = 0

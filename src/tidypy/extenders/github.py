@@ -46,7 +46,7 @@ class GithubExtender(Extender):
         ).json()
 
         if resp.get('type') == 'file' and resp.get('content'):
-            return base64.b64decode(resp['content'])
+            return base64.b64decode(resp['content']).decode('utf-8')
 
         return None
 
