@@ -93,7 +93,7 @@ setup(
         'basicserial>=0.1,<2.0',
 
         'pycodestyle>=2.4,<2.6',
-        'pep8-naming>=0.4,<0.10',
+        'pep8-naming>=0.4,<0.11',
         'pyroma>=2.2,<3',
         'vulture>=1.1,<2',
         'bandit>=1.4,<2',

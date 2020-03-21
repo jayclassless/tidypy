@@ -11,6 +11,7 @@ TidyPy Change Log
 **Enhancements**
 
 * Upgraded the ``dlint`` tool.
+* Upgraded the ``pep8-naming`` plugin of the ``pycodestyle`` tool.
 
 
 0.12.0 (2020-01-05)
