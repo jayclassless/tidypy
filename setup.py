@@ -103,7 +103,7 @@ setup(
         'yamllint>=1.8,<2',
         'restructuredtext-lint>=1.1,<2',
         'dennis>=0.9,<1',
-        'check-manifest>=0.37,<0.41',
+        'check-manifest>=0.37,<0.42',
         'pydiatra>=0.12.2,<0.13',
         'detect-secrets>=0.11.3,<0.14',
         'eradicate>=1,<2',
