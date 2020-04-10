@@ -5,13 +5,17 @@ TidyPy Change Log
 .. contents:: Releases
 
 
-0.13.0 (TBD)
-============
+0.13.0 (2020-04-10)
+===================
 
 **Enhancements**
 
 * Upgraded the ``dlint`` and ``manifest`` tools.
 * Upgraded the ``pep8-naming`` plugin of the ``pycodestyle`` tool.
+
+**Fixes**
+
+* Fixed a dependency conflict with ``pyflakes``.
 
 
 0.12.0 (2020-01-05)
