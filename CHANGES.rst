@@ -5,6 +5,14 @@ TidyPy Change Log
 .. contents:: Releases
 
 
+0.14.0 (2020-05-12)
+===================
+
+**Enhancements**
+
+* Upgraded the ``pycodestyle``, ``pylint``, and ``pyflakes`` tools.
+
+
 0.13.0 (2020-04-10)
 ===================
 
