@@ -32,6 +32,7 @@ def test_check(tmpdir):
     result = runner.invoke(main, ['check', 'test/project1'])
     assert result.exit_code == 1
     assert result.output != ''
+    assert 'Unexpected exception' not in result.output
 
     result = runner.invoke(main, ['check', 'test/project1', '--exclude=blahblah', '--disable-merge', '--disable-noqa', '--workers=3', '--tool=pylint', '--disable-progress', '--report=null:%s/foo' % (text_type(project_dir),)])
     assert result.exit_code == 1
