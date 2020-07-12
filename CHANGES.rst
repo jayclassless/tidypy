@@ -5,6 +5,15 @@ TidyPy Change Log
 .. contents:: Releases
 
 
+0.15.0 (TBD)
+============
+
+**Enhancements**
+
+* Upgraded the ``secrets`` tool.
+* Upgraded the ``pep8-naming`` plugin of the ``pycodestyle`` tool.
+
+
 0.14.0 (2020-05-12)
 ===================
 

@@ -1,5 +1,5 @@
 
-from detect_secrets.core.usage import PluginOptions
+from detect_secrets.core.usage import get_all_plugin_descriptors
 from detect_secrets.core.secrets_collection import SecretsCollection
 from detect_secrets.core.potential_secret import PotentialSecret
 from detect_secrets.plugins.common.initialize import from_plugin_classname
@@ -13,14 +13,14 @@ class DetectSecretsIssue(Issue):
 
 
 PLUGINS = [
-    from_plugin_classname(_plugin.classname, **dict([
+    from_plugin_classname(_plugin.classname, (), **dict([
         (
             _arg[0][2:].replace('-', '_'),
             _arg[1],
         )
         for _arg in _plugin.related_args
     ]))
-    for _plugin in PluginOptions.all_plugins
+    for _plugin in get_all_plugin_descriptors(())
 ]
 
 DESCRIPTION = 'Possible secret detected: {description}'
