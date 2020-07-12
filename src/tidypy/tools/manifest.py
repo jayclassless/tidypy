@@ -1,8 +1,6 @@
 
 import os
 
-from functools import partial
-
 import check_manifest
 
 from .base import Tool, Issue
@@ -16,6 +14,31 @@ IGNORE_MSGS = (
 class CheckManifestIssue(Issue):
     tool = 'manifest'
     pylint_type = 'W'
+
+
+class CheckManifestUI(check_manifest.UI):
+    def __init__(self, dirname):
+        super().__init__()
+        self.dirname = dirname
+        self.issues = []
+
+    def _save_issue(self, code, message):
+        if message in IGNORE_MSGS:
+            return
+        self.issues.append(CheckManifestIssue(
+            code,
+            message,
+            os.path.join(self.dirname, 'MANIFEST.in'),
+        ))
+
+    def info(self, message):
+        self._save_issue('info', message)
+
+    def warning(self, message):
+        self._save_issue('warning', message)
+
+    def error(self, message):
+        self._save_issue('error', message)
 
 
 class CheckManifestTool(Tool):
@@ -43,29 +66,19 @@ class CheckManifestTool(Tool):
     def execute(self, finder):
         issues = []
 
-        def capture(code, message):
-            if message in IGNORE_MSGS:
-                return
-            issues.append(CheckManifestIssue(
-                code,
-                message,
-                os.path.join(dirname, 'MANIFEST.in'),
-            ))
-
-        check_manifest.info = partial(capture, 'info')
-        check_manifest.warning = partial(capture, 'warning')
-        check_manifest.error = partial(capture, 'error')
-
         for filepath in finder.files(self.config['filters']):
             dirname, _ = os.path.split(filepath)
             try:
-                check_manifest.check_manifest(dirname)
+                cmui = CheckManifestUI(dirname)
+                check_manifest.check_manifest(dirname, ui=cmui)
             except check_manifest.Failure as exc:
                 issues.append(CheckManifestIssue(
                     'error',
                     'Unexpected error: %s' % (exc,),
                     filepath,
                 ))
+            else:
+                issues += cmui.issues
 
         return issues
 

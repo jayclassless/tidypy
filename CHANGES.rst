@@ -10,7 +10,7 @@ TidyPy Change Log
 
 **Enhancements**
 
-* Upgraded the ``secrets`` tool.
+* Upgraded the ``secrets`` and ``manifest`` tools.
 * Upgraded the ``pep8-naming`` plugin of the ``pycodestyle`` tool.
 
 
