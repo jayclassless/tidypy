@@ -8,7 +8,7 @@ from .base import Tool, Issue, ToolIssue
 
 
 # Hacks to prevent pyroma from screwing up the logging system for everyone else
-old_config = logging.basicConfig  # pylint: disable=invalid-name
+old_config = logging.basicConfig
 try:
     logging.basicConfig = lambda **k: None
     from pyroma import projectdata, ratings

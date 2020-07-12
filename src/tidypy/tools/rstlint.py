@@ -17,7 +17,7 @@ class DummyDirective(Directive):
     has_content = True
 
     def run(self, *args, **kwargs):
-        # pylint: disable=unused-argument,arguments-differ
+        # pylint: disable=unused-argument
         return []
 
 
