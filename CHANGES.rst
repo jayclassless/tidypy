@@ -13,6 +13,10 @@ TidyPy Change Log
 * Upgraded the ``secrets`` and ``manifest`` tools.
 * Upgraded the ``pep8-naming`` plugin of the ``pycodestyle`` tool.
 
+**Fixes**
+
+* Fixed an crash that occurred with v1.5 of ``vulture``.
+
 
 0.14.0 (2020-05-12)
 ===================

@@ -1,5 +1,5 @@
 
-from vulture import Vulture
+from vulture import Vulture, noqa
 from vulture.utils import VultureInputException, sanitize_code
 
 from .base import PythonTool, Issue, ParseIssue, AccessIssue
@@ -33,6 +33,7 @@ class TidyPyVulture(Vulture):
         super(TidyPyVulture, self).__init__(
             ignore_names=ignore_names, ignore_decorators=ignore_decorators
         )
+        self.noqa_lines = None
         self.config = config
         self._tidypy_issues = []
 
@@ -63,6 +64,7 @@ class TidyPyVulture(Vulture):
     def scan(self, code, filename=''):
         code = sanitize_code(code)
         self.code = code.splitlines()
+        self.noqa_lines = noqa.parse_noqa(self.code)
         self.filename = filename
         try:
             node = parse_python_file(self.filename)

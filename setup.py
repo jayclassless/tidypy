@@ -95,7 +95,7 @@ setup(
         'pycodestyle>=2.4,<2.7',
         'pep8-naming>=0.4,<0.12',
         'pyroma>=2.2,<3',
-        'vulture>=1.1,<2',
+        'vulture>=1.5,<2',
         'bandit>=1.4,<2',
         'pyflakes>=1.5,<2.3',
         'mccabe>=0.6,<0.7',
