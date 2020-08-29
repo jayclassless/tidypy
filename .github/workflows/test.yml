@@ -52,6 +52,7 @@ jobs:
 
       - name: Install TidyPy
         run: |
+          echo 'Path is: ' $PATH
           make setup
           make env
 
