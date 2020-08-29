@@ -53,7 +53,7 @@ jobs:
       - name: Show Path
         if: runner.os == 'Windows'
         run: |
-          echo "%PATH%
+          echo "%PATH%"
 
       - name: Install TidyPy
         run: |
