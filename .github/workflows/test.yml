@@ -48,7 +48,7 @@ jobs:
       - name: Set Path
         if: runner.os == 'Windows'
         run: |
-          echo "::add-path::%USERPROFILE%\.poetry\bin"
+          echo "::add-path::C:\Users\runneradmin\.poetry\bin"
 
       - name: Show Path
         if: runner.os == 'Windows'
