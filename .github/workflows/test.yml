@@ -11,11 +11,10 @@ jobs:
     strategy:
       matrix:
         python-version:
-          - 3.5
           - 3.6
           - 3.7
           - 3.8
-          #- pypy3
+          # - pypy3
         platform:
           - ubuntu-latest
           - macos-latest
@@ -38,9 +37,14 @@ jobs:
 
       - name: Install
         run: |
-          make setup-ci
-          make freeze
+          curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py -o get-poetry.py
+          python get-poetry.py
+          source $HOME/.poetry/env
+          make setup
+          make env
 
       - name: Test
-        run: make test-ci
+        run: |
+          source $HOME/.poetry/env
+          make test
 

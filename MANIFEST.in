@@ -1,5 +1,0 @@
-include README.rst LICENSE.rst CHANGES.rst
-exclude Makefile appveyor.yml pyproject.toml readthedocs.yml Dockerfile .dockerignore requirements.txt
-prune test
-prune docs
-
