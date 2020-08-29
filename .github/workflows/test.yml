@@ -40,29 +40,22 @@ jobs:
           curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py -o get-poetry.py
           python get-poetry.py
 
-      - name: Install TidyPy
+      - name: Set Path
         if: runner.os != 'Windows'
         run: |
-          source $HOME/.poetry/env
-          make setup
-          make env
+          echo "::add-path::$HOME/.poetry/env"
 
-      - name: Install TidyPy
+      - name: Set Path
         if: runner.os == 'Windows'
         run: |
-          setx path "%USERPROFILE%\.poetry\bin;%PATH%"
+          echo "::add-path::%USERPROFILE%\\.poetry\\bin"
+
+      - name: Install TidyPy
+        run: |
           make setup
           make env
 
       - name: Test
-        if: runner.os != 'Windows'
         run: |
-          source $HOME/.poetry/env
-          make test
-
-      - name: Test
-        if: runner.os == 'Windows'
-        run: |
-          setx path "%USERPROFILE%\.poetry\bin;%PATH%"
           make test
 
