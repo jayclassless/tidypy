@@ -50,9 +50,13 @@ jobs:
         run: |
           echo "::add-path::%USERPROFILE%\\.poetry\\bin"
 
+      - name: Show Path
+        if: runner.os == 'Windows'
+        run: |
+          echo "%PATH%
+
       - name: Install TidyPy
         run: |
-          echo 'Path is: ' $PATH
           make setup
           make env
 
