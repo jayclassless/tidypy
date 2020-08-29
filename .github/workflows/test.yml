@@ -35,16 +35,34 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v1
 
-      - name: Install
+      - name: Install Poetry
         run: |
           curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py -o get-poetry.py
           python get-poetry.py
+
+      - name: Install TidyPy
+        if: runner.os != 'Windows'
+        run: |
           source $HOME/.poetry/env
           make setup
           make env
 
+      - name: Install TidyPy
+        if: runner.os == 'Windows'
+        run: |
+          setx path "%USERPROFILE%\.poetry\bin;%PATH%"
+          make setup
+          make env
+
       - name: Test
+        if: runner.os != 'Windows'
         run: |
           source $HOME/.poetry/env
+          make test
+
+      - name: Test
+        if: runner.os == 'Windows'
+        run: |
+          setx path "%USERPROFILE%\.poetry\bin;%PATH%"
           make test
 
