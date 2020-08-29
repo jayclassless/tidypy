@@ -43,7 +43,7 @@ jobs:
       - name: Set Path
         if: runner.os != 'Windows'
         run: |
-          echo "::add-path::$HOME/.poetry/env"
+          echo "::add-path::$HOME/.poetry/bin"
 
       - name: Set Path
         if: runner.os == 'Windows'
