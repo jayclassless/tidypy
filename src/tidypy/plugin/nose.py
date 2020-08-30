@@ -16,7 +16,7 @@ class TidyPy(Plugin):
     fail_on_issue = False
 
     def options(self, parser, env):
-        super(TidyPy, self).options(parser, env)
+        super().options(parser, env)
 
         parser.add_option(
             '--tidypy-project-path',
@@ -38,7 +38,7 @@ class TidyPy(Plugin):
         )
 
     def configure(self, options, conf):
-        super(TidyPy, self).configure(options, conf)
+        super().configure(options, conf)
         if not self.enabled:
             return
         self.project_path = options.tidypy_project_path or conf.workingDir

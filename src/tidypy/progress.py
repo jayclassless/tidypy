@@ -67,7 +67,7 @@ class ConsoleProgress(Progress):
     """
 
     def __init__(self, config):
-        super(ConsoleProgress, self).__init__()
+        super().__init__()
         self._timer = None
 
         tools = [
@@ -100,19 +100,19 @@ class ConsoleProgress(Progress):
         )
 
     def on_start(self):
-        super(ConsoleProgress, self).on_start()
+        super().on_start()
         self._timer = Timer(1.0, self._refresh)
         self._timer.start()
 
     def on_tool_start(self, tool):
-        super(ConsoleProgress, self).on_tool_start(tool)
+        super().on_tool_start(tool)
         self._bar.set_postfix({
             'current': ','.join(self.current_tools),
         })
 
     def on_tool_finish(self, tool):
         do_update = tool in self.current_tools
-        super(ConsoleProgress, self).on_tool_finish(tool)
+        super().on_tool_finish(tool)
         if do_update:
             postfix = {
                 'current': ','.join(self.current_tools),
@@ -123,7 +123,7 @@ class ConsoleProgress(Progress):
             self._bar.update()
 
     def on_finish(self):
-        super(ConsoleProgress, self).on_finish()
+        super().on_finish()
         print('', file=sys.stderr)
         self._timer.cancel()
         self._bar.close()

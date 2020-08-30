@@ -14,7 +14,7 @@ class PyFlakesIssue(Issue):
 
 class TidyPyReporter(Reporter):
     def __init__(self, config):
-        super(TidyPyReporter, self).__init__(None, None)
+        super().__init__(None, None)
         self._tidypy_issues = []
         self._config = config
 

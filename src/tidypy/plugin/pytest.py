@@ -46,7 +46,7 @@ def pytest_configure(config):
 
 class PyTestReport(ConsoleReport):
     def __init__(self, config, base_path, terminal_reporter):
-        super(PyTestReport, self).__init__(config, base_path)
+        super().__init__(config, base_path)
         self.terminal_reporter = terminal_reporter
 
     def output(self, msg, newline=True):
@@ -56,7 +56,7 @@ class PyTestReport(ConsoleReport):
 
     def execute(self, collector):
         self.output('TidyPy Results:\n')
-        super(PyTestReport, self).execute(collector)
+        super().execute(collector)
 
 
 class TidyPyPlugin(object):

@@ -31,7 +31,7 @@ RATING = {
 class TidyPyBanditManager(manager.BanditManager):
     def __init__(self, *args, **kwargs):  # pylint: disable=unused-argument
         self.config = kwargs.pop('config')
-        super(TidyPyBanditManager, self).__init__(
+        super().__init__(
             bandit_config.BanditConfig(),
             'file',
             ignore_nosec=self.config['options']['ignore-nosec'],
@@ -102,7 +102,7 @@ class BanditTool(PythonTool):
         return codes
 
     def __init__(self, *args, **kwargs):
-        super(BanditTool, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.bandit = TidyPyBanditManager(config=self.config)
 
     def execute(self, finder):

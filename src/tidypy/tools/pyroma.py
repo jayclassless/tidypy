@@ -71,7 +71,7 @@ class PyromaTool(Tool):
         ] + list(TIDYPY_ISSUES.values())
 
     def __init__(self, *args, **kwargs):
-        super(PyromaTool, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.disabled = self.config['disabled'][:]
         if 'LicenseClassifier' in self.disabled:
             self.disabled.append('LicenceClassifier')

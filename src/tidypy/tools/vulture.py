@@ -30,7 +30,7 @@ class TidyPyVulture(Vulture):
         if isinstance(ignore_decorators, str):
             ignore_decorators = ignore_decorators.split(',')
 
-        super(TidyPyVulture, self).__init__(
+        super().__init__(
             ignore_names=ignore_names, ignore_decorators=ignore_decorators
         )
         self.noqa_lines = None
@@ -124,7 +124,7 @@ class VultureTool(PythonTool):
         ]
 
     def __init__(self, *args, **kwargs):
-        super(VultureTool, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.vulture = TidyPyVulture(self.config)
 
     def execute(self, finder):

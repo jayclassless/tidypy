@@ -166,7 +166,7 @@ class UnknownIssue(TidyPyIssue):
     """
 
     def __init__(self, exc, filename):
-        super(UnknownIssue, self).__init__(
+        super().__init__(
             'unexpected',
             'Unexpected error (%s)' % (exc,),
             filename,
@@ -180,7 +180,7 @@ class AccessIssue(TidyPyIssue):
     """
 
     def __init__(self, exc, filename):
-        super(AccessIssue, self).__init__(
+        super().__init__(
             'access',
             'Cannot access file (%s)' % (exc,),
             filename,
@@ -198,7 +198,7 @@ class ParseIssue(TidyPyIssue):
             line = exc.lineno
             character = exc.offset
 
-        super(ParseIssue, self).__init__(
+        super().__init__(
             'parse',
             'Unable to parse file (%s)' % (exc,),
             filename,
@@ -219,7 +219,7 @@ class ToolIssue(TidyPyIssue):
                 details = ''.join(traceback.format_exception(*details))
             message = '%s:\n%s' % (message, details)
 
-        super(ToolIssue, self).__init__(
+        super().__init__(
             'tool',
             message,
             project_path,

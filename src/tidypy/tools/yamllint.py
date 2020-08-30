@@ -11,7 +11,7 @@ class YamlLintIssue(Issue):
     tool = 'yamllint'
 
     def __init__(self, *args, **kwargs):
-        super(YamlLintIssue, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.pylint_type = 'E' if self.code == 'syntax' else 'C'
 
 

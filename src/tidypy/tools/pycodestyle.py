@@ -12,7 +12,7 @@ class PyCodeStyleIssue(Issue):
     def __init__(self, code, message, filename, line, character):
         if code in ('E101',):
             line = None
-        super(PyCodeStyleIssue, self).__init__(
+        super().__init__(
             code,
             message,
             filename,
@@ -23,11 +23,11 @@ class PyCodeStyleIssue(Issue):
 
 class TidyPyReport(BaseReport):
     def __init__(self, *args, **kwargs):
-        super(TidyPyReport, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self._tidypy_issues = []
 
     def error(self, line_number, offset, text, check):
-        code = super(TidyPyReport, self).error(
+        code = super().error(
             line_number,
             offset,
             text,
@@ -67,7 +67,7 @@ class TidyPyStyleGuide(StyleGuide):
             'reporter': TidyPyReport,
             'ignore': config['disabled'],
         }
-        super(TidyPyStyleGuide, self).__init__(**kwargs)
+        super().__init__(**kwargs)
         self.options.max_line_length = config['options']['max-line-length']
         self.options.hang_closing = config['options']['hang-closing']
 
@@ -93,7 +93,7 @@ class PyCodeStyleTool(PythonTool):
         return ()
 
     def __init__(self, *args, **kwargs):
-        super(PyCodeStyleTool, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.checker = TidyPyStyleGuide(self.config)
 
     def execute(self, finder):

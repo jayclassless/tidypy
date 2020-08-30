@@ -10,7 +10,7 @@ from ..reports.console import ConsoleReport
 
 class PbbtReport(ConsoleReport):
     def __init__(self, config, base_path, pbbt_ui):
-        super(PbbtReport, self).__init__(config, base_path)
+        super().__init__(config, base_path)
         self.pbbt_ui = pbbt_ui
 
     def output(self, msg, newline=True):
