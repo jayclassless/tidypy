@@ -1,4 +1,4 @@
 poetry.lock
-.coverage
+.coverage*
 dist
 docs/build
