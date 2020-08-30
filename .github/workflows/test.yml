@@ -11,15 +11,14 @@ jobs:
     strategy:
       matrix:
         python-version:
-          - 3.5
           - 3.6
           - 3.7
           - 3.8
-          #- pypy3
+          - pypy3
         platform:
           - ubuntu-latest
           - macos-latest
-          - windows-latest
+          # - windows-latest
         exclude:
           # Pytest is busted on pypy3+windows
           - python-version: pypy3
@@ -29,18 +28,21 @@ jobs:
 
     steps:
       - name: Setup Python
-        uses: actions/setup-python@v1
+        uses: actions/setup-python@v2
         with:
           python-version: ${{ matrix.python-version }}
 
-      - name: Checkout Code
-        uses: actions/checkout@v1
+      - name: Install Poetry
+        uses: jayclassless/setup-poetry-action@v1
 
-      - name: Install
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - name: Install TidyPy
         run: |
-          make setup-ci
-          make freeze
+          make setup
+          make env
 
       - name: Test
-        run: make test-ci
-
+        run: |
+          make test

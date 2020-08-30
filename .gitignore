@@ -1,10 +1,4 @@
-.cache
-.pytest_cache
-.coverage*
-*.egg-info
-*.pyc
-build
+poetry.lock
+.coverage
 dist
-pip-wheel-metadata
-.venv
-.python-version
+docs/build
