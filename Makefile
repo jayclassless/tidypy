@@ -9,7 +9,7 @@ env::
 	@poetry show --all
 
 clean::
-	@rm -rf dist .coverage.* poetry.lock
+	@rm -rf dist .coverage* poetry.lock .pytest_cache
 
 clean-full:: clean
 	@poetry env remove `poetry run which python`
