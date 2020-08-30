@@ -1,6 +1,6 @@
 
 from vulture import Vulture, noqa
-from vulture.utils import VultureInputException, sanitize_code
+from vulture.utils import VultureInputException
 
 from .base import PythonTool, Issue, ParseIssue, AccessIssue
 from ..util import parse_python_file
@@ -62,7 +62,6 @@ class TidyPyVulture(Vulture):
     # this method writes directly to stdout. This is a copy&paste with that
     # piece replaced by capturing an issue
     def scan(self, code, filename=''):
-        code = sanitize_code(code)
         self.code = code.splitlines()
         self.noqa_lines = noqa.parse_noqa(self.code)
         self.filename = filename

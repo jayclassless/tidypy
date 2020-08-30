@@ -10,7 +10,7 @@ TidyPy Change Log
 
 **Enhancements**
 
-* Upgrade the ``pylint`` tool.
+* Upgraded the ``pylint`` and ``vulture`` tools.
 
 
 0.15.0 (2020-07-12)
