@@ -12,8 +12,6 @@ TidyPy
    :target: https://github.com/jayclassless/tidypy/actions
 .. image:: https://img.shields.io/docker/build/tidypy/tidypy.svg
    :target: https://hub.docker.com/r/tidypy/tidypy
-.. image:: https://requires.io/github/jayclassless/tidypy/requirements.svg?branch=master
-   :target: https://requires.io/github/jayclassless/tidypy/requirements/?branch=master
 
 
 .. contents:: Contents
@@ -111,6 +109,10 @@ To have TidyPy analyze your project, use the ``check`` subcommand::
                                       report will be written on stdout. Can be
                                       specified multiple times. Overrides the
                                       configuration file.
+      -c, --config FILENAME           Specifies the path to the TidyPy
+                                      configuration file to use instead of the
+                                      configuration found in the project's
+                                      pyproject.toml.
       --workers NUM_WORKERS           The number of workers to use to concurrently
                                       execute the tools. Overrides the
                                       configuration file.

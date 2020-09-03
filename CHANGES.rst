@@ -11,6 +11,7 @@ TidyPy Change Log
 **Enhancements**
 
 * Upgraded the ``pylint`` and ``vulture`` tools.
+* Addd a ``--config`` option to the ``check`` command.
 
 
 0.15.0 (2020-07-12)

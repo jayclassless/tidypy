@@ -227,6 +227,36 @@ def get_default_config():
     return config
 
 
+def get_specific_config(config_file_path, project_path, use_cache=True):
+    """
+    Produces a TidyPy configuration from the specified file.
+
+    :param config_file_path: the file containing a TidyPy configuration
+    :type config_file_path: str
+    :param project_path: the path to the project that is going to be analyzed
+    :type project_path: str
+    :param use_cache:
+        whether or not to use cached versions of any remote/referenced TidyPy
+        configurations. If not specified, defaults to ``True``.
+    :type use_cache: bool
+    :rtype: dict
+    """
+
+    if os.path.exists(config_file_path):
+        with open(config_file_path, 'r') as config_file:
+            config = toml.load(config_file)
+            if 'tidypy' in config:
+                # Originally unintended, but we'll support configuration files
+                # where everything in scoped in a "tidypy" table.
+                config = config['tidypy']
+
+        config = merge_dict(get_default_config(), config)
+        config = process_extensions(config, project_path, use_cache=use_cache)
+        return config
+
+    return None
+
+
 def get_user_config(project_path, use_cache=True):
     """
     Produces a TidyPy configuration that incorporates the configuration files
@@ -249,15 +279,7 @@ def get_user_config(project_path, use_cache=True):
             'tidypy'
         )
 
-    if os.path.exists(user_config):
-        with open(user_config, 'r') as config_file:
-            config = toml.load(config_file).get('tidypy', {})
-
-        config = merge_dict(get_default_config(), config)
-        config = process_extensions(config, project_path, use_cache=use_cache)
-        return config
-
-    return None
+    return get_specific_config(user_config, project_path, use_cache=use_cache)
 
 
 def get_local_config(project_path, use_cache=True):

@@ -11,6 +11,7 @@ from tidypy import (
     get_reports,
     get_extenders,
     get_default_config,
+    get_specific_config,
     get_user_config,
     get_local_config,
     get_project_config,
@@ -104,6 +105,15 @@ def test_get_default_config():
 
     for tool in get_tools().keys():
         assert tool in actual
+
+
+def test_get_specific_config(tmpdir):
+    project_dir = tmpdir.mkdir('project')
+    cfg_file = tmpdir.mkdir('nix').join('tidypy.toml')
+    cfg_file.write('[tidypy]\ntest = 42')
+
+    actual = get_specific_config(str(cfg_file), str(project_dir))
+    assert actual['test'] == 42
 
 
 def test_get_user_config_win(tmpdir, monkeypatch):

@@ -8,6 +8,7 @@ from .config import (
     get_reports,
     get_extenders,
     get_default_config,
+    get_specific_config,
     get_user_config,
     get_local_config,
     get_project_config,

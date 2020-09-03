@@ -14,6 +14,7 @@ from .config import (
     get_reports,
     get_extenders,
     get_default_config,
+    get_specific_config,
     get_project_config,
     purge_config_cache,
 )
@@ -98,6 +99,15 @@ If not specified, defaults to the current working directory.
     'Can be specified multiple times. Overrides the configuration file.',
 )
 @click.option(
+    '--config',
+    '-c',
+    'config_file',
+    metavar='FILENAME',
+    type=click.Path(exists=True),
+    help='Specifies the path to the TidyPy configuration file to use instead'
+    ' of the configuration found in the project\'s pyproject.toml.',
+)
+@click.option(
     '--workers',
     type=click.IntRange(1),
     metavar='NUM_WORKERS',
@@ -138,6 +148,7 @@ def check(
         excludes,
         tools,
         reports,
+        config_file,
         disable_merge,
         workers,
         disable_progress,
@@ -149,7 +160,17 @@ def check(
 
     # Establish the configuration
     try:
-        config = get_project_config(path, use_cache=not disable_config_cache)
+        if config_file:
+            config = get_specific_config(
+                config_file,
+                path,
+                use_cache=not disable_config_cache,
+            )
+        else:
+            config = get_project_config(
+                path,
+                use_cache=not disable_config_cache,
+            )
     except Exception as exc:  # pylint: disable=broad-except
         output_error('Could not parse config file: %s' % (exc,))
         ctx.exit(1)
