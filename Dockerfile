@@ -1,9 +1,15 @@
-FROM python:3.7-alpine
+FROM python:3.8-slim
 
 ADD . /tidypy
 WORKDIR /tidypy
 
-RUN apk --no-cache add git mercurial subversion bzr gcc musl-dev && \
+RUN apt-get update && \
+    apt-get install --yes --no-install-recommends \
+        bzr \
+        git \
+        mercurial \
+        subversion && \
+    rm -rf /var/lib/apt/lists/* && \
     pip install --no-cache-dir . Sphinx
 
 VOLUME /project
