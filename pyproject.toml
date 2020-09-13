@@ -33,9 +33,6 @@ classifiers = [
     "Topic :: Software Development :: Testing",
     "Development Status :: 4 - Beta",
 ]
-include = [
-    "CHANGES.rst",
-]
 
 [tool.poetry.dependencies]
 python = "^3.6"

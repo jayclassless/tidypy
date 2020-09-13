@@ -10,7 +10,7 @@ TidyPy
    :target: https://tidypy.readthedocs.io
 .. image:: https://github.com/jayclassless/tidypy/workflows/Test/badge.svg
    :target: https://github.com/jayclassless/tidypy/actions
-.. image:: https://img.shields.io/docker/build/tidypy/tidypy.svg
+.. image:: https://github.com/jayclassless/tidypy/workflows/Publish%20Docker%20Image/badge.svg
    :target: https://hub.docker.com/r/tidypy/tidypy
 
 
