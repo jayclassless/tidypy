@@ -4,6 +4,8 @@ name: Publish Docker Image
   push:
     branches:
       - master
+    tags:
+      - '*'
 
 jobs:
   build:
