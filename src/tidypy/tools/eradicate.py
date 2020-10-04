@@ -1,5 +1,5 @@
 
-from eradicate import commented_out_code_line_numbers
+from eradicate import Eradicator
 
 from .base import PythonTool, Issue, AccessIssue
 
@@ -28,6 +28,8 @@ class EradicateTool(PythonTool):
         if CODE in self.config['disabled']:
             return issues
 
+        eradicator = Eradicator()
+
         for filepath in finder.files(self.config['filters']):
             try:
                 source = finder.read_file(filepath)
@@ -35,7 +37,7 @@ class EradicateTool(PythonTool):
                 issues.append(AccessIssue(exc, filepath))
                 continue
 
-            for line in commented_out_code_line_numbers(source):
+            for line in eradicator.commented_out_code_line_numbers(source):
                 issues.append(EradicateIssue(
                     CODE,
                     DESCRIPTION,

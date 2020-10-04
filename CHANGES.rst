@@ -10,7 +10,7 @@ TidyPy Change Log
 
 **Enhancements**
 
-* Upgraded the ``manifest`` tool.
+* Upgraded the ``manifest`` and ``eradicate`` tools.
 
 
 0.16.0 (2020-09-12)
