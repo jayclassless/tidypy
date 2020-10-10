@@ -48,8 +48,6 @@ jobs:
             MINOR=${VERSION%.*}
             MAJOR=${MINOR%.*}
             TAGS="$TAGS,${DOCKER_IMAGE}:${MINOR},${DOCKER_IMAGE}:${MAJOR},${DOCKER_IMAGE}:latest"
-          elif [ "${{ github.event_name }}" = "push" ]; then
-            TAGS="$TAGS,${DOCKER_IMAGE}:sha-${GITHUB_SHA::8}"
           fi
           echo ::set-output name=version::${VERSION}
           echo ::set-output name=tags::${TAGS}
@@ -76,25 +74,25 @@ jobs:
             org.opencontainers.image.revision=${{ github.sha }}
             org.opencontainers.image.licenses=${{ fromJson(steps.repo.outputs.result).license.spdx_id }}
 
-      - name: Login to GitHub Container Registry
-        uses: docker/login-action@v1
-        with:
-          registry: ghcr.io
-          username: ${{ github.repository_owner }}
-          password: ${{ secrets.GHCR_TOKEN }}
+      # - name: Login to GitHub Container Registry
+      #   uses: docker/login-action@v1
+      #   with:
+      #     registry: ghcr.io
+      #     username: ${{ github.repository_owner }}
+      #     password: ${{ secrets.GHCR_TOKEN }}
 
-      - name: Push to GitHub Container Registry
-        uses: docker/build-push-action@v2
-        with:
-          push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ steps.prep.outputs.tags }}
-          labels: |
-            org.opencontainers.image.title=${{ fromJson(steps.repo.outputs.result).name }}
-            org.opencontainers.image.description=${{ fromJson(steps.repo.outputs.result).description }}
-            org.opencontainers.image.url=${{ fromJson(steps.repo.outputs.result).html_url }}
-            org.opencontainers.image.source=${{ fromJson(steps.repo.outputs.result).clone_url }}
-            org.opencontainers.image.version=${{ steps.prep.outputs.version }}
-            org.opencontainers.image.created=${{ steps.prep.outputs.created }}
-            org.opencontainers.image.revision=${{ github.sha }}
-            org.opencontainers.image.licenses=${{ fromJson(steps.repo.outputs.result).license.spdx_id }}
+      # - name: Push to GitHub Container Registry
+      #   uses: docker/build-push-action@v2
+      #   with:
+      #     push: ${{ github.event_name != 'pull_request' }}
+      #     tags: ${{ steps.prep.outputs.tags }}
+      #     labels: |
+      #       org.opencontainers.image.title=${{ fromJson(steps.repo.outputs.result).name }}
+      #       org.opencontainers.image.description=${{ fromJson(steps.repo.outputs.result).description }}
+      #       org.opencontainers.image.url=${{ fromJson(steps.repo.outputs.result).html_url }}
+      #       org.opencontainers.image.source=${{ fromJson(steps.repo.outputs.result).clone_url }}
+      #       org.opencontainers.image.version=${{ steps.prep.outputs.version }}
+      #       org.opencontainers.image.created=${{ steps.prep.outputs.created }}
+      #       org.opencontainers.image.revision=${{ github.sha }}
+      #       org.opencontainers.image.licenses=${{ fromJson(steps.repo.outputs.result).license.spdx_id }}
 
