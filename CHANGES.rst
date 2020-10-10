@@ -5,8 +5,8 @@ TidyPy Change Log
 .. contents:: Releases
 
 
-0.17.0 (TBD)
-============
+0.17.0 (2020-10-10)
+===================
 
 **Enhancements**
 
