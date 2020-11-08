@@ -5,6 +5,14 @@ TidyPy Change Log
 .. contents:: Releases
 
 
+0.18.0 (TBD)
+============
+
+**Enhancements**
+
+* Upgraded the ``manifest`` tool.
+
+
 0.17.0 (2020-10-10)
 ===================
 
