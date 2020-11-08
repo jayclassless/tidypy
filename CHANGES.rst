@@ -10,7 +10,7 @@ TidyPy Change Log
 
 **Enhancements**
 
-* Upgraded the ``manifest`` tool.
+* Upgraded the ``manifest`` and ``dlint`` tools.
 
 
 0.17.0 (2020-10-10)
