@@ -12,6 +12,11 @@ TidyPy Change Log
 
 * Upgraded the ``manifest`` and ``dlint`` tools.
 
+** Fixes **
+
+* Fixed an issue that caused crashes when specifying additional options to the
+  ``yamllint`` tool.
+
 
 0.17.0 (2020-10-10)
 ===================

@@ -44,29 +44,23 @@ class YamlLintTool(Tool):
         return codes
 
     def make_config(self):
-        cfg = 'extends: default\n'
+        cfg = {
+            'extends': 'default',
+            'rules': {},
+        }
 
         rules = [
             rule
             for rule, _ in self.get_all_codes()
             if rule != 'syntax'
         ]
-        rule_parts = []
         for rule in rules:
             if rule in self.config['disabled']:
-                rule_parts.append('  %s: disable' % (rule,))
+                cfg['rules'][rule] = 'disable'
             elif rule in self.config['options']:
-                rule_parts.append('  %s: %s' % (
-                    rule,
-                    basicserial.to_yaml(self.config['options'][rule]),
-                ))
+                cfg['rules'][rule] = self.config['options'][rule]
 
-        if rule_parts:
-            cfg += 'rules:\n%s' % (
-                '\n'.join(rule_parts),
-            )
-
-        return YamlLintConfig(cfg)
+        return YamlLintConfig(basicserial.to_yaml(cfg))
 
     def execute(self, finder):
         issues = []
