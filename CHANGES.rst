@@ -5,14 +5,14 @@ TidyPy Change Log
 .. contents:: Releases
 
 
-0.18.0 (TBD)
-============
+0.18.0 (2020-11-27)
+===================
 
 **Enhancements**
 
 * Upgraded the ``manifest`` and ``dlint`` tools.
 
-** Fixes **
+**Fixes**
 
 * Fixed an issue that caused crashes when specifying additional options to the
   ``yamllint`` tool.
