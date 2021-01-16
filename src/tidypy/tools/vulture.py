@@ -1,4 +1,6 @@
 
+from pathlib import Path
+
 from vulture import Vulture, noqa
 from vulture.utils import VultureInputException
 
@@ -64,11 +66,11 @@ class TidyPyVulture(Vulture):
     def scan(self, code, filename=''):
         self.code = code.splitlines()
         self.noqa_lines = noqa.parse_noqa(self.code)
-        self.filename = filename
+        self.filename = Path(filename)
         try:
-            node = parse_python_file(self.filename)
+            node = parse_python_file(filename)
         except (SyntaxError, TypeError, ValueError) as err:
-            self._tidypy_issues.append(ParseIssue(err, self.filename))
+            self._tidypy_issues.append(ParseIssue(err, filename))
             self.found_dead_code_or_error = True
         else:
             self.visit(node)
@@ -85,15 +87,10 @@ class TidyPyVulture(Vulture):
                 if item.confidence < min_confidence:
                     continue
 
-                try:
-                    filename = item.file
-                except AttributeError:
-                    filename = item.filename
-
                 issues.append(VultureIssue(
                     code,
                     template.format(entity=str(item)),
-                    filename,
+                    str(item.filename),
                     item.first_lineno,
                 ))
 

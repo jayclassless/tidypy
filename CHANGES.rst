@@ -5,6 +5,14 @@ TidyPy Change Log
 .. contents:: Releases
 
 
+0.19.0 (TBD)
+============
+
+**Fixes**
+
+* Fixed a crash due to the latest version of ``vulture``.
+
+
 0.18.0 (2020-11-27)
 ===================
 
