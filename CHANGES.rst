@@ -5,8 +5,8 @@ TidyPy Change Log
 .. contents:: Releases
 
 
-0.19.0 (TBD)
-============
+0.19.0 (2021-01-16)
+===================
 
 **Enhancements**
 
