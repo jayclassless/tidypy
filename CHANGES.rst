@@ -8,6 +8,10 @@ TidyPy Change Log
 0.19.0 (TBD)
 ============
 
+**Enhancements**
+
+* Upgraded the ``manifest`` tool.
+
 **Fixes**
 
 * Fixed a crash due to the latest version of ``vulture``.
