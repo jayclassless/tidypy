@@ -1,8 +1,9 @@
 
-from detect_secrets.core.usage import get_all_plugin_descriptors
-from detect_secrets.core.secrets_collection import SecretsCollection
+from detect_secrets import SecretsCollection
 from detect_secrets.core.potential_secret import PotentialSecret
-from detect_secrets.plugins.common.initialize import from_plugin_classname
+from detect_secrets.core.plugins.util import \
+    get_mapping_from_secret_type_to_class
+from detect_secrets.settings import transient_settings
 
 from .base import Tool, Issue, AccessIssue, UnknownIssue
 
@@ -12,22 +13,9 @@ class DetectSecretsIssue(Issue):
     pylint_type = 'W'
 
 
-PLUGINS = [
-    from_plugin_classname(_plugin.classname, (), **dict([
-        (
-            _arg[0][2:].replace('-', '_'),
-            _arg[1],
-        )
-        for _arg in _plugin.related_args
-    ]))
-    for _plugin in get_all_plugin_descriptors(())
-]
+PLUGINS = tuple(get_mapping_from_secret_type_to_class().values())
 
 DESCRIPTION = 'Possible secret detected: {description}'
-
-
-def plugin_code(plugin):
-    return plugin.__class__.__name__
 
 
 class DetectSecretsTool(Tool):
@@ -40,7 +28,7 @@ class DetectSecretsTool(Tool):
     def get_all_codes(cls):
         return [
             (
-                plugin_code(plugin),
+                plugin.__name__,
                 plugin.secret_type,
             )
             for plugin in PLUGINS
@@ -49,22 +37,23 @@ class DetectSecretsTool(Tool):
     def execute(self, finder):
         issues = []
 
-        plugins = [
-            plugin
-            for plugin in PLUGINS
-            if plugin_code(plugin) not in self.config['disabled']
-        ]
+        settings = {
+            'plugins_used': [
+                {'name': plugin.__name__}
+                for plugin in PLUGINS
+                if plugin.__name__ not in self.config['disabled']
+            ],
+        }
 
-        detector = SecretsCollection(plugins)
+        detector = SecretsCollection()
+        with transient_settings(settings):
+            for filepath in finder.files(self.config['filters']):
+                try:
+                    detector.scan_file(filepath)
+                except Exception as exc:  # pylint: disable=broad-except
+                    issues.append(self.make_issue(exc, filepath))
 
-        for filepath in finder.files(self.config['filters']):
-            try:
-                detector.scan_file(filepath)
-            except Exception as exc:  # pylint: disable=broad-except
-                issues.append(self.make_issue(exc, filepath))
-
-        for filepath, problems in detector.data.items():
-            for problem in problems:
+            for filepath, problem in detector:
                 issues.append(self.make_issue(problem, filepath))
 
         return issues
@@ -77,10 +66,10 @@ class DetectSecretsTool(Tool):
                 if plugin.secret_type == problem.type
             ][0]
             return DetectSecretsIssue(
-                plugin_code(plugin),
+                plugin.__name__,
                 DESCRIPTION.format(description=problem.type),
                 filename,
-                problem.lineno,
+                problem.line_number,
             )
 
         if isinstance(problem, EnvironmentError):
