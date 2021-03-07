@@ -10,7 +10,7 @@ TidyPy Change Log
 
 **Enhancements**
 
-* Upgraded the ``pylint`` and ``secrets`` tools.
+* Upgraded the ``pylint``, ``secrets``, and ``pyroma`` tools.
 
 
 0.19.0 (2021-01-16)
