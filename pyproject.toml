@@ -59,7 +59,7 @@ detect-secrets = ">=1,<2"
 eradicate = ">=2,<3"
 dlint = ">=0.8,<0.12"
 pylint = ">=2,<2.8"
-pydocstyle = ">=4,<6"
+pydocstyle = ">=4,<7"
 
 [tool.poetry.dev-dependencies]
 coverage = "*"
