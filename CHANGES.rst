@@ -10,7 +10,8 @@ TidyPy Change Log
 
 **Enhancements**
 
-* Upgraded the ``pylint``, ``secrets``, ``pyroma``, and ``pydocstyle`` tools.
+* Upgraded the ``pylint``, ``secrets``, ``pyroma``, ``pydocstyle``,
+  ``pycodestyle``, and ``pyflakes`` tools.
 
 
 0.19.0 (2021-01-16)
