@@ -1,0 +1,22 @@
+name: Installation Check
+
+'on':
+  schedule:
+    - cron: "0 6 * * *"
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+
+      - name: Upgrade PIP
+        run: pip install --upgrade pip
+
+      - name: Install TidyPy
+        run: pip install tidypy
+
