@@ -2,3 +2,4 @@ poetry.lock
 .coverage*
 dist
 docs/build
+.vscode
