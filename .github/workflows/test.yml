@@ -30,7 +30,7 @@ jobs:
 
     steps:
       - name: Setup Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v2.2.2
         with:
           python-version: ${{ matrix.python-version }}
 
@@ -38,7 +38,7 @@ jobs:
         uses: jayclassless/setup-poetry-action@v1
 
       - name: Checkout Code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v2.3.4
 
       - name: Install TidyPy
         run: |
