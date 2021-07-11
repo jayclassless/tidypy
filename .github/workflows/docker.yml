@@ -10,6 +10,9 @@ name: Publish Docker Image
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
 
     steps:
       - name: Set up Docker Buildx
@@ -18,40 +21,18 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v2.3.4
 
-      - name: Repo metadata
-        id: repo
-        uses: actions/github-script@v4.0.2
+      - name: Generate Image Metadata
+        id: meta
+        uses: docker/metadata-action@v3.4.0
         with:
-          script: |
-            const repo = await github.repos.get(context.repo)
-            return repo.data
-
-      - name: Prepare
-        id: prep
-        run: |
-          DOCKER_IMAGE=tidypy/tidypy
-          VERSION=noop
-          if [ "${{ github.event_name }}" = "schedule" ]; then
-            VERSION=nightly
-          elif [[ $GITHUB_REF == refs/tags/* ]]; then
-            VERSION=${GITHUB_REF#refs/tags/}
-          elif [[ $GITHUB_REF == refs/heads/* ]]; then
-            VERSION=$(echo ${GITHUB_REF#refs/heads/} | sed -r 's#/+#-#g')
-            if [ "${{ github.event.repository.default_branch }}" = "$VERSION" ]; then
-              VERSION=edge
-            fi
-          elif [[ $GITHUB_REF == refs/pull/* ]]; then
-            VERSION=pr-${{ github.event.number }}
-          fi
-          TAGS="${DOCKER_IMAGE}:${VERSION}"
-          if [[ $VERSION =~ ^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$ ]]; then
-            MINOR=${VERSION%.*}
-            MAJOR=${MINOR%.*}
-            TAGS="$TAGS,${DOCKER_IMAGE}:${MINOR},${DOCKER_IMAGE}:${MAJOR},${DOCKER_IMAGE}:latest"
-          fi
-          echo ::set-output name=version::${VERSION}
-          echo ::set-output name=tags::${TAGS}
-          echo ::set-output name=created::$(date -u +'%Y-%m-%dT%H:%M:%SZ')
+          images: |
+            tidypy/tidypy
+            ghcr.io/jayclassless/tidypy
+          tags: |
+            type=edge
+            type=semver,pattern={{major}}.{{minor}}.{{patch}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=semver,pattern={{magor}}
 
       - name: Login to DockerHub
         uses: docker/login-action@v1
@@ -59,18 +40,16 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Push to DockerHub
+      - name: Login to GHCR
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Push Image to Registries
         uses: docker/build-push-action@v2.6.1
         with:
           push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ steps.prep.outputs.tags }}
-          labels: |
-            org.opencontainers.image.title=${{ fromJson(steps.repo.outputs.result).name }}
-            org.opencontainers.image.description=${{ fromJson(steps.repo.outputs.result).description }}
-            org.opencontainers.image.url=${{ fromJson(steps.repo.outputs.result).html_url }}
-            org.opencontainers.image.source=${{ fromJson(steps.repo.outputs.result).clone_url }}
-            org.opencontainers.image.version=${{ steps.prep.outputs.version }}
-            org.opencontainers.image.created=${{ steps.prep.outputs.created }}
-            org.opencontainers.image.revision=${{ github.sha }}
-            org.opencontainers.image.licenses=${{ fromJson(steps.repo.outputs.result).license.spdx_id }}
-
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
