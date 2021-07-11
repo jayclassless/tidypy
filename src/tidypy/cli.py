@@ -143,7 +143,7 @@ If not specified, defaults to the current working directory.
     default=os.getcwd(),
 )
 @click.pass_context
-def check(
+def check(  # noqa: mccabe:complex
         ctx,
         excludes,
         tools,
