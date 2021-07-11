@@ -1,6 +1,7 @@
 
 import configparser
-import os.path
+
+from pathlib import Path
 
 from ..config import get_project_config
 from ..core import execute_tools
@@ -24,17 +25,18 @@ def hook(ui, repo, **kwargs):  # pylint: disable=unused-argument,invalid-name
 
 class MercurialHook(object):
     def get_hgrc(self, path, ensure_exists=False):
-        if not os.path.isdir(path):
+        path = Path(path)
+        if not path.exists():
             return None
 
-        hg_dir = os.path.join(path, '.hg')
-        if not os.path.exists(hg_dir):
+        hg_dir = path / '.hg'
+        if not hg_dir.exists():
             return None
 
-        hgrc = os.path.join(hg_dir, 'hgrc')
-        if not os.path.exists(hgrc):
+        hgrc = hg_dir / 'hgrc'
+        if not hgrc.exists():
             if ensure_exists:
-                open(hgrc, 'w').close()
+                hgrc.touch()
                 return hgrc
             return None
         return hgrc

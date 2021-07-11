@@ -31,12 +31,11 @@ if __name__ == '__main__':
 
 
 def git_config(*args):
-    proc = subprocess.Popen(  # noqa: bandit:B603
-        ['git', 'config'] + list(args),
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
-    )
-    out, _ = proc.communicate()
+    with subprocess.Popen(  # noqa: bandit:B603
+            ['git', 'config'] + list(args),
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE) as proc:
+        out, _ = proc.communicate()
     return out.strip()
 
 
