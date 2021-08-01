@@ -57,6 +57,7 @@ def test_get_reports():
         'custom',
         'json',
         'null',
+        'prospector-json',
         'pycodestyle',
         'pylint',
         'pylint-parseable',
