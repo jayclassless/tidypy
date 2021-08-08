@@ -16,14 +16,14 @@ jobs:
 
     steps:
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1.5.0
+        uses: docker/setup-buildx-action@v1.5.1
 
       - name: Checkout Code
         uses: actions/checkout@v2.3.4
 
       - name: Generate Image Metadata
         id: meta
-        uses: docker/metadata-action@v3.4.0
+        uses: docker/metadata-action@v3.4.1
         with:
           images: |
             tidypy/tidypy
