@@ -9,17 +9,21 @@ class Report(object):
     The base class for TidyPy issue reporters.
     """
 
-    def __init__(self, config, base_path, output_file=None):
+    def __init__(self, config, path, output_file=None):
         """
         :param config:
             the configuration used during the analysis of the project
         :type config: dict
-        :param base_path: the path to the project base directory
-        :type base_path: str
+        :param path: the path to the project base directory or file
+        :type path: str
         """
 
         self.config = config
-        self.base_path = base_path
+        path = Path(path)
+        if path.is_file():
+            self.base_path = Path.cwd()
+        else:
+            self.base_path = path
         self._output_needs_closing = False
         if output_file:
             self.output_file = output_file
@@ -57,7 +61,6 @@ class Report(object):
         :type filename: str
         :rtype: str
         """
-
         return Path(filename).relative_to(self.base_path).as_posix()
 
     def output(self, msg, newline=True):

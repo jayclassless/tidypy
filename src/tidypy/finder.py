@@ -22,19 +22,23 @@ class Finder(object):
     be analyzed.
     """
 
-    def __init__(self, base_path, config):
+    def __init__(self, path, config):
         """
-        :param base_path: the path to the base of the project
-        :type base_path: str
+        :param path: the path to the base of the project or a python file
+        :type path: str
         :param config: the configuration to use when searching the project
         :type config: dict
         """
-
-        self.base_path = Path(base_path).resolve()
+        
+        path = Path(path).resolve()
+        if path.is_file():
+            self.base_path = Path.cwd()
+        else:
+            self.base_path = path
         self.excludes = compile_masks(config['exclude'])
 
         self._found = dict()
-        self._find(self.base_path)
+        self._find(path)
         self._found = dict([
             (dirname, files)
             for dirname, files in self._found.items()
@@ -61,17 +65,23 @@ class Finder(object):
         return str(Path(filepath).relative_to(self.base_path))
 
     def _find(self, path):
-        for subpath in path.iterdir():
-            if subpath.is_dir():
-                if not self.is_excluded_dir(subpath):
-                    self._found[str(subpath)] = []
-                    self._find(subpath)
+        if path.is_file():
+            if not self.is_excluded(path):
+                if str(path) not in self._found:
+                    self._found[str(self.base_path)] = []
+                self._found[str(self.base_path)].append(str(path))
+        else:
+            for subpath in path.iterdir():
+                if subpath.is_dir():
+                    if not self.is_excluded_dir(subpath):
+                        self._found[str(subpath)] = []
+                        self._find(subpath)
 
-            elif subpath.is_file():
-                if not self.is_excluded(subpath):
-                    if str(path) not in self._found:
-                        self._found[str(path)] = []
-                    self._found[str(path)].append(str(subpath))
+                elif subpath.is_file():
+                    if not self.is_excluded(subpath):
+                        if str(path) not in self._found:
+                            self._found[str(path)] = []
+                        self._found[str(path)].append(str(subpath))
 
     def is_excluded(self, path):
         """

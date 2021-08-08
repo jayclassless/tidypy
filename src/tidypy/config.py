@@ -2,6 +2,7 @@ import multiprocessing
 import os
 import shutil
 import sys
+import pathlib
 
 from hashlib import sha512
 
@@ -295,11 +296,10 @@ def get_local_config(project_path, use_cache=True):
     :type use_cache: bool
     :rtype: dict
     """
+    pyproject_path = pathlib.Path(project_path) / 'pyproject.toml'
 
-    pyproject_path = os.path.join(project_path, 'pyproject.toml')
-
-    if os.path.exists(pyproject_path):
-        with open(pyproject_path, 'r') as config_file:
+    if pyproject_path.exists():
+        with pyproject_path.open() as config_file:
             config = toml.load(config_file)
 
         config = config.get('tool', {}).get('tidypy', {})
@@ -326,7 +326,12 @@ def get_project_config(project_path, use_cache=True):
     :type use_cache: bool
     :rtype: dict
     """
-
+    path = pathlib.Path(project_path)
+    if path.is_file():
+        project_path = pathlib.Path.cwd()
+    else:
+        project_path = path
+    
     return get_local_config(project_path, use_cache=use_cache) \
         or get_user_config(project_path, use_cache=use_cache) \
         or get_default_config()
