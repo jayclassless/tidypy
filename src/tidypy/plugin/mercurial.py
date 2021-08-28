@@ -65,7 +65,7 @@ class MercurialHook(object):
             config.add_section('tidypy')
         config.set('tidypy', 'strict', str(strict))
 
-        with open(hgrc, 'w') as config_file:
+        with open(hgrc, 'w', encoding="utf8") as config_file:
             config.write(config_file)
 
     def remove(self, path):
@@ -86,6 +86,6 @@ class MercurialHook(object):
         if config.has_section('tidypy'):
             config.remove_section('tidypy')
 
-        with open(hgrc, 'w') as config_file:
+        with open(hgrc, 'w', encoding="utf8") as config_file:
             config.write(config_file)
 

@@ -27,7 +27,7 @@ def get_tools():
     # pylint: disable=protected-access
 
     if not hasattr(get_tools, '_CACHE'):
-        get_tools._CACHE = dict()
+        get_tools._CACHE = {}
         for entry in pkg_resources.iter_entry_points('tidypy.tools'):
             try:
                 get_tools._CACHE[entry.name] = entry.load()
@@ -56,7 +56,7 @@ def get_reports():
     # pylint: disable=protected-access
 
     if not hasattr(get_reports, '_CACHE'):
-        get_reports._CACHE = dict()
+        get_reports._CACHE = {}
         for entry in pkg_resources.iter_entry_points('tidypy.reports'):
             try:
                 get_reports._CACHE[entry.name] = entry.load()
@@ -85,7 +85,7 @@ def get_extenders():
     # pylint: disable=protected-access
 
     if not hasattr(get_extenders, '_CACHE'):
-        get_extenders._CACHE = dict()
+        get_extenders._CACHE = {}
         for entry in pkg_resources.iter_entry_points('tidypy.extenders'):
             try:
                 get_extenders._CACHE[entry.name] = entry.load()
@@ -138,7 +138,7 @@ def get_config_cache(location):
 
     path = get_cache_path(location)
     if os.path.exists(path):
-        with open(path, 'r') as config_file:
+        with open(path, 'r', encoding="utf8") as config_file:
             config = toml.load(config_file).get('tidypy', {})
 
     return config
@@ -146,7 +146,7 @@ def get_config_cache(location):
 
 def put_config_cache(location, config):
     path = get_cache_path(location)
-    with open(path, 'w') as config_file:
+    with open(path, 'w', encoding="utf8") as config_file:
         toml.dump(config, config_file)
 
 
@@ -179,7 +179,7 @@ def process_extensions(config, project_path, use_cache=True):
     if isinstance(extends, str):
         extends = [extends]
 
-    base = dict()
+    base = {}
     for location in extends:
         try:
             ext_config = retrieve_extension(
@@ -243,7 +243,7 @@ def get_specific_config(config_file_path, project_path, use_cache=True):
     """
 
     if os.path.exists(config_file_path):
-        with open(config_file_path, 'r') as config_file:
+        with open(config_file_path, 'r', encoding="utf8") as config_file:
             config = toml.load(config_file)
             if 'tidypy' in config:
                 # Originally unintended, but we'll support configuration files
@@ -299,7 +299,7 @@ def get_local_config(project_path, use_cache=True):
     pyproject_path = os.path.join(project_path, 'pyproject.toml')
 
     if os.path.exists(pyproject_path):
-        with open(pyproject_path, 'r') as config_file:
+        with open(pyproject_path, 'r', encoding="utf8") as config_file:
             config = toml.load(config_file)
 
         config = config.get('tool', {}).get('tidypy', {})

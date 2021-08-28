@@ -91,7 +91,7 @@ class GitHook(object):
 
         executable = sys.executable or '/usr/bin/env python'
 
-        with open(hook_filepath, 'w') as hook_file:
+        with open(hook_filepath, 'w', encoding="utf8") as hook_file:
             hook_file.write(HOOK_TEMPLATE.format(
                 executable=executable,
             ))

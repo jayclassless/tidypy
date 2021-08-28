@@ -146,7 +146,10 @@ class RstLintTool(Tool):
             tmp_dir_in = mkdtemp()
             tmp_dir_out = mkdtemp()
             try:
-                with open(os.path.join(tmp_dir_in, 'conf.py'), 'w') as conf:
+                with open(
+                        os.path.join(tmp_dir_in, 'conf.py'),
+                        'w',
+                        encoding="utf8") as conf:
                     conf.write('extensions = %r' % (
                         self.config['options']['sphinx-extensions'],
                     ))

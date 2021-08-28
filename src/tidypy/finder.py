@@ -33,7 +33,7 @@ class Finder(object):
         self.base_path = Path(base_path).resolve()
         self.excludes = compile_masks(config['exclude'])
 
-        self._found = dict()
+        self._found = {}
         self._find(self.base_path)
         self._found = dict([
             (dirname, files)
