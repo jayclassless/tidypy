@@ -5,8 +5,8 @@ TidyPy Change Log
 .. contents:: Releases
 
 
-0.21.1 (TBD)
-============
+0.21.1 (2021-09-14)
+===================
 
 **Fixes**
 
