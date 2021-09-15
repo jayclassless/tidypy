@@ -1,5 +1,5 @@
 
-from demjson import decode, JSONError
+from demjson3 import decode, JSONError
 
 from .base import Tool, Issue, AccessIssue, UnknownIssue
 

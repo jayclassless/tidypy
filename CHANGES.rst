@@ -5,6 +5,15 @@ TidyPy Change Log
 .. contents:: Releases
 
 
+0.21.1 (TBD)
+============
+
+**Fixes**
+
+* Fixed an installation failure due to an old version of ``demjson`` not working
+  with ``setuptools>=58``.
+
+
 0.21.0 (2021-08-28)
 ===================
 
