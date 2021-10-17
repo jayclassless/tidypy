@@ -5,6 +5,14 @@ TidyPy Change Log
 .. contents:: Releases
 
 
+0.22.0 (TBD)
+============
+
+**Enhancements**
+
+* Upgraded the ``check-manifest`` tool.
+
+
 0.21.1 (2021-09-14)
 ===================
 
