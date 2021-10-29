@@ -94,7 +94,7 @@ def mod_sys_path(paths):
         sys.path = old_path
 
 
-class SysOutCapture(object):
+class SysOutCapture:
     """
     A context manager that captures output to ``stdout`` and ``stderr`` during
     the execution of the block.

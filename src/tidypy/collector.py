@@ -19,7 +19,7 @@ def default_group(issue):  # noqa
     return issue.filename
 
 
-class Collector(object):
+class Collector:
     """
     A class that contains all the issues found during an execution of the
     TidyPy tool suite.

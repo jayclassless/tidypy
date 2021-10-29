@@ -182,8 +182,7 @@ disabled = [
     'trailing-newlines',
     'no-self-use',
     'duplicate-code',
-    'useless-object-inheritance',
-    'consider-using-dict-comprehension',
+    'consider-using-f-string',
 ]
 [tool.tidypy.pylint.options]
 min-public-methods = 0

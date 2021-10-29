@@ -52,7 +52,7 @@ def hook(project_path, strict):
     return 0
 
 
-class GitHook(object):
+class GitHook:
     def __init__(self):
         try:
             subprocess.call(['git'])  # noqa: bandit:B603,bandit:B607

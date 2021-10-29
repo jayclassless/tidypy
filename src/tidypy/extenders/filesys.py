@@ -17,7 +17,7 @@ class FilesysExtender(Extender):
         if not path.exists():
             raise DoesNotExistError()
 
-        with path.open('r') as config_file:
+        with path.open('r', encoding='utf-8') as config_file:
             content = config_file.read()
 
         return cls.parse(

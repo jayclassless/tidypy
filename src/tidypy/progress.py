@@ -8,7 +8,7 @@ from tqdm import tqdm
 from .config import get_tools
 
 
-class Progress(object):
+class Progress:
     """
     An interface for receiving events that occur during the execution of the
     TidyPy tool suite.

@@ -59,7 +59,7 @@ class PyTestReport(ConsoleReport):
         super().execute(collector)
 
 
-class TidyPyPlugin(object):
+class TidyPyPlugin:
     def __init__(self, config):
         self.enabled = config.getoption('tidypy')
         self.project_path = config.getoption('tidypy_project_path') \

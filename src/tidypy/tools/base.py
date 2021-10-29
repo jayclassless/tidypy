@@ -2,7 +2,7 @@
 import traceback
 
 
-class Tool(object):
+class Tool:
     """
     The base class for TidyPy tools.
     """
@@ -95,7 +95,7 @@ class PythonTool(Tool):
         return config
 
 
-class Issue(object):
+class Issue:
     """
     A class that encapsulates an issue found during the analysis of a project.
     """

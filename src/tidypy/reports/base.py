@@ -4,7 +4,7 @@ from pathlib import Path
 import click
 
 
-class Report(object):
+class Report:
     """
     The base class for TidyPy issue reporters.
     """

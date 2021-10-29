@@ -2,7 +2,7 @@
 import toml
 
 
-class Extender(object):
+class Extender:
     """
     The base class for TidyPy configuration extenders.
     """

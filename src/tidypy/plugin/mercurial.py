@@ -23,7 +23,7 @@ def hook(ui, repo, **kwargs):  # pylint: disable=unused-argument,invalid-name
     return 0
 
 
-class MercurialHook(object):
+class MercurialHook:
     def get_hgrc(self, path, ensure_exists=False):
         path = Path(path)
         if not path.exists():

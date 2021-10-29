@@ -16,7 +16,7 @@ ALWAYS_EXCLUDED_DIRS = compile_masks([
 ])
 
 
-class Finder(object):
+class Finder:
     """
     A class that encapsulates the logic of finding files in a project that will
     be analyzed.
@@ -35,11 +35,11 @@ class Finder(object):
 
         self._found = {}
         self._find(self.base_path)
-        self._found = dict([
-            (dirname, files)
+        self._found = {
+            dirname: files
             for dirname, files in self._found.items()
             if files
-        ])
+        }
 
     @property
     def project_path(self):
