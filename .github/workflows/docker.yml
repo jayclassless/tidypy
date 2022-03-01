@@ -19,7 +19,7 @@ jobs:
         uses: docker/setup-buildx-action@v1.6.0
 
       - name: Checkout Code
-        uses: actions/checkout@v2.4.0
+        uses: actions/checkout@v3
 
       - name: Generate Image Metadata
         id: meta

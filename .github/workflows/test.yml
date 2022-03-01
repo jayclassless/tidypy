@@ -39,7 +39,7 @@ jobs:
         uses: jayclassless/setup-poetry-action@v1
 
       - name: Checkout Code
-        uses: actions/checkout@v2.4.0
+        uses: actions/checkout@v3
 
       - name: Install TidyPy
         run: |
