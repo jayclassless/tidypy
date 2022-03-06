@@ -7,7 +7,7 @@ build-backend = "poetry.masonry.api"
 
 [tool.poetry]
 name = "tidypy"
-version = "0.22.0"
+version = "0.23.0"
 description = "A tool that executes a suite of static analysis tools upon a Python project."
 authors = [
     "Jason Simeone <jay@classless.net>"
@@ -58,7 +58,7 @@ pydiatra = ">=0.12.2,<0.13"
 detect-secrets = ">=1,<2"
 eradicate = ">=2,<3"
 dlint = ">=0.8,<0.13"
-pylint = ">=2,<2.12"
+pylint = ">=2,<2.13"
 pydocstyle = ">=4,<7"
 
 [tool.poetry.dev-dependencies]

@@ -5,6 +5,14 @@ TidyPy Change Log
 .. contents:: Releases
 
 
+0.23.0 (TBD)
+============
+
+**Enhancements**
+
+* Upgraded the ``pylint`` tool.
+
+
 0.22.0 (2021-11-05)
 ===================
 
