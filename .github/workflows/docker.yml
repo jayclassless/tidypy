@@ -19,7 +19,7 @@ jobs:
         uses: docker/setup-buildx-action@v1.6.0
 
       - name: Checkout Code
-        uses: actions/checkout@v2.4.0
+        uses: actions/checkout@v3
 
       - name: Generate Image Metadata
         id: meta
@@ -48,7 +48,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Push Image to Registries
-        uses: docker/build-push-action@v2.7.0
+        uses: docker/build-push-action@v2.9.0
         with:
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
