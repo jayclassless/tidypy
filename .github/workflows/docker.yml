@@ -23,7 +23,7 @@ jobs:
 
       - name: Generate Image Metadata
         id: meta
-        uses: docker/metadata-action@v3.6.2
+        uses: docker/metadata-action@v3.8.0
         with:
           images: |
             tidypy/tidypy
