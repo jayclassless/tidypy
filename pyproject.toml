@@ -58,7 +58,7 @@ pydiatra = ">=0.12.2,<0.13"
 detect-secrets = ">=1,<2"
 eradicate = ">=2,<3"
 dlint = ">=0.8,<0.14"
-pylint = ">=2,<2.13"
+pylint = ">=2,<2.14"
 pydocstyle = ">=4,<7"
 
 [tool.poetry.dev-dependencies]
