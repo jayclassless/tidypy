@@ -10,7 +10,7 @@ TidyPy Change Log
 
 **Enhancements**
 
-* Upgraded the ``pylint`` tool.
+* Upgraded the ``pylint`` and ``check-manifest`` tools.
 
 
 0.22.0 (2021-11-05)
