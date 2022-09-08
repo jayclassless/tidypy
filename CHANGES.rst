@@ -10,7 +10,7 @@ TidyPy Change Log
 
 **Enhancements**
 
-* Upgraded the ``pylint``, ``check-manifest``, ``dlint``, and ``pyroma`` tools.
+* Upgraded the ``pylint``, ``check-manifest``, ``dlint``, ``pyroma``, and ``dennis`` tools.
 * Upgraded the ``pep8-naming`` plugin of the ``pycodestyle`` tool.
 
 
