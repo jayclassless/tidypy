@@ -64,6 +64,7 @@ pydocstyle = ">=4,<7"
 [tool.poetry.dev-dependencies]
 coverage = "*"
 nose = "*"
+py = "*"
 pytest = "*"
 requests-mock = "*"
 rstyoutube = "*"
