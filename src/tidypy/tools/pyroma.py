@@ -19,6 +19,7 @@ finally:
 # Hacks so we can get the messages of these tests without running them.
 HACKS = (
     ('PythonVersion', '_major_version_specified', False),
+    ('PythonClassifierVersion', '_major_version_specified', False),
     ('ValidREST', '_message', ''),
     ('ClassifierVerification', '_incorrect', []),
     ('Licensing', '_message', ''),

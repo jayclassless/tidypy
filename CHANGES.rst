@@ -13,6 +13,10 @@ TidyPy Change Log
 * Upgraded the ``pylint``, ``check-manifest``, ``dlint``, ``pyroma``, and ``dennis`` tools.
 * Upgraded the ``pep8-naming`` plugin of the ``pycodestyle`` tool.
 
+**Fixes**
+
+* Fixed an issue with newer versions of ``pyroma`` causing the ``list-codes`` command to crash.
+
 
 0.22.0 (2021-11-05)
 ===================
