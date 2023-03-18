@@ -14,6 +14,13 @@ TidyPy
    :target: https://hub.docker.com/r/tidypy/tidypy
 
 
+*******
+Retired
+*******
+
+This project is no longer actively maintained.
+
+
 .. contents:: Contents
 
 
