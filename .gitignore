@@ -5,3 +5,5 @@ poetry.lock
 dist
 docs/build
 .vscode
+__pycache__
+*.egg-info

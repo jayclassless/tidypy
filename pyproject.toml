@@ -104,6 +104,7 @@ csv = "tidypy.reports.structured:CsvReport"
 pylint = "tidypy.reports.pylint:PyLintReport"
 pylint-parseable = "tidypy.reports.pylint:PyLintParseableReport"
 null = "tidypy.reports.null:NullReport"
+prospector-json = "tidypy.reports.prospector_json:ProspectorJsonReport"
 
 [tool.poetry.plugins."tidypy.extenders"]
 github = "tidypy.extenders.github:GithubExtender"
